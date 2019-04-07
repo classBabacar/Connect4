@@ -12,6 +12,8 @@ int main()
    int choice;
 
    cout << "hi" << endl;
+   cout <<"bum"<<endl;
+   
    string restart;
    string colorSwap;
 
