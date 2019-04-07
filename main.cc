@@ -9,14 +9,14 @@ using namespace std;
 using namespace main_savitch_14;
 int main()
 {
-    int choice;
+   int choice;
 
-    string restart;
-    string colorSwap;
+   string restart;
+   string colorSwap;
 
-    ifstream fin;
+   ifstream fin;
 
 
-        connectFour obj;
-        obj.play();
+   connectFour obj;
+   obj.play();
 }
