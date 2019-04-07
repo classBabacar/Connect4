@@ -12,7 +12,6 @@ int main()
    int choice;
 
    cout << "hi" << endl;
-   cout <<"bon"<<endl;
    string restart;
    string colorSwap;
 
