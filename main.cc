@@ -13,6 +13,7 @@ int main()
 
    cout << "hi" << endl;
    cout <<"bum"<<endl;
+   cout <<"same"<<endl;
    
    cout << "umm"<<endl;
    string restart;
