@@ -13,7 +13,8 @@ int main()
 
    cout << "hi" << endl;
    cout <<"bum"<<endl;
-   cout << "imm"<<endl;
+   
+   cout << "umm"<<endl;
    string restart;
    string colorSwap;
 
