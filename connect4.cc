@@ -83,7 +83,7 @@ bool connectFour::checkValid(char choice, int MoveNumber){
 
 bool connectFour::checkDown(char choice, int moveNumber){
     int goDown = getRow(choice);
-    cout << goDown << endl;
+    
 }
 int connectFour::getRow(char choice){
     switch(choice) { 
