@@ -17,7 +17,7 @@ int main()
    int players;
    cin >> players;
 
-   if (players == 1)
+   if (players == 2)
    {
       connectFour obj;
       obj.play(players);
