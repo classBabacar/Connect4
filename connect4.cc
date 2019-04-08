@@ -5,604 +5,101 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-namespace main_savitch_14
+connectFour::connectFour()
 {
-int connectFour :: evaluate() const
-{
-int redCounter = 0;
-int yellowCounter = 0;
- 
-for(int i = 0; i < 6; ++i)
+    row = 7;
+    column = 6;
+    moveNumber = 0;
+    gameOver = false;
+
+    for (int i = 0; i < column; ++i)
     {
-        for(int j = 0; j < 7; ++j)
+        for (int j = 0; j < row; ++j)
         {
-
-	}
-    }
-}
-
-/* COMPUTE MOVES */
-/*void connectFour::compute_moves(std::queue<std::string>& moves)
-{
-    char tmp;
-    
-    for(char j = 'a' ;j <= 'g' ;j++)
-    {
- 
-            tmp = j;
-            if(is_legal(tmp))
-            {
-                moves.push(tmp);}
-             }
-    }
-    
-    
-}
-*/
-void connectFour :: restart()
-{
-
-
-    for(int i = 0; i < 6; ++i)
-    {
-        for(int j = 0; j < 7; ++j)
-        {
-            theBoard[i][j].change_empty();
+            theBoard[i][j] = '0';
         }
     }
-
-    std::cout<<" ------------ "<<std::endl;
-
-
-    std::cout<<"  CONNECT ";
-
-       std::cout<<RED<<"4   "<<WHITE<<std::endl;
-
-
-    std::cout<<" ------------ "<<std::endl;
+    //theBoard[5][0] = '1';
 }
-void connectFour :: display_status()
+//1 is yellow and 2 is red
+void connectFour::play(int players)
 {
-
-    if(catcher  == false ) // if someone wins i made a bool expression that wouldnt show the string below
+    if (players == 1 && gameOver == false)
     {
-        std::cout <<RED<< "  A   B   C   D   E   F   G "<<WHITE; // got this one from the Internet because it looks nice
+        displayBoard();
+        askplayerOne(moveNumber);
+        moveNumber++;
     }
-
-    std::cout<<std::endl;
-    std::cout<<"  +-----------------------+ "<<std::endl;
-    for(int i = 0; i < 6; ++i)
+}
+void connectFour::displayBoard()
+{
+    cout << RED << " A   B   C   D   E   F   G " << WHITE << endl;
+    cout << " +-----------------------+ " << endl;
+    for (int i = 0; i < column; ++i)
     {
- 
-        std::cout<<" ";
-        for(int j = 0; j < 7; ++j)
+        for (int j = 0; j < row; j++)
         {
-            if(theBoard[i][j].is_red())
+            if (theBoard[i][j] == '1')
             {
-               
-                std::cout<<RED<<" O  "<<WHITE;
+                cout << YELLOW << " O  " << WHITE;
             }
-            else if(theBoard[i][j].is_yellow())
+            else if (theBoard[i][j] == '2')
             {
-                
-                std::cout<<YELLOW<<" O  "<<WHITE;
+                cout << RED << " O  " << WHITE;
             }
             else
             {
-          
-                std::cout<<BLUE<<" |  "<<WHITE;
+                cout << BLUE << " |  " << WHITE;
             }
+        }
+        cout << endl;
+    }
+    cout << " +-----------------------+ " << endl;
+}
+
+void connectFour::askplayerOne(int moveNumber){
+    cout << "Where would you like to go? " << endl;
+    char choice;
+    cin >> choice;
+
+    if(checkValid(choice, moveNumber)){
+        //cout << "good choice" << endl;
+    }else{
+        cout << "bad choice" << endl;
+    }
+}
+
+bool connectFour::checkValid(char choice, int MoveNumber){
+    if( toupper(choice) >= 'A' && 'G' >= toupper(choice)){
+        if(checkDown(tolower(choice), moveNumber)){
 
         }
-
-        std::cout<<std::endl;
+        //return true;
     }
-
-	std::cout<<"  +-----------------------+ "<<std::endl;
-    if(catcher == false) // this is for better display
-    {
-        // better for user friendly work
-	if(total_moves % 2 == 0 )
-	{
-	std::cout<<YELLOW<<"Move Number : "<<WHITE;
-        std::cout<<total_moves + 1  <<std::endl;
-	}
-	else
-	{
-	std::cout<<RED<<"Move Number : "<<WHITE;
-        std::cout<<total_moves + 1  <<std::endl;
-	}
-        
-    }
-
-}
-bool connectFour :: is_legal(const std::string &move)
-{
-    int column = toupper(move[0]- 'A');// d is equal to 100 and capital A is 65 and the result is 35
-    //int row = toupper(move[1]-'1'); //is equal to 52 and 1 is equal to 49 so 52-49 so the result is
-    column = column - 32;
-
-    if(move[0] < 'A' || move[0] > 'g')
-    {
+    else{
         return false;
     }
-    if(move[0] > 'G' && move[0] < 'a')
-    {
-        return false;
-    }
-    if(isdigit(move[0]) || move == "" || move[0] == ' ' || move[1] ==' ' )
-    {
-        return false;
-    }
-    if(checkDown(column)==true)
-    {
-        return true;
-    }
-    return false;
-}
-void connectFour::make_move(const std::string &move)
-{
-    int column = toupper(move[0]- 'A');// d is equal to 100 and capital A is 65 and the result is 35
-    column = column - 32;
-    int captureRow = 0;
-    if(isupper(move[0]))
-    {
-        column = tolower(move[0])- 'A';
-        column = column - 32;
-    }
-    if(total_moves % 2 == 0)
-    {
-        while(theBoard[captureRow+1][column].is_nothing() && captureRow < 5)
-        {
-            captureRow++;
-        }
-
-        theBoard[captureRow][column].change_yellow();
-    }
-    if(total_moves % 2 == 1)
-    {
-        while(theBoard[captureRow+1][column].is_nothing() && captureRow < 5)
-        {
-            captureRow++;
-        }
-        theBoard[captureRow][column].change_red();
-    }
-    move_counter();
-
-}
-bool connectFour :: checkDown(int column)//this function is used to checck that the row is not filled so you can put a piece
-{
-    int row = 0;
-    if(theBoard[row][column].is_nothing() && row < 5)
-    {
-        return true;
-    }
-    return false;
 }
 
-bool connectFour :: connectFourleft(int tmpRow, int tmpCol )
-{
-
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpColForRed = tmpCol;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && tmpCol >= 0)
-    {
-
-        counter ++;
-        tmpCol--;
-    }
-    if(counter >= 4)
-    {
-
-        yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRow][tmpColForRed].is_red()&& tmpColForRed >= 0)
-    {
-        counterForRed ++;
-        tmpColForRed--;
-    }
-    if(counterForRed >= 4)
-    {
-
-        redWins();
-        return true;
-    }
-    return false;
+bool connectFour::checkDown(char choice, int moveNumber){
+    int goDown = getRow(choice);
+    
 }
-bool connectFour :: connectFourDown(int tmpRow, int tmpCol)
-{
-
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpRowForRed = tmpRow;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && tmpRow < 6)
-    {
-        counter ++;
-        tmpRow++;
+int connectFour::getRow(char choice){
+    switch(choice) { 
+    case 'a' :
+        return 0;
+    case 'b' :
+        return 1;
+    case 'c' :
+        return 2;
+    case 'd':
+        return 3;
+    case 'e':
+        return 4;
+    case 'f':
+        return 5;
+    case 'g':
+        return 6;
     }
-    if(counter >= 4)
-    {
-
-        yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRowForRed][tmpCol].is_red() && tmpRowForRed < 6)
-    {
-        counterForRed ++;
-        tmpRowForRed++;
-    }
-    if(counterForRed >= 4)
-    {
-
-        redWins();
-        return true;
-    }
-    return false;
-}
-bool connectFour :: connectFourUp(int tmpRow, int tmpCol)
-{
-
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpRowForRed = tmpRow;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && tmpRow >= 0)
-    {
-        counter ++;
-        tmpRow--;
-    }
-    if(counter >= 4)
-    {
- 
-        yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRowForRed][tmpCol].is_red() && tmpRowForRed >= 0)
-    {
-        counterForRed ++;
-        tmpRowForRed--;
-    }
-    if(counterForRed >= 4)
-    {
-
-        redWins();
-        return true;
-    }
-    return false;
-}
-bool connectFour :: connectFourUpRight(int tmpRow, int tmpCol)
-{
-
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpRowForRed = tmpRow;
-    int tmpColForRed = tmpCol;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && (tmpRow >= 0 && tmpCol < 7))
-    {
-        counter ++;
-        tmpRow--;
-        tmpCol++;
-    }
-    if(counter >= 4)
-    {
-        yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRowForRed][tmpColForRed].is_red() && (tmpRowForRed >= 0 && tmpColForRed < 7 ))
-    {
-        counterForRed ++;
-        tmpRowForRed--;
-        tmpColForRed++;
-    }
-    if(counterForRed >= 4)
-    {
-        redWins();
-        return true;
-    }
-    return false;
-}
-
-bool connectFour:: connectFourUpLeft(int tmpRow, int tmpCol)
-{
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpRowForRed = tmpRow;
-    int tmpColForRed = tmpCol;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && (tmpRow >= 0 && tmpCol >= 0))
-    {
-        counter ++;
-        tmpRow--;
-        tmpCol--;
-    }
-    if(counter >= 4)
-    {
-        yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRowForRed][tmpColForRed].is_red() && (tmpRowForRed >= 0 && tmpColForRed >= 0))
-    {
-        counterForRed ++;
-        tmpRowForRed--;
-        tmpColForRed--;
-    }
-    if(counterForRed >= 4)
-    {
-        yellowWins();
-        return true;
-    }
-    return false;
-}
-
-bool connectFour :: connectFourDownRight(int tmpRow, int tmpCol)
-{
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpRowForRed = tmpRow;
-    int tmpColForRed = tmpCol;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && (tmpRow < 6  && tmpCol < 7))
-    {
-        counter ++;
-        tmpRow++;
-        tmpCol++;
-    }
-    if(counter >= 4)
-    {
-
-        yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRowForRed][tmpColForRed].is_red() && (tmpRowForRed < 6 && tmpColForRed < 7))
-    {
-        counterForRed ++;
-        tmpRowForRed++;
-        tmpColForRed++;
-    }
-    if(counterForRed >= 4)
-    {
-
-        redWins();
-        return true;
-    }
-    return false;
-}
-bool connectFour :: connectFourDownLeft(int tmpRow, int tmpCol)
-{
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpRowForRed = tmpRow;
-    int tmpColForRed = tmpCol;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && (tmpRow < 6 && tmpCol >=0))
-    {
-        counter ++;
-        tmpRow++;
-        tmpCol--;
-    }
-    if(counter >= 4)
-    {
-
-        yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRowForRed][tmpColForRed].is_red() && (tmpRowForRed < 6 && tmpColForRed >=0 ))
-    {
-        counterForRed ++;
-        tmpRowForRed++;
-        tmpColForRed--;
-    }
-    if(counterForRed >= 4)
-    {
-
-        redWins();
-        return true;
-    }
-    return false;
-}
-bool connectFour :: connectFourRight(int tmpRow, int tmpCol)
-{
-    int counter = 0;
-    int counterForRed = 0;
-
-    int tmpColForRed = tmpCol;
-
-    while(theBoard[tmpRow][tmpCol].is_yellow() && tmpCol < 7)
-    {
-
-        counter ++;
-        tmpCol++;
-    }
-    if(counter >= 4)
-    {
-       yellowWins();
-        return true;
-    }
-
-    while(theBoard[tmpRow][tmpColForRed].is_red() && tmpColForRed < 7)
-    {
-        counterForRed ++;
-        tmpColForRed++;
-    }
-    if(counterForRed >= 4)
-    {
-
-        redWins();
-        return true;
-    }
-    return false;
-
-}
-void connectFour :: redWins()
-{
-	std::cout<<std::endl;
-        std::cout<<RED<<"    ***** RED WINS *****      ";
-
-}
-void connectFour :: yellowWins()
-{
-	std::cout<<std::endl;
-        std::cout<<YELLOW<<"   ***** YELLOW WINS *****      ";
-
-}
-bool connectFour :: is_game_over()
-{
-    int tmpRow;
-    int tmpCol;
-//Going through the whole array and checking in every direction given the functions
-    for(int i = 0; i < 6; ++i)
-    {
-        for(int j = 0; j < 7; ++j)
-        {
-            if(theBoard[i][j].is_yellow())
-            {
-                tmpRow = i;
-                tmpCol = j;
-                if(connectFourleft(tmpRow,tmpCol)== true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourRight(tmpRow,tmpCol)== true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourDown(tmpRow,tmpCol)== true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourUp(tmpRow, tmpCol)== true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourUpRight(tmpRow, tmpCol)== true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourDownLeft(tmpRow, tmpCol)== true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourUpLeft(tmpRow, tmpCol) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourDownRight(tmpRow, tmpCol) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-
-            }
-        }
-    }
-    int tmpRowForRed;
-    int tmpColForRed;
-    for(int i = 0; i < 6; ++i)
-    {
-        for(int j = 0; j < 7; ++j)
-        {
-            if(theBoard[i][j].is_red())
-            {
-                tmpRowForRed = i;
-                tmpColForRed = j;
-                if(connectFourleft(tmpRowForRed,tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourRight(tmpRowForRed,tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourDown(tmpRowForRed,tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourUp(tmpRowForRed,tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourUpRight(tmpRowForRed,tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourDownLeft(tmpRowForRed, tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourUpLeft(tmpRowForRed, tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-                if(connectFourDownRight(tmpRowForRed, tmpColForRed) == true)
-                {
-                    catcher  = true;
-                    return true;
-                }
-            }
-        }
-    }
-    int redCounter = 0;
-    int yellowCounter = 0;
-
-    for(int b = 0; b < 6; ++b)
-    {
-        for(int k = 0; k < 7; ++k)
-        {
-            if(theBoard[b][k].is_red())
-            {
-                redCounter++;
-            }
-            if(theBoard[b][k].is_yellow())
-            {
-                yellowCounter++;
-            }
-        }
-    }
- 
-    if((redCounter + yellowCounter) == 42)
-    {
-
-
-        std::cout<<GREEN<<"    ***** A DRAW  *****      ";
-        catcher = true;
-        return true;
-
-    }
-
-    return false;
-}
-
 }
