@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "connect4.h"
+#include "colors.h"
 //#include "
 
 using namespace std;
