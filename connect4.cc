@@ -21,14 +21,14 @@ connectFour::connectFour()
     }
     //theBoard[5][0] = '1';
 }
-void conne
 //1 is yellow and 2 is red
-bool connectFour::play(int players)
+void connectFour::play(int players)
 {
     if (players == 1 && gameOver == false)
     {
         displayBoard();
-        askPlayerOne();
+        askplayerOne(moveNumber);
+        moveNumber++;
     }
 }
 void connectFour::displayBoard()
@@ -55,4 +55,51 @@ void connectFour::displayBoard()
         cout << endl;
     }
     cout << " +-----------------------+ " << endl;
+}
+
+void connectFour::askplayerOne(int moveNumber){
+    cout << "Where would you like to go? " << endl;
+    char choice;
+    cin >> choice;
+
+    if(checkValid(choice, moveNumber)){
+        //cout << "good choice" << endl;
+    }else{
+        cout << "bad choice" << endl;
+    }
+}
+
+bool connectFour::checkValid(char choice, int MoveNumber){
+    if( toupper(choice) >= 'A' && 'G' >= toupper(choice)){
+        if(checkDown(tolower(choice), moveNumber)){
+
+        }
+        //return true;
+    }
+    else{
+        return false;
+    }
+}
+
+bool connectFour::checkDown(char choice, int moveNumber){
+    int goDown = getRow(choice);
+    cout << goDown << endl;
+}
+int connectFour::getRow(char choice){
+    switch(choice) { 
+    case 'a' :
+        return 0;
+    case 'b' :
+        return 1;
+    case 'c' :
+        return 2;
+    case 'd':
+        return 3;
+    case 'e':
+        return 4;
+    case 'f':
+        return 5;
+    case 'g':
+        return 6;
+    }
 }

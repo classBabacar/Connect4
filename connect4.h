@@ -1,5 +1,4 @@
-#include "game.h"
-#include "piece.h"
+
 #include <termios.h>
 #include <unistd.h>
 
@@ -7,11 +6,15 @@ class connectFour
 {
   public:
     connectFour();
-    bool play(int players);
+    void play(int players);
     void displayBoard();
 
-    void askplayerOne();
-    void askPlayerTwo();
+    void askplayerOne(int moveNumber);
+    //void askPlayerTwo();
+
+    bool checkValid(char choice, int moveNumber);
+    bool checkDown(char choice, int moveNumber);
+    int getRow(char choice);
 
   private:
     bool gameOver;
