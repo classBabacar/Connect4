@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "connect4.h"
+#include "colors.h"
 //#include "
 
 using namespace std;
@@ -17,7 +18,7 @@ int main()
    int players;
    cin >> players;
 
-   if (players == 1)
+   if (players == 2)
    {
       connectFour obj;
       obj.play(players);
