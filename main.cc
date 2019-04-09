@@ -8,15 +8,10 @@
 
 using namespace std;
 
+int displayIntro();
 int main()
 {
-   //int choice;
-
-   //string restart;
-   //string colorSwap;
-   cout << "Enter 1 for one player or 2 for two player" << endl;
-   int players;
-   cin >> players;
+   int players = displayIntro();
 
    if (players == 2)
    {
@@ -27,4 +22,18 @@ int main()
    {
    }
    //ifstream fin;
+}
+int displayIntro()
+{
+   cout << "+-----------+" << endl;
+   cout << "| Connect " << RED << "4" << WHITE << " |" << endl;
+   cout << "+-----------+" << WHITE << endl;
+
+   cout << "Welcome, let's play some connect 4" << endl;
+   cout << "Would you like to play against Ai (1) or (2) player vs player " << endl;
+
+   int players;
+   cin >> players;
+
+   return players;
 }
