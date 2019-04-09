@@ -4,6 +4,9 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
+#include <unistd.h>
+#include <time.h>
 
 connectFour::connectFour()
 {
@@ -57,7 +60,8 @@ void connectFour::play(int players)
         if (gameOver == true)
         {
             displayBoard();
-            cout << YELLOW << "Player One...Wins" << WHITE << endl;
+            playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
+            cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
         }
         else
         {
@@ -69,6 +73,7 @@ void connectFour::play(int players)
             if (gameOver == true)
             {
                 displayBoard();
+                playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
                 cout << RED << "Player Two....Wins" << WHITE << endl;
             }
         }
@@ -170,10 +175,28 @@ bool connectFour::checkDown(char choice, int moveNumber)
 
     if (moveNumber % 2 == 0)
     {
+        int i = 0;
+        while (i != tmpCol)
+        {
+            theBoard[i][tmpRow] = '1';
+            displayBoard();
+            theBoard[i][tmpRow] = '0';
+            i++;
+            usleep(1000000);
+        }
         theBoard[tmpCol][tmpRow] = '1';
     }
     else
     {
+        int i = 0;
+        while (i != tmpCol)
+        {
+            theBoard[i][tmpRow] = '2';
+            displayBoard();
+            theBoard[i][tmpRow] = '0';
+            i++;
+            usleep(1000000);
+        }
         theBoard[tmpCol][tmpRow] = '2';
     }
     return true;
@@ -189,7 +212,110 @@ bool connectFour::checkGame()
             {
                 return true;
             }
+            else if (rightConnect4(i, j))
+            {
+                return true;
+            }
+            else if (uprightConnect4(i, j))
+            {
+                return true;
+            }
+            else if (upleftConnect4(i, j))
+            {
+                return true;
+            }
         }
+    }
+    return false;
+}
+bool connectFour::upleftConnect4(int tmpCol, int tmpRow)
+{
+    int yelCol = tmpCol;
+    int yelRow = tmpRow;
+
+    int redCol = tmpCol;
+    int redRow = tmpRow;
+
+    int yellowCounter = 0;
+    int redCounter = 0;
+
+    while (theBoard[yelCol][yelRow] == '1' && yelRow >= 0 && yelCol >= 0)
+    {
+        yellowCounter++;
+        --yelRow;
+        --yelCol;
+    }
+
+    while (theBoard[redCol][redRow] == '2' && redRow >= 0 && redCol >= 0)
+    {
+        redCounter++;
+        --redRow;
+        --redCol;
+    }
+
+    if (redCounter == 4 || yellowCounter == 4)
+    {
+        return true;
+    }
+    return false;
+}
+bool connectFour::uprightConnect4(int tmpCol, int tmpRow)
+{
+    int yelCol = tmpCol;
+    int yelRow = tmpRow;
+
+    int redCol = tmpCol;
+    int redRow = tmpRow;
+
+    int yellowCounter = 0;
+    int redCounter = 0;
+
+    while (theBoard[yelCol][yelRow] == '1' && yelRow <= 6 && yelCol >= 0)
+    {
+        yellowCounter++;
+        ++yelRow;
+        --yelCol;
+    }
+
+    while (theBoard[redCol][redRow] == '2' && redRow <= 6 && redCol >= 0)
+    {
+        redCounter++;
+        ++redRow;
+        --redCol;
+    }
+
+    if (redCounter == 4 || yellowCounter == 4)
+    {
+        return true;
+    }
+    return false;
+}
+bool connectFour::rightConnect4(int tmpCol, int tmpRow)
+{
+    int yelCol = tmpCol;
+    int yelRow = tmpRow;
+
+    int redCol = tmpCol;
+    int redRow = tmpRow;
+
+    int yellowCounter = 0;
+    int redCounter = 0;
+
+    while (theBoard[yelCol][yelRow] == '1' && yelRow <= 6)
+    {
+        yellowCounter++;
+        ++yelRow;
+    }
+
+    while (theBoard[redCol][redRow] == '2' && redRow <= 6)
+    {
+        redCounter++;
+        ++redRow;
+    }
+
+    if (redCounter == 4 || yellowCounter == 4)
+    {
+        return true;
     }
     return false;
 }
