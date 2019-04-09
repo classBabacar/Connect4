@@ -182,7 +182,7 @@ bool connectFour::checkDown(char choice, int moveNumber)
             displayBoard();
             theBoard[i][tmpRow] = '0';
             i++;
-            usleep(1000000);
+            usleep(500000);
         }
         theBoard[tmpCol][tmpRow] = '1';
     }
@@ -195,7 +195,7 @@ bool connectFour::checkDown(char choice, int moveNumber)
             displayBoard();
             theBoard[i][tmpRow] = '0';
             i++;
-            usleep(1000000);
+            usleep(500000);
         }
         theBoard[tmpCol][tmpRow] = '2';
     }
