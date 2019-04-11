@@ -1,13 +1,10 @@
 #include "colors.h"
 #include "connect4.h"
-#include <iostream>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
-#include <unistd.h>
-#include <time.h>
 
+//************************************************************************
+// Function: connectFour()
+// Purpose:  Setting up all the values for the program
+//************************************************************************
 connectFour::connectFour()
 {
     row = 7;
@@ -24,9 +21,12 @@ connectFour::connectFour()
             theBoard[i][j] = '0';
         }
     }
-    //theBoard[5][0] = '1';
 }
 
+//************************************************************************
+// Function: askName()
+// Purpose:  asks each individual user their name
+//************************************************************************
 void connectFour::askName()
 {
     string p1name;
@@ -42,7 +42,11 @@ void connectFour::askName()
     playertwoName = p2name + "'s Turn: ";
     cout << WHITE;
 }
-//1 is yellow and 2 is red
+
+//************************************************************************
+// Function: play(#number of players 1 or 2)
+// Purpose:  The whole game loop thats runs on the condtion while the game isnt completed
+//************************************************************************
 void connectFour::play(int players)
 {
     if (players == 2)
@@ -51,7 +55,6 @@ void connectFour::play(int players)
     }
     while (players == 2 && gameOver == false)
     {
-        //player one
         displayBoard();
         askplayerOne(moveNumber);
         moveNumber++;
@@ -73,12 +76,17 @@ void connectFour::play(int players)
             if (gameOver == true)
             {
                 displayBoard();
-                playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
-                cout << RED << "Player Two....Wins" << WHITE << endl;
+                playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
+                cout << RED << playertwoName << "...Wins" << WHITE << endl;
             }
         }
     }
 }
+
+//************************************************************************
+// Function: displayBoard()
+// Purpose:  Prints the board
+//************************************************************************
 void connectFour::displayBoard()
 {
     cout << RED << " A   B   C   D   E   F   G " << WHITE << endl;
@@ -104,6 +112,11 @@ void connectFour::displayBoard()
     }
     cout << " +-----------------------+ " << endl;
 }
+
+//************************************************************************
+// Function: playeroneChoice()
+// Purpose:  asks where a arbritary player one wants to go
+//************************************************************************
 char connectFour::playeroneChoice()
 {
     cout << YELLOW << playeroneName << WHITE;
@@ -113,6 +126,10 @@ char connectFour::playeroneChoice()
     return choice;
 }
 
+//************************************************************************
+// Function: playertwoChoice()
+// Purpose:  asks where a arbritrary player two wants to go
+//************************************************************************
 char connectFour::playertwoChoice()
 {
     cout << RED << playertwoName << WHITE;
@@ -121,10 +138,14 @@ char connectFour::playertwoChoice()
 
     return choice;
 }
+
+//************************************************************************
+// Function: askplayerOne(#of moves made)
+// Purpose:  confirms if players ones move is valid
+//************************************************************************
 void connectFour::askplayerOne(int moveNumber)
 {
     char choice = playeroneChoice();
-
     if (!checkValid(choice, moveNumber))
     {
         cout << endl;
@@ -133,11 +154,14 @@ void connectFour::askplayerOne(int moveNumber)
         askplayerOne(moveNumber);
     }
 }
+
+//************************************************************************
+// Function: askplayerTwo(#of moves made)
+// Purpose:  confirms if player twos move is valid
+//************************************************************************
 void connectFour::askplayerTwo(int moveNumber)
 {
-
     char choice = playertwoChoice();
-
     if (!checkValid(choice, moveNumber))
     {
         cout << endl;
@@ -147,6 +171,10 @@ void connectFour::askplayerTwo(int moveNumber)
     }
 }
 
+//************************************************************************
+// Function: checkValid(choice from either player 1/2, #of moves made)
+// Purpose:  The algorithm to confirm if you are choosing a proper row
+//************************************************************************
 bool connectFour::checkValid(char choice, int MoveNumber)
 {
     if (toupper(choice) >= 'A' && 'G' >= toupper(choice))
@@ -159,6 +187,10 @@ bool connectFour::checkValid(char choice, int MoveNumber)
     return false;
 }
 
+//************************************************************************
+// Function: checkDown(player 1/2 choice, #of moves made)
+// Purpose:  algorithm to figure out if the move is available or not
+//************************************************************************
 bool connectFour::checkDown(char choice, int moveNumber)
 {
     int tmpRow = getRow(choice);
@@ -182,8 +214,9 @@ bool connectFour::checkDown(char choice, int moveNumber)
             displayBoard();
             theBoard[i][tmpRow] = '0';
             i++;
-            usleep(500000);
+            usleep(250000);
         }
+        cout << string(50, '\n');
         theBoard[tmpCol][tmpRow] = '1';
     }
     else
@@ -195,13 +228,18 @@ bool connectFour::checkDown(char choice, int moveNumber)
             displayBoard();
             theBoard[i][tmpRow] = '0';
             i++;
-            usleep(500000);
+            usleep(250000);
         }
+        cout << string(50, '\n');
         theBoard[tmpCol][tmpRow] = '2';
     }
     return true;
 }
 
+//************************************************************************
+// Function: checkGame()
+// Purpose:  checking if either player has won the game, by evaluating each cell
+//************************************************************************
 bool connectFour::checkGame()
 {
     for (int i = 0; i < column; ++i)
@@ -228,6 +266,16 @@ bool connectFour::checkGame()
     }
     return false;
 }
+
+//************************************************************************
+// Function: upleftConnect4(col,row)
+// Purpose:  a diagonal connect4
+//
+// note : you don't need to change the following:
+// redCounter == 4 || yellowCounter == 4 to redCounter >= 4 || yellowCounter >= 4
+// because each indivual cell is getting evaluated and out of curiosity,
+// I tried to prove that it would always see a conect4 and proved it
+//************************************************************************
 bool connectFour::upleftConnect4(int tmpCol, int tmpRow)
 {
     int yelCol = tmpCol;
@@ -259,6 +307,16 @@ bool connectFour::upleftConnect4(int tmpCol, int tmpRow)
     }
     return false;
 }
+
+//************************************************************************
+// Function: uprightConnect4(col,row)
+// Purpose:  a  reverse diagonal connect4
+//
+// note : you don't need to change the following:
+// redCounter == 4 || yellowCounter == 4 to redCounter >= 4 || yellowCounter >= 4
+// because each indivual cell is getting evaluated and out of curiosity,
+// I tried to prove that it would always see a conect4 and proved it
+//************************************************************************
 bool connectFour::uprightConnect4(int tmpCol, int tmpRow)
 {
     int yelCol = tmpCol;
@@ -290,6 +348,16 @@ bool connectFour::uprightConnect4(int tmpCol, int tmpRow)
     }
     return false;
 }
+
+//************************************************************************
+// Function: rightConnect4(col,row)
+// Purpose:  a right connect4
+//
+// note : you don't need to change the following:
+// redCounter == 4 || yellowCounter == 4 to redCounter >= 4 || yellowCounter >= 4
+// because each indivual cell is getting evaluated and out of curiosity,
+// I tried to prove that it would always see a conect4 and proved it
+//************************************************************************
 bool connectFour::rightConnect4(int tmpCol, int tmpRow)
 {
     int yelCol = tmpCol;
@@ -319,8 +387,16 @@ bool connectFour::rightConnect4(int tmpCol, int tmpRow)
     }
     return false;
 }
-//1 is yellow
-//2 is red
+
+//************************************************************************
+// Function: upConnect4(col,row)
+// Purpose:  a up connect4
+//
+// note : you don't need to change the following:
+// redCounter == 4 || yellowCounter == 4 to redCounter >= 4 || yellowCounter >= 4
+// because each indivual cell is getting evaluated and out of curiosity,
+// I tried to prove that it would always see a conect4 and proved it
+//************************************************************************
 bool connectFour::upConnect4(int tmpCol, int tmpRow)
 {
 
@@ -351,6 +427,11 @@ bool connectFour::upConnect4(int tmpCol, int tmpRow)
     }
     return false;
 }
+
+//************************************************************************
+// Function: getRow(eithers players choice)
+// Purpose:  used to convert their choice into a number to play into board
+//************************************************************************
 int connectFour::getRow(char choice)
 {
     switch (choice)
