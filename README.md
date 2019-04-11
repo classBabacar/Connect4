@@ -10,8 +10,9 @@ Right now, the game allows for 1v1 play but in the near future I plan to incorpo
 I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon
 
 # Features Added
-- Rematch Option
+Rematch Option
+
+# Running Code
 
 I recommend that you compile with ``g++ *.cc ``
-
 Run with ``./a.out``
