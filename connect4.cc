@@ -44,8 +44,80 @@ void connectFour::askName()
 }
 
 //************************************************************************
+// Function: askRematch()
+// Purpose:  asks the winner would they like a rematch
+//************************************************************************
+bool connectFour::askRematch()
+{
+    cout << "Would you like a rematch? (Y/N) : ";
+    char rematch;
+    cin >> rematch;
+    rematch = tolower(rematch);
+
+    if (rematch == 'y')
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+//************************************************************************
+// Function: swapRoles(#char confirmining if they like to swap or not)
+// Purpose:  would white like to switch with red or stay the same
+//************************************************************************
+void connectFour::swapRoles(char swap)
+{
+    if (swap == 'y')
+    {
+        string tmp = playeroneName;
+        playeroneName = playertwoName;
+        playertwoName = tmp;
+    }
+}
+
+//************************************************************************
+// Function: resetAll()
+// Purpose:  changes everything back to its default
+//************************************************************************
+void connectFour::resetAll()
+{
+    moveNumber = 0;
+    gameOver = false;
+
+    for (int i = 0; i < column; ++i)
+    {
+        for (int j = 0; j < row; ++j)
+        {
+            theBoard[i][j] = '0';
+        }
+    }
+}
+
+//************************************************************************
+// Function: askSwap()
+// Purpose:  making the question asking part a function to make it easier
+//************************************************************************
+char connectFour::askSwap()
+{
+    cout << "Would you like to swap on who goes first? (Y/N) : ";
+    char swap;
+    cin >> swap;
+    swap = tolower(swap);
+
+    return swap;
+}
+
+//************************************************************************
 // Function: play(#number of players 1 or 2)
 // Purpose:  The whole game loop thats runs on the condtion while the game isnt completed
+//
+// In the askRematch if statemnts its important to add
+// playeroneName = playeroneName + "'s Turn: ", because when a player wins
+// I rip the "'s Turn: " part off so if that player does win I add it back
+// and set it back to its default then proceed to swap
 //************************************************************************
 void connectFour::play(int players)
 {
@@ -53,7 +125,7 @@ void connectFour::play(int players)
     {
         askName();
     }
-    while (players == 2 && gameOver == false)
+    while (gameOver == false)
     {
         displayBoard();
         askplayerOne(moveNumber);
@@ -65,6 +137,19 @@ void connectFour::play(int players)
             displayBoard();
             playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
             cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
+
+            if (askRematch())
+            {
+                playeroneName = playeroneName + "'s Turn: ";
+                char swap = askSwap();
+                swapRoles(swap);
+                resetAll();
+                play(3);
+            }
+            else
+            {
+                cout << "Thanks for playing the game" << endl;
+            }
         }
         else
         {
@@ -78,6 +163,19 @@ void connectFour::play(int players)
                 displayBoard();
                 playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
                 cout << RED << playertwoName << "...Wins" << WHITE << endl;
+
+                if (askRematch())
+                {
+                    playertwoName = playertwoName + "'s Turn: ";
+                    char swap = askSwap();
+                    swapRoles(swap);
+                    resetAll();
+                    play(3);
+                }
+                else
+                {
+                    cout << "Thanks for playing the game" << endl;
+                }
             }
         }
     }
@@ -185,6 +283,33 @@ bool connectFour::checkValid(char choice, int MoveNumber)
         }
     }
     return false;
+}
+
+//************************************************************************
+// Function: getRow(eithers players choice)
+// Purpose:  used to convert their choice into a number to play into board
+//************************************************************************
+int connectFour::getRow(char choice)
+{
+    switch (choice)
+    {
+    case 'a':
+        return 0;
+    case 'b':
+        return 1;
+    case 'c':
+        return 2;
+    case 'd':
+        return 3;
+    case 'e':
+        return 4;
+    case 'f':
+        return 5;
+    case 'g':
+        return 6;
+    default:
+        return 99;
+    }
 }
 
 //************************************************************************
@@ -426,31 +551,4 @@ bool connectFour::upConnect4(int tmpCol, int tmpRow)
         return true;
     }
     return false;
-}
-
-//************************************************************************
-// Function: getRow(eithers players choice)
-// Purpose:  used to convert their choice into a number to play into board
-//************************************************************************
-int connectFour::getRow(char choice)
-{
-    switch (choice)
-    {
-    case 'a':
-        return 0;
-    case 'b':
-        return 1;
-    case 'c':
-        return 2;
-    case 'd':
-        return 3;
-    case 'e':
-        return 4;
-    case 'f':
-        return 5;
-    case 'g':
-        return 6;
-    default:
-        return 99;
-    }
 }

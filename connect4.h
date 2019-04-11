@@ -15,6 +15,11 @@ class connectFour
 public:
   connectFour();
 
+  bool askRematch();
+  char askSwap();
+  void swapRoles(char swap);
+  void resetAll();
+
   void askName();
   void play(int players);
   void displayBoard();
