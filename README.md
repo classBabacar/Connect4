@@ -14,5 +14,5 @@ Rematch Option
 
 # Running Code
 
-I recommend that you compile with ``g++ *.cc ``
+I recommend that you compile with ``g++ *.cc ``  
 Run with ``./a.out``
