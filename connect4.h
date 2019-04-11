@@ -1,5 +1,12 @@
-
+/*
+Name : Babacar Ndoye
+Class Name : connectFour
+Purpose : To make life simple instead of putting it all in the main
+*/
 #include <string>
+#include <iostream>
+#include <stdlib.h>
+#include <unistd.h>
 
 using namespace std;
 
