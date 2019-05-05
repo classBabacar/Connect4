@@ -12,15 +12,15 @@ int displayIntro();
 int main()
 {
    int players = displayIntro();
-   connectFour obj;
 
    if (players == 2)
    {
+      connectFour obj;
       obj.play(players);
    }
    else
    {
-      obj.AiPlay();
+      cout << "TBA" << endl;
    }
 }
 int displayIntro()
