@@ -320,6 +320,7 @@ bool connectFour::rightConnect4(int tmpCol, int tmpRow)
     return false;
 }
 //1 is yellow
+//yea
 //2 is red
 bool connectFour::upConnect4(int tmpCol, int tmpRow)
 {
