@@ -109,7 +109,74 @@ char connectFour::askSwap()
 
     return swap;
 }
+void connectFour::checkPlayerOne(bool gameOver)
+{
+    if (gameOver == true)
+    {
+        displayBoard();
+        playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
+        cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
 
+        if (askRematch())
+        {
+            playeroneName = playeroneName + "'s Turn: ";
+            char swap = askSwap();
+            swapRoles(swap);
+            resetAll();
+            play(3);
+        }
+        else
+        {
+            cout << "Thanks for playing the game" << endl;
+        }
+    }
+}
+
+void connectFour::checkPlayerTwo(bool gameOver)
+{
+    if (gameOver == true)
+    {
+        displayBoard();
+        playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
+        cout << RED << playertwoName << "...Wins" << WHITE << endl;
+
+        if (askRematch())
+        {
+            playertwoName = playertwoName + "'s Turn: ";
+            char swap = askSwap();
+            swapRoles(swap);
+            resetAll();
+            play(3);
+        }
+        else
+        {
+            cout << "Thanks for playing the game" << endl;
+        }
+    }
+}
+
+bool connectFour::checkTie(char aBoard[6][7])
+{
+    int redCount = 0;
+    int yellowCount = 0;
+    for (int i = 0; i < column; ++i)
+    {
+        for (int j = 0; j < row; ++j)
+        {
+            if (aBoard[i][j] == '2')
+                redCount++;
+            else if (aBoard[i][j] == '1')
+                yellowCount++;
+        }
+    }
+    if (redCount + yellowCount == 42)
+    {
+        cout << RED << "ITS A " << YELLOW << "TIE" << endl;
+        return true;
+    }
+    else
+        return false;
+}
 //************************************************************************
 // Function: play(#number of players 1 or 2)
 // Purpose:  The whole game loop thats runs on the condtion while the game isnt completed
@@ -131,52 +198,22 @@ void connectFour::play(int players)
         askplayerOne(moveNumber);
         moveNumber++;
         gameOver = checkGame();
+        checkPlayerOne(gameOver);
 
-        if (gameOver == true)
-        {
-            displayBoard();
-            playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
-            cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
-
-            if (askRematch())
-            {
-                playeroneName = playeroneName + "'s Turn: ";
-                char swap = askSwap();
-                swapRoles(swap);
-                resetAll();
-                play(3);
-            }
-            else
-            {
-                cout << "Thanks for playing the game" << endl;
-            }
-        }
-        else
+        if (gameOver != true)
         {
             displayBoard();
             askplayerTwo(moveNumber);
             moveNumber++;
             gameOver = checkGame();
-
-            if (gameOver == true)
-            {
-                displayBoard();
-                playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
-                cout << RED << playertwoName << "...Wins" << WHITE << endl;
-
-                if (askRematch())
-                {
-                    playertwoName = playertwoName + "'s Turn: ";
-                    char swap = askSwap();
-                    swapRoles(swap);
-                    resetAll();
-                    play(3);
-                }
-                else
-                {
-                    cout << "Thanks for playing the game" << endl;
-                }
-            }
+            checkPlayerTwo(gameOver);
+        }
+        if (checkTie(theBoard))
+        {
+            char swap = askSwap();
+            swapRoles(swap);
+            resetAll();
+            play(3);
         }
     }
 }
@@ -277,8 +314,9 @@ bool connectFour::checkValid(char choice, int MoveNumber)
 {
     if (toupper(choice) >= 'A' && 'G' >= toupper(choice))
     {
-        if (checkDown(tolower(choice), moveNumber))
+        if (checkDown(theBoard, tolower(choice), moveNumber))
         {
+            dropPiece(theBoard, choice, moveNumber);
             return true;
         }
     }
@@ -311,25 +349,15 @@ int connectFour::getRow(char choice)
         return 99;
     }
 }
-
-//************************************************************************
-// Function: checkDown(player 1/2 choice, #of moves made)
-// Purpose:  algorithm to figure out if the move is available or not
-//************************************************************************
-bool connectFour::checkDown(char choice, int moveNumber)
+void connectFour::dropPiece(char (&aBoard)[6][7], char choice, int moveNumber)
 {
     int tmpRow = getRow(choice);
     int tmpCol = 5;
 
-    while (theBoard[tmpCol][tmpRow] == '1' || theBoard[tmpCol][tmpRow] == '2')
+    while (aBoard[tmpCol][tmpRow] == '1' || aBoard[tmpCol][tmpRow] == '2')
     {
         tmpCol--;
-        if (tmpCol < 0)
-        {
-            return false;
-        }
     }
-
     if (moveNumber % 2 == 0)
     {
         int i = 0;
@@ -358,6 +386,25 @@ bool connectFour::checkDown(char choice, int moveNumber)
         cout << string(50, '\n');
         theBoard[tmpCol][tmpRow] = '2';
     }
+}
+//************************************************************************
+// Function: checkDown(player 1/2 choice, #of moves made)
+// Purpose:  algorithm to figure out if the move is available or not
+//************************************************************************
+bool connectFour::checkDown(char aBoard[6][7], char choice, int moveNumber)
+{
+    int tmpRow = getRow(choice);
+    int tmpCol = 5;
+
+    while (aBoard[tmpCol][tmpRow] == '1' || aBoard[tmpCol][tmpRow] == '2')
+    {
+        tmpCol--;
+        if (tmpCol < 0)
+        {
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -371,19 +418,19 @@ bool connectFour::checkGame()
     {
         for (int j = 0; j < row; ++j)
         {
-            if (upConnect4(i, j))
+            if (upConnect4(theBoard, i, j))
             {
                 return true;
             }
-            else if (rightConnect4(i, j))
+            else if (rightConnect4(theBoard, i, j))
             {
                 return true;
             }
-            else if (uprightConnect4(i, j))
+            else if (uprightConnect4(theBoard, i, j))
             {
                 return true;
             }
-            else if (upleftConnect4(i, j))
+            else if (upleftConnect4(theBoard, i, j))
             {
                 return true;
             }
@@ -401,7 +448,7 @@ bool connectFour::checkGame()
 // because each indivual cell is getting evaluated and out of curiosity,
 // I tried to prove that it would always see a conect4 and proved it
 //************************************************************************
-bool connectFour::upleftConnect4(int tmpCol, int tmpRow)
+bool connectFour::upleftConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
 {
     int yelCol = tmpCol;
     int yelRow = tmpRow;
@@ -412,14 +459,14 @@ bool connectFour::upleftConnect4(int tmpCol, int tmpRow)
     int yellowCounter = 0;
     int redCounter = 0;
 
-    while (theBoard[yelCol][yelRow] == '1' && yelRow >= 0 && yelCol >= 0)
+    while (aBoard[yelCol][yelRow] == '1' && yelRow >= 0 && yelCol >= 0)
     {
         yellowCounter++;
         --yelRow;
         --yelCol;
     }
 
-    while (theBoard[redCol][redRow] == '2' && redRow >= 0 && redCol >= 0)
+    while (aBoard[redCol][redRow] == '2' && redRow >= 0 && redCol >= 0)
     {
         redCounter++;
         --redRow;
@@ -442,7 +489,7 @@ bool connectFour::upleftConnect4(int tmpCol, int tmpRow)
 // because each indivual cell is getting evaluated and out of curiosity,
 // I tried to prove that it would always see a conect4 and proved it
 //************************************************************************
-bool connectFour::uprightConnect4(int tmpCol, int tmpRow)
+bool connectFour::uprightConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
 {
     int yelCol = tmpCol;
     int yelRow = tmpRow;
@@ -453,14 +500,14 @@ bool connectFour::uprightConnect4(int tmpCol, int tmpRow)
     int yellowCounter = 0;
     int redCounter = 0;
 
-    while (theBoard[yelCol][yelRow] == '1' && yelRow <= 6 && yelCol >= 0)
+    while (aBoard[yelCol][yelRow] == '1' && yelRow <= 6 && yelCol >= 0)
     {
         yellowCounter++;
         ++yelRow;
         --yelCol;
     }
 
-    while (theBoard[redCol][redRow] == '2' && redRow <= 6 && redCol >= 0)
+    while (aBoard[redCol][redRow] == '2' && redRow <= 6 && redCol >= 0)
     {
         redCounter++;
         ++redRow;
@@ -483,7 +530,7 @@ bool connectFour::uprightConnect4(int tmpCol, int tmpRow)
 // because each indivual cell is getting evaluated and out of curiosity,
 // I tried to prove that it would always see a conect4 and proved it
 //************************************************************************
-bool connectFour::rightConnect4(int tmpCol, int tmpRow)
+bool connectFour::rightConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
 {
     int yelCol = tmpCol;
     int yelRow = tmpRow;
@@ -494,13 +541,13 @@ bool connectFour::rightConnect4(int tmpCol, int tmpRow)
     int yellowCounter = 0;
     int redCounter = 0;
 
-    while (theBoard[yelCol][yelRow] == '1' && yelRow <= 6)
+    while (aBoard[yelCol][yelRow] == '1' && yelRow <= 6)
     {
         yellowCounter++;
         ++yelRow;
     }
 
-    while (theBoard[redCol][redRow] == '2' && redRow <= 6)
+    while (aBoard[redCol][redRow] == '2' && redRow <= 6)
     {
         redCounter++;
         ++redRow;
@@ -522,7 +569,7 @@ bool connectFour::rightConnect4(int tmpCol, int tmpRow)
 // because each indivual cell is getting evaluated and out of curiosity,
 // I tried to prove that it would always see a conect4 and proved it
 //************************************************************************
-bool connectFour::upConnect4(int tmpCol, int tmpRow)
+bool connectFour::upConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
 {
 
     int yelCol = tmpCol;
@@ -534,13 +581,13 @@ bool connectFour::upConnect4(int tmpCol, int tmpRow)
     int yellowCounter = 0;
     int redCounter = 0;
 
-    while (theBoard[yelCol][yelRow] == '1' && yelCol >= 0)
+    while (aBoard[yelCol][yelRow] == '1' && yelCol >= 0)
     {
         yellowCounter++;
         --yelCol;
     }
 
-    while (theBoard[redCol][redRow] == '2' && redCol >= 0)
+    while (aBoard[redCol][redRow] == '2' && redCol >= 0)
     {
         redCounter++;
         --redCol;
