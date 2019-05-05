@@ -7,7 +7,7 @@ because I hate losing. So I practiced a lot of programming so one day I could ma
 Right now, the game allows for 1v1 play but in the near future I plan to incorporate an AI with the concept of MinMax.
 
 # Game Updates
-I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon
+I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the ai but it was difficult to maintain so I needed to change base version.
 
 # Features Added
 - Rematch option
