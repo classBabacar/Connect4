@@ -1,37 +1,38 @@
 #include <iostream>
-#include <cstdlib>
-#include <fstream>
-
 #include "connect4.h"
 #include "colors.h"
-//#include "
 
 using namespace std;
 
+//************************************************************************
+// Function: displayIntro()
+// Purpose:  showing the people what they came here for....the logo
+//************************************************************************
 int displayIntro();
 int main()
 {
    int players = displayIntro();
+   connectFour obj;
 
    if (players == 2)
    {
-      connectFour obj;
       obj.play(players);
    }
    else
    {
+      obj.AiPlay();
    }
-   //ifstream fin;
 }
 int displayIntro()
 {
-   cout << "+-----------+" << endl;
+   cout << YELLOW << "+-----------+" << WHITE << endl;
    cout << "| Connect " << RED << "4" << WHITE << " |" << endl;
-   cout << "+-----------+" << WHITE << endl;
+   cout << RED << "+-----------+" << WHITE << endl;
 
-   cout << "Welcome, let's play some connect 4" << endl;
-   cout << "Would you like to play against Ai (1) or (2) player vs player " << endl;
-
+   cout << "Welcome, let's play some " << YELLOW << "Connect 4" << WHITE << endl;
+   cout << RED << "1) Play against AI" << endl;
+   cout << YELLOW << "2) Player vs Player " << WHITE << endl;
+   cout << "Choice : ";
    int players;
    cin >> players;
 
