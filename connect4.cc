@@ -7,6 +7,7 @@
 //************************************************************************
 connectFour::connectFour()
 {
+
     row = 7;
     column = 6;
     moveNumber = 0;
@@ -20,6 +21,11 @@ connectFour::connectFour()
         {
             theBoard[i][j] = '0';
         }
+    }
+    char theMoves[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+    for (int i = 0; i < 7; ++i)
+    {
+        availableMoves.push_back(theMoves[i]);
     }
 }
 
@@ -154,6 +160,28 @@ void connectFour::checkPlayerTwo(bool gameOver)
         }
     }
 }
+void connectFour::checkPlayerAiRed(bool gameOver, char aiColor, char humanColor, string name)
+{
+    if (gameOver == true)
+    {
+        displayBoard();
+        playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
+        cout << RED << playertwoName << "...Wins" << WHITE << endl;
+
+        if (askRematch())
+        {
+            playertwoName = playertwoName + "'s Turn: ";
+            char swap = askSwap();
+            swapRoles(swap);
+            resetAll();
+            aiPlay(humanColor, aiColor, name);
+        }
+        else
+        {
+            cout << "Thanks for playing the game" << endl;
+        }
+    }
+}
 
 bool connectFour::checkTie(char aBoard[6][7])
 {
@@ -197,7 +225,7 @@ void connectFour::play(int players)
         displayBoard();
         askplayerOne(moveNumber);
         moveNumber++;
-        gameOver = checkGame();
+        gameOver = checkGame(theBoard);
         checkPlayerOne(gameOver);
 
         if (gameOver != true)
@@ -205,7 +233,7 @@ void connectFour::play(int players)
             displayBoard();
             askplayerTwo(moveNumber);
             moveNumber++;
-            gameOver = checkGame();
+            gameOver = checkGame(theBoard);
             checkPlayerTwo(gameOver);
         }
         if (checkTie(theBoard))
@@ -214,6 +242,322 @@ void connectFour::play(int players)
             swapRoles(swap);
             resetAll();
             play(3);
+        }
+    }
+}
+char connectFour::aiHeuristic(vector<char> availableMoves, char aBoard[6][7], char aiColor, char humanColor, int moveNumber)
+{
+    //srand(time(NULL));
+    int max = -1;
+    int score = 0;
+    char aiChoice;
+    char lastDecision;
+    char fakeBoard[6][7];
+    for (int i = availableMoves.size() - 1; i >= 0; --i)
+    {
+        memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
+        //fakeBoard[5][3] = '2';
+        // aiChoice = availableMoves[availableMoves.size() - 1];
+
+        aiChoice = availableMoves[i];
+        cout << "AI CHOICE" << aiChoice << endl;
+        if (checkDown(fakeBoard, tolower(aiChoice)))
+        { // I need to get the column and row of a piece and evalute everything next to it
+            dropAiPiece(fakeBoard, aiChoice, moveNumber);
+            // int aiRow = getRow(choice);
+            // int aiCol = getCol(fakeBoard, choice) + 1;
+
+            score += giveScoreHori(fakeBoard, aiColor, humanColor, aiChoice);
+            // cout <
+            score += giveScoreVert(fakeBoard, aiColor, humanColor, aiChoice);
+            //score += giveScoreDiag(fakeBoard, aiColor, humanColor, aiChoice);
+            if (score > max)
+            {
+                max = score;
+                lastDecision = aiChoice;
+            }
+        }
+        availableMoves.pop_back();
+
+        score = 0;
+    }
+    //cout << "the max is " << lastDecision << endl;
+    //cout << "Real Shit" << endl;
+    return lastDecision;
+}
+string connectFour::reverseString(string word)
+{
+    string realString = "";
+    for (int i = word.length() - 1; i >= 0; i--)
+    {
+        realString += word[i];
+    }
+    return realString;
+}
+
+/*int connectFour::giveScoreDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice)
+{
+
+    int score = 0;
+    char move = ' ';
+    int max = 0;
+
+    //cout << "CHOICE############# " << aiChoice << endl;
+    string rowString = "";
+
+    for (int i = 0; i < column; i++)
+    {
+        for (int j = 0; j < row; ++j)
+        {
+            if (i > 2)
+            {
+                rowString += aBoard[i - 1][j - 1];
+            }
+        }
+        //rowString = reverseString(rowString);
+        cout << "Row:" << rowString << endl;
+        int k = 0;
+        string matcher = "";
+        while (k < 4)
+        {
+            /*matcher += rowString[k];
+            matcher += rowString[k + 1];
+            matcher += rowString[k + 2];
+            matcher += rowString[k + 3];
+
+           /* int aiPieces = 0;
+            int emptySpots = 0;
+            for (int b = 0; b < 4; ++b)
+            {
+                if (matcher[b] == aiColor)
+                {
+                    aiPieces++;
+                }
+                else if (matcher[b] == '0')
+                {
+                    emptySpots++;
+                }
+            }
+            //cout << matcher << endl;
+            //cout << aiColor << endl;
+            if (aiPieces == 4)
+            {
+                score += 100;
+            }
+            else if (aiPieces == 3 and emptySpots == 1)
+            {
+                score += 50;
+            }
+            else if (aiPieces == 2 and emptySpots == 2)
+            {
+                score += 10;
+            }
+            if (score > max)
+            {
+                //cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
+                max = score;
+                //move = aiChoice;
+            }
+
+            // cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
+
+            matcher = "";
+            k++;
+        }
+        rowString = "";
+    }
+
+    cout << endl;
+
+    if (score == 0)
+    {
+        return 1;
+    }
+    return score;
+}*/
+int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor, char aiChoice)
+{
+
+    int score = 0;
+    char move = ' ';
+    int max = 0;
+
+    //cout << "CHOICE############# " << aiChoice << endl;
+    string rowString = "";
+
+    for (int i = 0; i < column; ++i)
+    {
+        for (int j = 0; j < row; ++j)
+        {
+            rowString += aBoard[i][j];
+        }
+        //rowString = reverseString(rowString);
+        //cout << rowString << endl;
+        int k = 0;
+        string matcher = "";
+        while (k < 4)
+        {
+            matcher += rowString[k];
+            matcher += rowString[k + 1];
+            matcher += rowString[k + 2];
+            matcher += rowString[k + 3];
+
+            int aiPieces = 0;
+            int emptySpots = 0;
+            for (int b = 0; b < 4; ++b)
+            {
+                if (matcher[b] == aiColor)
+                {
+                    aiPieces++;
+                }
+                else if (matcher[b] == '0')
+                {
+                    emptySpots++;
+                }
+            }
+            //cout << matcher << endl;
+            //cout << aiColor << endl;
+            if (aiPieces == 4)
+            {
+                score += 100;
+            }
+            else if (aiPieces == 3 and emptySpots == 1)
+            {
+                score += 50;
+            }
+            else if (aiPieces == 2 and emptySpots == 2)
+            {
+                score += 25;
+            }
+            if (score > max)
+            {
+                //cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
+                max = score;
+                //move = aiChoice;
+            }
+
+            // cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
+
+            matcher = "";
+            k++;
+        }
+        rowString = "";
+    }
+
+    cout << endl;
+
+    if (score == 0)
+    {
+        return 1;
+    }
+    return score;
+}
+
+int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor, char aiChoice)
+{
+
+    int score = 0;
+    char move = ' ';
+    int max = 0;
+
+    //cout << "CHOICE############# " << aiChoice << endl;
+    string rowString = "";
+
+    for (int i = 0; i < row; ++i)
+    {
+        for (int j = 0; j < column; ++j)
+        {
+            rowString += aBoard[j][i];
+        }
+        //rowString = reverseString(rowString);
+        cout << rowString << endl;
+        int k = 0;
+        string matcher = "";
+        while (k < 3)
+        {
+            matcher += rowString[k];
+            matcher += rowString[k + 1];
+            matcher += rowString[k + 2];
+            matcher += rowString[k + 3];
+
+            int aiPieces = 0;
+            int emptySpots = 0;
+            for (int b = 0; b < 4; ++b)
+            {
+                if (matcher[b] == aiColor)
+                {
+                    aiPieces++;
+                }
+                else if (matcher[b] == '0')
+                {
+                    emptySpots++;
+                }
+            }
+            //cout << "Vert" << matcher << endl;
+            //cout << aiColor << endl;
+            if (aiPieces == 4)
+            {
+                score += 100;
+            }
+            else if (aiPieces == 3 and emptySpots == 1)
+            {
+                score += 50;
+            }
+            else if (aiPieces == 2 and emptySpots == 2)
+            {
+                score += 10;
+            }
+            if (score > max)
+            {
+                //cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
+                max = score;
+                //move = aiChoice;
+            }
+
+            // cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
+
+            matcher = "";
+            k++;
+        }
+        rowString = "";
+    }
+
+    if (score == 0)
+    {
+        return 1;
+    }
+    return score;
+    cout << endl;
+}
+
+void connectFour::aiPlay(char aiColor, char humanColor, string name)
+{
+
+    while (humanColor == '1' && gameOver == false)
+    {
+        playeroneName = name + "'s Turn: ";
+        playertwoName = "Ai's Turn: ";
+        displayBoard();
+        askplayerOne(moveNumber);
+        moveNumber++;
+        gameOver = checkGame(theBoard);
+        checkPlayerOne(gameOver);
+
+        if (gameOver != true)
+        {
+            char move = aiHeuristic(availableMoves, theBoard, aiColor, humanColor, moveNumber);
+            dropPiece(theBoard, move, moveNumber);
+            moveNumber++;
+            gameOver = checkGame(theBoard);
+            checkPlayerAiRed(gameOver, aiColor, humanColor, name);
+        }
+        if (checkTie(theBoard))
+        {
+            playertwoName = playertwoName + "'s Turn: ";
+            char swap = askSwap();
+            swapRoles(swap);
+            resetAll();
+            aiPlay(humanColor, aiColor, name);
         }
     }
 }
@@ -314,7 +658,7 @@ bool connectFour::checkValid(char choice, int MoveNumber)
 {
     if (toupper(choice) >= 'A' && 'G' >= toupper(choice))
     {
-        if (checkDown(theBoard, tolower(choice), moveNumber))
+        if (checkDown(theBoard, tolower(choice)))
         {
             dropPiece(theBoard, choice, moveNumber);
             return true;
@@ -349,6 +693,18 @@ int connectFour::getRow(char choice)
         return 99;
     }
 }
+
+int connectFour::getCol(char aBoard[6][7], char choice)
+{
+    int tmpRow = getRow(choice);
+    int tmpCol = 5;
+
+    while (aBoard[tmpCol][tmpRow] == '1' || aBoard[tmpCol][tmpRow] == '2')
+    {
+        tmpCol--;
+    }
+    return tmpCol;
+}
 void connectFour::dropPiece(char (&aBoard)[6][7], char choice, int moveNumber)
 {
     int tmpRow = getRow(choice);
@@ -363,35 +719,54 @@ void connectFour::dropPiece(char (&aBoard)[6][7], char choice, int moveNumber)
         int i = 0;
         while (i != tmpCol)
         {
-            theBoard[i][tmpRow] = '1';
+            aBoard[i][tmpRow] = '1';
             displayBoard();
-            theBoard[i][tmpRow] = '0';
+            aBoard[i][tmpRow] = '0';
             i++;
             usleep(250000);
         }
         cout << string(50, '\n');
-        theBoard[tmpCol][tmpRow] = '1';
+        aBoard[tmpCol][tmpRow] = '1';
     }
     else
     {
         int i = 0;
         while (i != tmpCol)
         {
-            theBoard[i][tmpRow] = '2';
+            aBoard[i][tmpRow] = '2';
             displayBoard();
-            theBoard[i][tmpRow] = '0';
+            aBoard[i][tmpRow] = '0';
             i++;
             usleep(250000);
         }
         cout << string(50, '\n');
-        theBoard[tmpCol][tmpRow] = '2';
+        aBoard[tmpCol][tmpRow] = '2';
+    }
+}
+
+void connectFour::dropAiPiece(char (&aBoard)[6][7], char choice, int moveNumber)
+{
+    int tmpRow = getRow(choice);
+    int tmpCol = 5;
+
+    while (aBoard[tmpCol][tmpRow] == '1' || aBoard[tmpCol][tmpRow] == '2')
+    {
+        tmpCol--;
+    }
+    if (moveNumber % 2 == 0)
+    {
+        aBoard[tmpCol][tmpRow] = '1';
+    }
+    else
+    {
+        aBoard[tmpCol][tmpRow] = '2';
     }
 }
 //************************************************************************
 // Function: checkDown(player 1/2 choice, #of moves made)
 // Purpose:  algorithm to figure out if the move is available or not
 //************************************************************************
-bool connectFour::checkDown(char aBoard[6][7], char choice, int moveNumber)
+bool connectFour::checkDown(char aBoard[6][7], char choice)
 {
     int tmpRow = getRow(choice);
     int tmpCol = 5;
@@ -412,25 +787,25 @@ bool connectFour::checkDown(char aBoard[6][7], char choice, int moveNumber)
 // Function: checkGame()
 // Purpose:  checking if either player has won the game, by evaluating each cell
 //************************************************************************
-bool connectFour::checkGame()
+bool connectFour::checkGame(char aBoard[6][7])
 {
     for (int i = 0; i < column; ++i)
     {
         for (int j = 0; j < row; ++j)
         {
-            if (upConnect4(theBoard, i, j))
+            if (upConnect4(aBoard, i, j))
             {
                 return true;
             }
-            else if (rightConnect4(theBoard, i, j))
+            else if (rightConnect4(aBoard, i, j))
             {
                 return true;
             }
-            else if (uprightConnect4(theBoard, i, j))
+            else if (uprightConnect4(aBoard, i, j))
             {
                 return true;
             }
-            else if (upleftConnect4(theBoard, i, j))
+            else if (upleftConnect4(aBoard, i, j))
             {
                 return true;
             }
