@@ -32,7 +32,14 @@ public:
   string reverseString(string word);
   int giveScoreHori(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
   int giveScoreVert(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
-  int giveScoreDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
+  int giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
+  int giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
+  int giveScoreCenter(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
+
+  bool isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow);
+  bool isupRightDiag(char aboard[6][7], int aiColumn, int aiRow);
+
+  int scoreMetric(int aiPieces, int emptySpots, int humanPieces, char aiColor, int humanColor);
   //int giveScoreVert(char aBoard[6][7], char aiColor, char humanColor, char theMove, int aiRow, int aiCol);
   //int giveScoreUp(char aBoard[6][7], char aiColor, char humanColor, char theMove, int aiRow, int aiCol);
 
@@ -53,7 +60,6 @@ public:
   void dropPiece(char (&aBoard)[6][7], char choice, int moveNumber);
   void dropAiPiece(char (&aBoard)[6][7], char choice, int moveNumber);
   int getRow(char choice);
-  int getCol(char aBoard[6][7], char choice);
 
   bool checkGame(char aBoard[6][7]);
 
