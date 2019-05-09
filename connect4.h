@@ -35,6 +35,7 @@ public:
   int giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
   int giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
   int giveScoreCenter(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
+  int getCol(char aBoard[6][7], char choice);
 
   bool isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow);
   bool isupRightDiag(char aboard[6][7], int aiColumn, int aiRow);

@@ -248,28 +248,28 @@ void connectFour::play(int players)
 char connectFour::aiHeuristic(vector<char> availableMoves, char aBoard[6][7], char aiColor, char humanColor, int moveNumber)
 {
     //srand(time(NULL));
-    int max = -1;
+    int max = -100000;
     int score = 0;
     char aiChoice;
     char lastDecision;
     char fakeBoard[6][7];
+    //a b c d e f g
     for (int i = availableMoves.size() - 1; i >= 0; --i)
     {
         memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
         //fakeBoard[5][3] = '2';
-        // aiChoice = availableMoves[availableMoves.size() - 1];
+        //aiChoice = availableMoves[availableMoves.size() - 1];
 
         aiChoice = availableMoves[i];
         //cout << "AI CHOICE" << aiChoice << endl;
         if (checkDown(fakeBoard, tolower(aiChoice)))
         { // I need to get the column and row of a piece and evalute everything next to it
             dropAiPiece(fakeBoard, aiChoice, moveNumber);
+            //score += giveScoreCenter(fakeBoard, aiColor, humanColor, aiChoice);
 
             score += giveScoreHori(fakeBoard, aiColor, humanColor, aiChoice);
 
             score += giveScoreVert(fakeBoard, aiColor, humanColor, aiChoice);
-
-            //score += giveScoreCenter(fakeBoard, aiColor, humanColor, aiChoice);
 
             score += giveScoreLeftDiag(fakeBoard, aiColor, humanColor, aiChoice);
 
@@ -280,12 +280,12 @@ char connectFour::aiHeuristic(vector<char> availableMoves, char aBoard[6][7], ch
                 lastDecision = aiChoice;
             }
         }
-        availableMoves.pop_back();
-
+        //availableMoves.pop_back();
         score = 0;
     }
     //cout << "the max is " << lastDecision << endl;
     //cout << "Real Shit" << endl;
+    cout << max << endl;
     return lastDecision;
 }
 string connectFour::reverseString(string word)
@@ -301,8 +301,6 @@ string connectFour::reverseString(string word)
 int connectFour::giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice)
 {
     int score = 0;
-    char move = ' ';
-    int max = 0;
 
     //cout << "CHOICE############# " << aiChoice << endl;
     string rowString = "";
@@ -337,27 +335,16 @@ int connectFour::giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanCo
                     }
                 }
                 score += scoreMetric(aiPieces, emptySpots, humanPieces, aiColor, humanColor);
-                if (score > max)
-                {
-                    //cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
-                    max = score;
-                    //move = aiChoice;
-                }
             }
         }
     }
-    // if (score == 0)
-    // {
-    //     return 1;
-    // }
-    return max;
+
+    return score;
 }
 
 int connectFour::giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice)
 {
     int score = 0;
-    char move = ' ';
-    int max = 0;
 
     //cout << "CHOICE############# " << aiChoice << endl;
     string rowString = "";
@@ -392,22 +379,11 @@ int connectFour::giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanC
                     }
                 }
                 score += scoreMetric(aiPieces, emptySpots, humanPieces, aiColor, humanColor);
-                if (score > max)
-                {
-                    //cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
-                    max = score;
-                    //move = aiChoice;
-                }
             }
-
-            //cout << endl;
         }
     }
-    // if (score == 0)
-    // {
-    //     return 1;
-    // }
-    return max;
+
+    return score;
 }
 bool connectFour::isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow)
 {
@@ -470,6 +446,10 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces, char
     {
         score += 5;
     }
+    if (humanPieces == 3 && emptySpots == 1)
+    {
+        score -= 80;
+    }
     //cout << "Human Pieces" << humanPieces << endl;
 
     return score;
@@ -478,8 +458,6 @@ int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor,
 {
 
     int score = 0;
-    char move = ' ';
-    int max = 0;
 
     //cout << "CHOICE############# " << aiChoice << endl;
     string rowString = "";
@@ -523,39 +501,36 @@ int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor,
             //cout << aiColor << endl;
             score += scoreMetric(aiPieces, emptySpots, humanPieces, aiColor, humanColor);
 
-            if (score > max)
-            {
-                //cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
-                max = score;
-                //move = aiChoice;
-            }
-
             matcher = "";
             k++;
         }
         rowString = "";
     }
+    return score;
+    // return max;
+}
+int connectFour::getCol(char aBoard[6][7], char choice)
+{
+    int tmpRow = getRow(choice);
+    int tmpCol = 5;
 
-    cout << endl;
-
-    // if (score == 0)
-    // {
-    //     return 1;
-    // }
-    return max;
+    while (aBoard[tmpCol][tmpRow] == '1' || aBoard[tmpCol][tmpRow] == '2')
+    {
+        tmpCol--;
+    }
+    return tmpCol + 1;
 }
 
 int connectFour::giveScoreCenter(char aBoard[6][7], char aiColor, char humanColor, char aiChoice)
 {
-    int counter = 0;
-    for (int i = 0; i < 6; ++i)
+
+    if (aiChoice == 'a')
     {
-        if (aBoard[i][3] == '1' || aBoard[i][3] == aiColor)
-        {
-            counter++;
-        }
+        return 4;
     }
-    return counter * 6;
+    return 0;
+
+    //return counter * 6;
 }
 
 int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor, char aiChoice)
@@ -563,7 +538,6 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor,
 
     int score = 0;
     //char move = ' ';
-    int max = 0;
 
     //cout << "CHOICE############# " << aiChoice << endl;
     string rowString = "";
@@ -606,12 +580,6 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor,
             //cout << "Vert" << matcher << endl;
             //cout << aiColor << endl;
             score += scoreMetric(aiPieces, emptySpots, humanPieces, aiColor, humanColor);
-            if (score > max)
-            {
-                //cout << matcher << " AiPieces: " << aiPieces << "    |    emptySpots : " << emptySpots << " | Score: " << score << "| Choice " << aiChoice << endl;
-                max = score;
-                //move = aiChoice;
-            }
 
             matcher = "";
             k++;
@@ -619,7 +587,7 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor,
         rowString = "";
     }
 
-    return max;
+    return score;
     // cout << endl;
 }
 
