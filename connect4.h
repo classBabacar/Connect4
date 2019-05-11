@@ -28,22 +28,25 @@ public:
   void checkPlayerOne(bool gameOver);
   void checkPlayerTwo(bool gameOver);
   void checkPlayerAiRed(bool gameOver, char aiColor, char humanColor, string name);
+  void checkPlayerAiYellow(bool gameOver, char aiColor, char humanColor, string name);
   bool checkTie(char aBoard[6][7]);
-  string reverseString(string word);
-  int giveScoreHori(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
-  int giveScoreVert(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
-  int giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
-  int giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
-  int giveScoreCenter(char aBoard[6][7], char aiColor, char humanColor, char aiChoice);
+  //string reverseString(string word);
+
+  int giveScoreHori(char aBoard[6][7], char aiColor, char humanColor);
+  int giveScoreVert(char aBoard[6][7], char aiColor, char humanColor);
+  int giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor);
+  int giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor);
+  int giveScoreCenter(char aBoard[6][7], char aiColor, char humanColo);
   int getCol(char aBoard[6][7], char choice);
 
   bool isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow);
   bool isupRightDiag(char aboard[6][7], int aiColumn, int aiRow);
 
-  int scoreMetric(int aiPieces, int emptySpots, int humanPieces, char aiColor, int humanColor);
-  //int giveScoreVert(char aBoard[6][7], char aiColor, char humanColor, char theMove, int aiRow, int aiCol);
-  //int giveScoreUp(char aBoard[6][7], char aiColor, char humanColor, char theMove, int aiRow, int aiCol);
+  int scoreMetric(int aiPieces, int emptySpots, int humanPieces);
 
+  //int minimax(char aBoard[6][7], int depth, bool whoAreYou, char aiColor, char humanColor);
+  //int calculateAiPieces(aBoard[6][7], char someonesPiece);
+  int countMyPieces(string matcher, char anyPiece);
   void askName();
   void play(int players);
   void displayBoard();
