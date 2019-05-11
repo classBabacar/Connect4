@@ -316,23 +316,23 @@ int connectFour::giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanCo
     int score = 0;
 
     //cout << "CHOICE############# " << aiChoice << endl;
-    string rowString = "";
+    string upLeftString;
     for (int i = 0; i < column; ++i)
     {
         for (int j = 0; j < row; ++j)
         {
-            rowString = "";
+            upLeftString = "";
             //upleftConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
             if (isupLeftDiag(aBoard, i, j))
             {
-                rowString += aBoard[i][j];
-                rowString += aBoard[i - 1][j - 1];
-                rowString += aBoard[i - 2][j - 2];
-                rowString += aBoard[i - 3][j - 3];
+                upLeftString += aBoard[i][j];
+                upLeftString += aBoard[i - 1][j - 1];
+                upLeftString += aBoard[i - 2][j - 2];
+                upLeftString += aBoard[i - 3][j - 3];
 
-                int aiPieces = countMyPieces(rowString, aiColor);
-                int emptySpots = countMyPieces(rowString, '0');
-                int humanPieces = countMyPieces(rowString, humanColor);
+                int aiPieces = countMyPieces(upLeftString, aiColor);
+                int emptySpots = countMyPieces(upLeftString, '0');
+                int humanPieces = countMyPieces(upLeftString, humanColor);
                 score += scoreMetric(aiPieces, emptySpots, humanPieces);
             }
         }
@@ -344,24 +344,23 @@ int connectFour::giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanCo
 int connectFour::giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor)
 {
     int score = 0;
-
     //cout << "CHOICE############# " << aiChoice << endl;
-    string rowString = "";
+    string upRightString;
     for (int i = 0; i < column; ++i)
     {
         for (int j = 0; j < row; ++j)
         {
-            rowString = "";
+            upRightString = "";
             if (isupRightDiag(aBoard, i, j))
             {
-                rowString += aBoard[i][j];
-                rowString += aBoard[i - 1][j + 1];
-                rowString += aBoard[i - 2][j + 2];
-                rowString += aBoard[i - 3][j + 3];
+                upRightString += aBoard[i][j];
+                upRightString += aBoard[i - 1][j + 1];
+                upRightString += aBoard[i - 2][j + 2];
+                upRightString += aBoard[i - 3][j + 3];
 
-                int aiPieces = countMyPieces(rowString, aiColor);
-                int emptySpots = countMyPieces(rowString, '0');
-                int humanPieces = countMyPieces(rowString, humanColor);
+                int aiPieces = countMyPieces(upRightString, aiColor);
+                int emptySpots = countMyPieces(upRightString, '0');
+                int humanPieces = countMyPieces(upRightString, humanColor);
                 score += scoreMetric(aiPieces, emptySpots, humanPieces);
             }
         }
@@ -444,40 +443,38 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
 }
 int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor)
 {
-
     int score = 0;
-
     //cout << "CHOICE############# " << aiChoice << endl;
-    string rowString = "";
+    string colString = "";
 
     for (int i = 0; i < column; ++i)
     {
         for (int j = 0; j < row; ++j)
         {
-            rowString += aBoard[i][j];
+            colString += aBoard[i][j];
         }
         //rowString = reverseString(rowString);
         //cout << rowString << endl;
         int k = 0;
-        string matcher = "";
+        string seperateByFour = "";
         while (k < 4)
         {
-            matcher += rowString[k];
-            matcher += rowString[k + 1];
-            matcher += rowString[k + 2];
-            matcher += rowString[k + 3];
+            seperateByFour += colString[k];
+            seperateByFour += colString[k + 1];
+            seperateByFour += colString[k + 2];
+            seperateByFour += colString[k + 3];
 
-            int aiPieces = countMyPieces(matcher, aiColor);
-            int emptySpots = countMyPieces(matcher, '0');
-            int humanPieces = countMyPieces(matcher, humanColor);
+            int aiPieces = countMyPieces(seperateByFour, aiColor);
+            int emptySpots = countMyPieces(seperateByFour, '0');
+            int humanPieces = countMyPieces(seperateByFour, humanColor);
             //cout << matcher << endl;
             //cout << aiColor << endl;
             score += scoreMetric(aiPieces, emptySpots, humanPieces);
 
-            matcher = "";
+            seperateByFour = "";
             k++;
         }
-        rowString = "";
+        colString = "";
     }
     return score;
     // return max;
@@ -556,13 +553,13 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
         //rowString = reverseString(rowString);
         //cout << rowString << endl;
         int k = 0;
-        string matcher = "";
+        string seperateByFour = "";
         while (k < 4)
         {
-            matcher += rowString[k];
-            matcher += rowString[k + 1];
-            matcher += rowString[k + 2];
-            matcher += rowString[k + 3];
+            seperateByFour += rowString[k];
+            seperateByFour += rowString[k + 1];
+            seperateByFour += rowString[k + 2];
+            seperateByFour += rowString[k + 3];
 
             int aiPieces = countMyPieces(matcher, aiColor);
             int emptySpots = countMyPieces(matcher, '0');
@@ -572,7 +569,7 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
             //cout << aiColor << endl;
             score += scoreMetric(aiPieces, emptySpots, humanPieces);
 
-            matcher = "";
+            seperateByFour = "";
             k++;
         }
         rowString = "";
