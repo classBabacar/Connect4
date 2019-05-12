@@ -16,11 +16,12 @@ Current I have the AI look 5 moves ahead if you feel like its too easy set look 
 
 # Features Added
 - Rematch option
-- FINALLY AI!!!!!!!!!!!!!!!!
+- FINALLY AI !!!!!!!!!!!!!!!!
 
 # Running Code using Makefile
 
 I recommend that you compile with ``make build``
 run the program with ``./game``
+
 To delete the ``./game`` do ``make clean``
 
