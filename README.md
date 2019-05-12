@@ -12,7 +12,7 @@ I had to refactor the whole code because if I wanted to incorporate an AI my pre
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominate you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
 
-Current I have the AI look 5 moves ahead if you feel like its too easy set look ahead to 6 but keep in mind this will take longer as you increase. Or if it's too difficult set it to any value between 0-5 
+Current I have the AI look 5 moves ahead if you feel like its too easy set look ahead to 6 but keep in mind this will take longer as you increase. Or if it's too difficult set it to any value between 0-6 
 
 # Features Added
 - Rematch option
