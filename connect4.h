@@ -19,63 +19,52 @@ class connectFour
 public:
   connectFour();
 
+  //Game Finished Functions
   void aiPlay(char aiColor, char humanColor, string name);
   bool askRematch();
   char askSwap();
   void swapRoles(char swap);
   void resetAll();
 
+  //UserSpecificFunctions
   void checkPlayerOne(bool gameOver);
   void checkPlayerTwo(bool gameOver);
   void checkPlayerAiRed(bool gameOver, char aiColor, char humanColor, string name);
   void checkPlayerAiYellow(bool gameOver, char aiColor, char humanColor, string name);
   bool checkTie(char aBoard[6][7]);
-  //string reverseString(string word);
 
+  //Ai Helper Functions
   int giveScoreHori(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreVert(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreCenter(char aBoard[6][7], char aiColor, char humanColo);
-  int getCol(char aBoard[6][7], char choice);
-
   bool isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow);
   bool isupRightDiag(char aboard[6][7], int aiColumn, int aiRow);
-
   int scoreMetric(int aiPieces, int emptySpots, int humanPieces);
   bool whoWon(char aBoard[6][7], char playerPiece);
-
-  pair<char, int> minimax(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover);
+  pair<char, int> lookAhead(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover);
   int getScoreOf(char aBoard[6][7], char aiColor, int humanColor);
-
-  void storeBestMove(char x);
-  char getBestMove();
-  //int calculateAiPieces(aBoard[6][7], char someonesPiece);
+  void dropAiPiece(char (&aBoard)[6][7], char choice, int mover);
   int countMyPieces(string matcher, char anyPiece);
+
+  //Game Dependencies
   void askName();
   void play(int players);
   void displayBoard();
-
-  char playeroneChoice();
-  char playertwoChoice();
-
-  char aiHeuristic(vector<char> availableMoves, char aBoard[6][7], char aiColor, char humanColor, int moveNumber);
-
-  void askplayerOne(int moveNumber);
-  void askplayerTwo(int moveNumber);
-
-  bool checkValid(char choice, int moveNumber);
-  bool checkDown(char aBoard[6][7], char choice);
-  void dropPiece(char (&aBoard)[6][7], char choice, int moveNumber);
-  void dropAiPiece(char (&aBoard)[6][7], char choice, int mover);
-  int getRow(char choice);
-
   bool checkGame(char aBoard[6][7]);
-
   bool upConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool rightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool uprightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool upleftConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
+  bool checkValid(char choice, int moveNumber);
+  bool checkDown(char aBoard[6][7], char choice);
+  void dropPiece(char (&aBoard)[6][7], char choice, int moveNumber);
+  int getRow(char choice);
+  char playeroneChoice();
+  char playertwoChoice();
+  void askplayerOne(int moveNumber);
+  void askplayerTwo(int moveNumber);
 
 private:
   bool gameOver;
