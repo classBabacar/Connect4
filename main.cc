@@ -28,7 +28,6 @@ int main()
       cin >> humanColor;
       askInfo(humanColor, aiColor, name);
       obj.aiPlay(aiColor, humanColor, name);
-      //cout << "TBA" << endl;
    }
 }
 void askInfo(char &humanColor, char &aiColor, string &name)
