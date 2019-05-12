@@ -760,6 +760,7 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
 void connectFour::aiPlay(char aiColor, char humanColor, string name)
 {
 
+    int lookForward = 5;
     while (humanColor == '1' && gameOver == false)
     {
         playeroneName = name + "'s Turn: ";
@@ -774,7 +775,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
         {
             int mover = moveNumber;
             pair<char, int> answer;
-            answer = lookAhead(theBoard, 5, aiColor, humanColor, true, mover);
+            answer = lookAhead(theBoard, lookForward, aiColor, humanColor, true, mover);
             char move = answer.first;
 
             dropPiece(theBoard, move, moveNumber);
@@ -798,7 +799,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
 
         int mover = moveNumber;
         pair<char, int> answer;
-        answer = lookAhead(theBoard, 5, aiColor, humanColor, true, mover);
+        answer = lookAhead(theBoard, lookForward, aiColor, humanColor, true, mover);
         char move = answer.first;
         dropPiece(theBoard, move, moveNumber);
         moveNumber++;
