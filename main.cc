@@ -9,18 +9,46 @@ using namespace std;
 // Purpose:  showing the people what they came here for....the logo
 //************************************************************************
 int displayIntro();
+void askInfo(char &humanColor, char &aiColor, string &name);
 int main()
 {
    int players = displayIntro();
+   connectFour obj;
 
    if (players == 2)
    {
-      connectFour obj;
       obj.play(players);
    }
    else
    {
-      cout << "TBA" << endl;
+      char aiColor;
+      char humanColor;
+      string name;
+      cout << "Would you like to be Yellow or Red (y/r)?" << endl;
+      cin >> humanColor;
+      askInfo(humanColor, aiColor, name);
+      obj.aiPlay(aiColor, humanColor, name);
+   }
+}
+void askInfo(char &humanColor, char &aiColor, string &name)
+{
+   if (tolower(humanColor) == 'y')
+   {
+      aiColor = '2';    // Red
+      humanColor = '1'; //Yellow
+      cout << YELLOW << "What's your name? " << endl;
+      cin.ignore();
+      getline(cin, name);
+      cout << WHITE;
+   }
+   else
+   {
+      aiColor = '1';
+      humanColor = '2';
+      cout << RED << "What's your name? " << endl;
+      cin.ignore();
+      getline(cin, name);
+      cout << WHITE;
    }
 }
 int displayIntro()
