@@ -21,6 +21,7 @@ Current I have the AI look 5 moves ahead if you feel like its too easy set look 
 # Running Code using Makefile
 
 I recommend that you compile with ``make build``
+
 Run the program with ``./game``
 
 To delete the ``./game`` do ``make clean``
