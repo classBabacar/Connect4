@@ -43,8 +43,13 @@ public:
   bool isupRightDiag(char aboard[6][7], int aiColumn, int aiRow);
 
   int scoreMetric(int aiPieces, int emptySpots, int humanPieces);
+  bool whoWon(char aBoard[6][7], char playerPiece);
 
-  //int minimax(char aBoard[6][7], int depth, bool whoAreYou, char aiColor, char humanColor);
+  pair<char, int> minimax(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover);
+  int getScoreOf(char aBoard[6][7], char aiColor, int humanColor);
+
+  void storeBestMove(char x);
+  char getBestMove();
   //int calculateAiPieces(aBoard[6][7], char someonesPiece);
   int countMyPieces(string matcher, char anyPiece);
   void askName();
@@ -62,7 +67,7 @@ public:
   bool checkValid(char choice, int moveNumber);
   bool checkDown(char aBoard[6][7], char choice);
   void dropPiece(char (&aBoard)[6][7], char choice, int moveNumber);
-  void dropAiPiece(char (&aBoard)[6][7], char choice, int moveNumber);
+  void dropAiPiece(char (&aBoard)[6][7], char choice, int mover);
   int getRow(char choice);
 
   bool checkGame(char aBoard[6][7]);

@@ -115,6 +115,11 @@ char connectFour::askSwap()
 
     return swap;
 }
+//************************************************************************
+// Function: checkPlayerOne(gameOver)
+// Purpose:  This is basically generating output for a arbritary playerOne
+//
+//************************************************************************
 void connectFour::checkPlayerOne(bool gameOver)
 {
     if (gameOver == true)
@@ -137,7 +142,11 @@ void connectFour::checkPlayerOne(bool gameOver)
         }
     }
 }
-
+//************************************************************************
+// Function: checkPlayerTwo(gameOver)
+// Purpose:  This is basically generating output for a arbritary playerTwo
+//
+//************************************************************************
 void connectFour::checkPlayerTwo(bool gameOver)
 {
     if (gameOver == true)
@@ -160,6 +169,11 @@ void connectFour::checkPlayerTwo(bool gameOver)
         }
     }
 }
+//************************************************************************
+// Function: checkPlayerAiRed(gameOver, ais Color , humans Color, the name of the human)
+// Purpose:  Generating output but also figuring out if the ai is playerTwo(Red Color)
+//
+//************************************************************************
 void connectFour::checkPlayerAiRed(bool gameOver, char aiColor, char humanColor, string name)
 {
     if (gameOver == true)
@@ -182,6 +196,12 @@ void connectFour::checkPlayerAiRed(bool gameOver, char aiColor, char humanColor,
         }
     }
 }
+
+//************************************************************************
+// Function: checkPlayerAiYellow(gameOver, ais Color , humans Color, the name of the human)
+// Purpose:  Generating output but also figuring our of the ai is playerOne(Yellow Color)
+//
+//************************************************************************
 void connectFour::checkPlayerAiYellow(bool gameOver, char aiColor, char humanColor, string name)
 {
     if (gameOver == true)
@@ -204,7 +224,15 @@ void connectFour::checkPlayerAiYellow(bool gameOver, char aiColor, char humanCol
         }
     }
 }
-
+//************************************************************************
+// Function: checkTie()
+// Purpose:  To determine if the game is in a tie state
+//
+// In the askRematch if statemnts its important to add
+// playeroneName = playeroneName + "'s Turn: ", because when a player wins
+// I rip the "'s Turn: " part off so if that player does win I add it back
+// and set it back to its default then proceed to swap
+//************************************************************************
 bool connectFour::checkTie(char aBoard[6][7])
 {
     int redCount = 0;
@@ -267,62 +295,67 @@ void connectFour::play(int players)
         }
     }
 }
-char connectFour::aiHeuristic(vector<char> availableMoves, char aBoard[6][7], char aiColor, char humanColor, int moveNumber)
-{
-    //srand(time(NULL));
-    int max = -100000;
-    int score = 0;
-    char aiChoice;
-    char lastDecision;
-    char fakeBoard[6][7];
-    //a b c d e f g
-    for (int i = availableMoves.size() - 1; i >= 0; --i)
-    {
-        memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
-        //fakeBoard[5][3] = '2';
-        //aiChoice = availableMoves[availableMoves.size() - 1];
+// char connectFour::aiHeuristic(vector<char> availableMoves, char aBoard[6][7], char aiColor, char humanColor, int moveNumber)
+// {
+//     //srand(time(NULL));
+//     int max = -100000;
+//     int score = 0;
+//     char aiChoice;
+//     char lastDecision;
+//     char fakeBoard[6][7];
+//     //a b c d e f g
+//     for (int i = availableMoves.size() - 1; i >= 0; --i)
+//     {
+//         memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
+//         //fakeBoard[5][3] = '2';
+//         //aiChoice = availableMoves[availableMoves.size() - 1];
 
-        aiChoice = availableMoves[i];
-        //cout << "AI CHOICE" << aiChoice << endl;
-        if (checkDown(fakeBoard, tolower(aiChoice)))
-        { // I need to get the column and row of a piece and evalute everything next to it
-            dropAiPiece(fakeBoard, aiChoice, moveNumber);
-            score += giveScoreCenter(fakeBoard, aiColor, humanColor);
+//         aiChoice = availableMoves[i];
+//         //cout << "AI CHOICE" << aiChoice << endl;
+//         if (checkDown(fakeBoard, tolower(aiChoice)))
+//         { // I need to get the column and row of a piece and evalute everything next to it
+//             dropAiPiece(fakeBoard, aiChoice, moveNumber);
+//             score += giveScoreCenter(fakeBoard, aiColor, humanColor);
 
-            score += giveScoreHori(fakeBoard, aiColor, humanColor);
+//             score += giveScoreHori(fakeBoard, aiColor, humanColor);
 
-            score += giveScoreVert(fakeBoard, aiColor, humanColor);
+//             score += giveScoreVert(fakeBoard, aiColor, humanColor);
 
-            score += giveScoreLeftDiag(fakeBoard, aiColor, humanColor);
+//             score += giveScoreLeftDiag(fakeBoard, aiColor, humanColor);
 
-            score += giveScoreRightDiag(fakeBoard, aiColor, humanColor);
-            if (score > max)
-            {
-                max = score;
-                lastDecision = aiChoice;
-            }
-        }
-        //availableMoves.pop_back();
-        score = 0;
-    }
-    //cout << "the max is " << lastDecision << endl;
-    //cout << "Real Shit" << endl;
-    cout << max << endl;
-    return lastDecision;
-}
+//             score += giveScoreRightDiag(fakeBoard, aiColor, humanColor);
+//             if (score > max)
+//             {
+//                 max = score;
+//                 lastDecision = aiChoice;
+//             }
+//         }
+//         //availableMoves.pop_back();
+//         score = 0;
+//     }
+//     //cout << "the max is " << lastDecision << endl;
+//     //cout << "Real Shit" << endl;
+//     cout << max << endl;
+//     return lastDecision;
+// }
 
+//************************************************************************
+// Function: giveScoreLeftDiag(aBoard, aiColor, char humanColor)
+// Purpose: scoring purpose
+//
+// This functions works by figuring our every possible upLeft diagnoal there is
+// in the current game by collecting every 4 pieces and depening on the number of aiPieces or
+// human pieces the AI notices and returns a score
+//************************************************************************
 int connectFour::giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor)
 {
     int score = 0;
-
-    //cout << "CHOICE############# " << aiChoice << endl;
     string upLeftString;
     for (int i = 0; i < column; ++i)
     {
         for (int j = 0; j < row; ++j)
         {
             upLeftString = "";
-            //upleftConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
             if (isupLeftDiag(aBoard, i, j))
             {
                 upLeftString += aBoard[i][j];
@@ -337,14 +370,20 @@ int connectFour::giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanCo
             }
         }
     }
-
     return score;
 }
 
+//************************************************************************
+// Function: giveScoreRightDiag(aBoard, aiColor, char humanColor)
+// Purpose: scoring purpose
+//
+// This functions works by figuring our every possible upRight diagnoal there is
+// in the current game by collecting every 4 pieces and depening on the number of aiPieces or
+// human pieces the AI notices and returns a score
+//************************************************************************
 int connectFour::giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor)
 {
     int score = 0;
-    //cout << "CHOICE############# " << aiChoice << endl;
     string upRightString;
     for (int i = 0; i < column; ++i)
     {
@@ -365,9 +404,16 @@ int connectFour::giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanC
             }
         }
     }
-
     return score;
 }
+
+//************************************************************************
+// Function: isupLeftDiag(aBoard, column, row)
+// Purpose: To Prevent a seg fault
+//
+// To help prevent a seg fault i made a helper function to determine if it
+// was possible to go upleft
+//************************************************************************
 bool connectFour::isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow)
 {
     int tmpCol = aiColumn;
@@ -391,6 +437,13 @@ bool connectFour::isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow)
     }
 }
 
+//************************************************************************
+// Function: isupRightDiag(aBoard, column, row)
+// Purpose: To Prevent a seg fault
+//
+// To help prevent a seg fault i made a helper function to determine if it
+// was possible to go upRight
+//************************************************************************
 bool connectFour::isupRightDiag(char aboard[6][7], int aiColumn, int aiRow)
 {
     int tmpCol = aiColumn;
@@ -414,6 +467,16 @@ bool connectFour::isupRightDiag(char aboard[6][7], int aiColumn, int aiRow)
     }
 }
 
+//************************************************************************
+// Function: scoreMetric
+// Purpose: The AI needs to know whats a "good" or "bad" move, so you must give
+// weights to the most threatening possiblities such as the following:
+//
+//  if you can potential have connect4 (400) : Highest Value (most important)
+//  if you can potential have connect3 (200) : Highest Value (less important but still priority)
+//  if you can potential have connect2 (100) : Highest Value (less important but still priority)
+//  if your opponent has connect3 (-300) : Keep on making moves until you find it(the negative is very important)
+//************************************************************************
 int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
 {
     int score = 0;
@@ -423,28 +486,33 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
     }
     else if (aiPieces == 3 && emptySpots == 1)
     {
-        score += 10;
+        score += 5;
     }
     else if (aiPieces == 2 && emptySpots == 2)
     {
-        score += 5;
+        score += 2;
     }
-    if (humanPieces == 2 && emptySpots == 2)
-    {
-        score -= 14;
-    }
+    // if (humanPieces == 2 && emptySpots == 2)
+    // {
+    //     score -= 14;
+    // }
     if (humanPieces == 3 && emptySpots == 1)
     {
-        score -= 80;
+        score -= 95;
     }
-    //cout << "Human Pieces" << humanPieces << endl;
-
     return score;
 }
+//************************************************************************
+// Function: giveScoreHori(aBoard, aiColor, char humanColor)
+// Purpose: scoring purpose
+//
+// This functions works by figuring our every possible horizontal there is
+// in the current game by collecting every 4 pieces and depening on the number of aiPieces or
+// human pieces the AI notices and returns a score
+//************************************************************************
 int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor)
 {
     int score = 0;
-    //cout << "CHOICE############# " << aiChoice << endl;
     string colString = "";
 
     for (int i = 0; i < column; ++i)
@@ -453,8 +521,7 @@ int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor)
         {
             colString += aBoard[i][j];
         }
-        //rowString = reverseString(rowString);
-        //cout << rowString << endl;
+
         int k = 0;
         string seperateByFour = "";
         while (k < 4)
@@ -467,8 +534,6 @@ int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor)
             int aiPieces = countMyPieces(seperateByFour, aiColor);
             int emptySpots = countMyPieces(seperateByFour, '0');
             int humanPieces = countMyPieces(seperateByFour, humanColor);
-            //cout << matcher << endl;
-            //cout << aiColor << endl;
             score += scoreMetric(aiPieces, emptySpots, humanPieces);
 
             seperateByFour = "";
@@ -477,52 +542,208 @@ int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor)
         colString = "";
     }
     return score;
-    // return max;
 }
-
+//************************************************************************
+// Function: giveScoreCenter(aBoard, aiColor, char humanColor)
+// Purpose: scoring purpose
+//
+// This part is a bit of tricky but to give the Ai a boost to make the move in the center
+// seeing that its the best move. So for every piece that matches the AI that can be a better move
+// However I have to think theres a more elegant way of doing this
+//************************************************************************
 int connectFour::giveScoreCenter(char aBoard[6][7], char aiColor, char humanColor)
 {
     int score = 0;
     int counter = 0;
     for (int i = 0; i < column; ++i)
     {
-        //aBoard[i][4];
         if (aBoard[i][3] == aiColor)
         {
             counter++;
         }
     }
-    score += counter * 6;
+    score += (counter + 1) * 100;
     return score;
-
-    //return counter * 6;
 }
 
-// int connectFour::minimax(char aBoard[6][7], int depth, bool whoAreYou, char aiColor, char humanColor)
-// {
-//     int aiCounter = 0;
-//     int humanCounter = 0;
-//     if (depth == 0 || (checkGame(theBoard) == true) || checkTie(theBoard) == true)
-//     {
-//         //aiCounter = calculatePieces(aBoard[6][7], aiColor);
-//         //humanCounter = calculatePieces(aBoard[6][7], humanColor);
+//************************************************************************
+// Function: whoWon(aBoard, whoisWho(human or AI))
+// Purpose: figuring out who won the game
+//
+// The reason I made this function even though I have like 40 checkConnect4 functions is because
+// all of those were ambiguous and werent really checking is a particular individual won but rather if anyone
+// won...instead of changing the whole structure of the program and since im lazy I just made a thing where I just figure out
+// who won the game(human or ai )
+//************************************************************************
+bool connectFour::whoWon(char aBoard[6][7], char playerPiece)
+{
+    //Horizontal Checker
+    for (int i = 0; i < column; ++i)
+    {
+        for (int j = 0; j < row - 3; ++j)
+        {
+            if (aBoard[i][j] == playerPiece && aBoard[i][j + 1] == playerPiece && aBoard[i][j + 2] == playerPiece && aBoard[i][j + 3] == playerPiece)
+            {
+                return true;
+            }
+        }
+    }
 
-//         if (checkGame(aBoard))
-//         {
-//             if (aiCounter > humanCounter)
-//             {
-//                 return 10000000000000;
-//             }
-//             else if (humanCounter > aiCounter)
-//             {
-//                 return -1000000000000;
-//             }
-//             else
-//             {
-//             }
-//         }
-//     }
-// }
+    //Vertical Checker
+    for (int i = 0; i < column - 3; ++i)
+    {
+        for (int j = 0; j < row; ++j)
+        {
+            if (aBoard[i][j] == playerPiece && aBoard[i + 1][j] == playerPiece && aBoard[i + 2][j] == playerPiece && aBoard[i + 3][j] == playerPiece)
+            {
+                return true;
+            }
+        }
+    }
+
+    //Upleft Checker
+    for (int i = 3; i < column; ++i)
+    {
+        for (int j = 3; j < row; ++j)
+        {
+            if (aBoard[i][j] == playerPiece && aBoard[i - 1][j - 1] == playerPiece && aBoard[i - 2][j - 2] == playerPiece && aBoard[i - 3][j - 3] == playerPiece)
+            {
+                return true;
+            }
+        }
+    }
+
+    //UpRight Checker
+    for (int i = 3; i < column; ++i)
+    {
+        for (int j = 0; j < row - 3; ++j)
+        {
+            if (aBoard[i - 1][j + 1] == playerPiece && aBoard[i - 2][j + 2] == playerPiece && aBoard[i - 3][j + 3] == playerPiece && aBoard[i - 3][j + 3] == playerPiece)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+//************************************************************************
+// Function: getScoreOf(aBoard, aiColor, char humanColor)
+// Purpose: instead of repeating code everywhere I just made it generalized here
+// Also the base case for the minimax function
+//************************************************************************
+int connectFour::getScoreOf(char aBoard[6][7], char aiColor, int humanColor)
+{
+    int score = 0;
+    score += giveScoreCenter(aBoard, aiColor, humanColor);
+    score += giveScoreHori(aBoard, aiColor, humanColor);
+    score += giveScoreVert(aBoard, aiColor, humanColor);
+    score += giveScoreLeftDiag(aBoard, aiColor, humanColor);
+    score += giveScoreRightDiag(aBoard, aiColor, humanColor);
+
+    return score;
+}
+//************************************************************************
+// Function: Minimax(aBoard, #how many moves ahead you want to see, aiColor, humanColor, are you the AI? )
+// Purpose: scoring purpose
+// Sources : https://en.wikipedia.org/wiki/Minimax#Pseudocode
+// Sources : https://www.youtube.com/watch?v=MMLtza3CZFM&t=564s
+// This guy helped me understand a lot the concept at hand
+// Sources : A lot Tic Tac Toe Minimax examples
+//
+// The concept of MINIMAX is basically alternating between players with a evaluation function
+// Things to Note:
+//
+// 1. aiPlayer is the maximizing player who always looks for the highest score
+// 2. humanPlayer is the minimizing player who always looks for the smallest score
+// 3. This process is very clever because you always assume your opponent will play the best
+// 4. There are a lot of variations but as long as you follow this rule set you should be ok
+//************************************************************************
+pair<char, int> connectFour::minimax(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover)
+{
+
+    //int score = 0;
+    if (depth == 0 || (checkGame(aBoard) == true) || checkTie(aBoard) == true)
+    {
+        if (checkGame(aBoard))
+        {
+            if (whoWon(aBoard, aiColor))
+            {
+                return make_pair(' ', 10000000);
+            }
+            else if (whoWon(aBoard, humanColor))
+            {
+                return make_pair(' ', -10000000);
+            }
+            else if (checkTie(aBoard))
+            {
+                return make_pair(' ', 0);
+            }
+        }
+        if (depth == 0)
+        {
+            return make_pair(' ', getScoreOf(aBoard, aiColor, humanColor));
+            // return getScoreOf(aBoard, aiColor, humanColor);
+        }
+    }
+    char fakeBoard[6][7];
+    pair<char, int> answer;
+
+    if (maximizingPlayer)
+    {
+
+        int value = -100000;
+        char column = ' ';
+
+        for (int i = availableMoves.size() - 1; i >= 0; --i)
+        {
+            memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
+            if (checkDown(fakeBoard, tolower(availableMoves[i])))
+            {
+                dropAiPiece(fakeBoard, availableMoves[i], mover);
+                answer = minimax(fakeBoard, depth - 1, aiColor, humanColor, false, mover + 1);
+                // cout << "the move is " << answer.first << endl;
+
+                if (answer.second > value)
+                {
+                    column = availableMoves[i];
+                    //answer.second = availableMoves[i];
+                    // cout << "best move for ai " << answer.second << endl;
+                    value = answer.second;
+                }
+            }
+            //
+        }
+        return make_pair(column, value);
+    }
+    else if (!maximizingPlayer)
+    {
+        // pair<int, char> answer;
+        int value = 100000;
+        char column = ' ';
+
+        for (int i = availableMoves.size() - 1; i >= 0; --i)
+        {
+            memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
+            if (checkDown(fakeBoard, tolower(availableMoves[i])))
+            {
+                dropAiPiece(fakeBoard, availableMoves[i], mover);
+                answer = minimax(fakeBoard, depth - 1, aiColor, humanColor, true, mover + 1);
+                // cout << "the move is " << answer.second << endl;
+
+                if (answer.second < value)
+                {
+                    column = availableMoves[i];
+                    //cout << "best move for human " << bestMove << endl;
+                    value = answer.second;
+                }
+            }
+            //return score;
+        }
+        return make_pair(column, value);
+    }
+    //return make_pair(answer.first, answer.second);
+}
 int connectFour::countMyPieces(string matcher, char anyPiece)
 {
     int counter = 0;
@@ -561,9 +782,9 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
             seperateByFour += rowString[k + 2];
             seperateByFour += rowString[k + 3];
 
-            int aiPieces = countMyPieces(matcher, aiColor);
-            int emptySpots = countMyPieces(matcher, '0');
-            int humanPieces = countMyPieces(matcher, humanColor);
+            int aiPieces = countMyPieces(seperateByFour, aiColor);
+            int emptySpots = countMyPieces(seperateByFour, '0');
+            int humanPieces = countMyPieces(seperateByFour, humanColor);
 
             //cout << "Vert" << matcher << endl;
             //cout << aiColor << endl;
@@ -594,7 +815,13 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
 
         if (gameOver != true)
         {
-            char move = aiHeuristic(availableMoves, theBoard, aiColor, humanColor, moveNumber);
+            int mover = moveNumber;
+            pair<char, int> answer;
+            answer = minimax(theBoard, 5, aiColor, humanColor, true, mover);
+            //aiHeuristic(availableMoves, theBoard, aiColor, humanColor, moveNumber);
+            //cout << "the move is nigga" << answer.first << endl;
+            char move = answer.first;
+
             dropPiece(theBoard, move, moveNumber);
             moveNumber++;
             gameOver = checkGame(theBoard);
@@ -810,7 +1037,7 @@ void connectFour::dropPiece(char (&aBoard)[6][7], char choice, int moveNumber)
     }
 }
 
-void connectFour::dropAiPiece(char (&aBoard)[6][7], char choice, int moveNumber)
+void connectFour::dropAiPiece(char (&aBoard)[6][7], char choice, int mover)
 {
     int tmpRow = getRow(choice);
     int tmpCol = 5;
@@ -819,7 +1046,7 @@ void connectFour::dropAiPiece(char (&aBoard)[6][7], char choice, int moveNumber)
     {
         tmpCol--;
     }
-    if (moveNumber % 2 == 0)
+    if (mover % 2 == 0)
     {
         aBoard[tmpCol][tmpRow] = '1';
     }
