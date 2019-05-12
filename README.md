@@ -16,7 +16,9 @@ I finally incorporated the AI, if you want to test out possible heuristics and m
 - Rematch option
 - FINALLY AI!!!!!!!!!!!!!!!!
 
-# Running Code
+# Running Code using Makefile
 
-I recommend that you compile with ``g++ *.cc ``  
-Run with ``./a.out``
+I recommend that you compile with ``make build``
+run the program with ``./game``
+To delete the ``./game`` do ``make clean``
+
