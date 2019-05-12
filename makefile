@@ -1,10 +1,7 @@
-build: Game
+build: game
 
-Game: main.o connect4.o 
-	g++ -c -WALL main.o connect4.o -o Game
+game: main.cc connect4.cc colors.h
+	g++ -o game *.cc
 
-main.o: colors.h connect.4 main.cc
-	g++ -c -WALL main.cc
-
-connect4.o: color.h connect4.h connect4.cc
-	g++ -c -WALL connect4.cc
+clean:
+	rm game
