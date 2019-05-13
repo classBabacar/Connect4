@@ -14,11 +14,11 @@ I had to refactor some more by adding functions that were solely for the AI.
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
 
-Currently the AI look 5 moves ahead if you feel like its too easy set lookForward = 6 but keep in mind this will take longer as you increase.
+Currently the AI look 5 moves ahead depending on if you want to change difficulty increase or decrease..lookForward value.
 
 # Features Added
 - Rematch Option
-- Playing against AI
+- Playing against AI (~~I hope the AI wins~~)
 
 # Bugs
 Bug Fix: May 13, 2019
