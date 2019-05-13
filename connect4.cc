@@ -118,7 +118,6 @@ char connectFour::askSwap()
 //************************************************************************
 // Function: checkPlayerOne(gameOver)
 // Purpose:  This is basically generating output for a arbritary playerOne
-//
 //************************************************************************
 void connectFour::checkPlayerOne(bool gameOver)
 {
@@ -145,7 +144,6 @@ void connectFour::checkPlayerOne(bool gameOver)
 //************************************************************************
 // Function: checkPlayerTwo(gameOver)
 // Purpose:  This is basically generating output for a arbritary playerTwo
-//
 //************************************************************************
 void connectFour::checkPlayerTwo(bool gameOver)
 {
@@ -172,7 +170,6 @@ void connectFour::checkPlayerTwo(bool gameOver)
 //************************************************************************
 // Function: checkPlayerAiRed(gameOver, ais Color , humans Color, the name of the human)
 // Purpose:  Generating output but also figuring out if the ai is playerTwo(Red Color)
-//
 //************************************************************************
 void connectFour::checkPlayerAiRed(bool gameOver, char aiColor, char humanColor, string name)
 {
@@ -200,7 +197,6 @@ void connectFour::checkPlayerAiRed(bool gameOver, char aiColor, char humanColor,
 //************************************************************************
 // Function: checkPlayerAiYellow(gameOver, ais Color , humans Color, the name of the human)
 // Purpose:  Generating output but also figuring our of the ai is playerOne(Yellow Color)
-//
 //************************************************************************
 void connectFour::checkPlayerAiYellow(bool gameOver, char aiColor, char humanColor, string name)
 {
@@ -429,10 +425,10 @@ bool connectFour::isupRightDiag(char aboard[6][7], int aiColumn, int aiRow)
 // Purpose: The AI needs to know whats a "good" or "bad" move, so you must give
 // weights to the most threatening possiblities such as the following:
 //
-//  if you can potential have connect4 (400) : Highest Value (most important)
-//  if you can potential have connect3 (200) : Highest Value (less important but still priority)
-//  if you can potential have connect2 (100) : Highest Value (less important but still priority)
-//  if your opponent has connect3 (-300) : Keep on making moves until you find it(the negative is very important)
+//
+//  if you can potential have connect3 (7) : Highest Value (less important but still priority)
+//  if you can potential have connect2 (2) : Highest Value (less important but still priority)
+//  if your opponent has connect3 (-95) : Keep on making moves until you find it(the negative is very important)
 //************************************************************************
 int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
 {
@@ -627,7 +623,7 @@ pair<char, int> connectFour::lookAhead(char aBoard[6][7], int depth, char aiColo
         {
             if (whoWon(aBoard, aiColor))
             {
-                return make_pair(' ', 1000000000);
+                return make_pair(' ', 100000000);
             }
             else if (whoWon(aBoard, humanColor))
             {
@@ -667,7 +663,7 @@ pair<char, int> connectFour::lookAhead(char aBoard[6][7], int depth, char aiColo
     }
     else if (!maximizingPlayer)
     {
-        int smallestValue = 100000000;
+        int smallestValue = 1000000000;
         char bestColumn = ' ';
 
         for (int i = availableMoves.size() - 1; i >= 0; --i)
@@ -687,6 +683,7 @@ pair<char, int> connectFour::lookAhead(char aBoard[6][7], int depth, char aiColo
         }
         return make_pair(bestColumn, smallestValue);
     }
+    return make_pair(' ', 0); // I dont think this does anything but to make the compiler happy
 }
 //************************************************************************
 // Function: countMyPieces(anystring, a human color or ai color(red or yellow))
@@ -801,6 +798,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
         pair<char, int> answer;
         answer = lookAhead(theBoard, lookForward, aiColor, humanColor, true, mover);
         char move = answer.first;
+
         dropPiece(theBoard, move, moveNumber);
         moveNumber++;
         gameOver = checkGame(theBoard);
