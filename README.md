@@ -7,16 +7,21 @@ because I hate losing. So I practiced a lot of programming so one day I could ma
 Right now, the game allows for 1v1 play but in the near future I plan to incorporate an AI with the concept of MiniMax(Complete).
 
 # Game Updates
-I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the ai but it was difficult to maintain so I needed to change base version. I had to refactor some more by adding functions that were solely for the AI and in evens who won.
+I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the ai but it was difficult to maintain so I needed to change base version. 
+- May 12, 2019
+I had to refactor some more by adding functions that were solely for the AI.
 
 # AI Time
-I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominate you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
+I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
 
-Current I have the AI look 5 moves ahead if you feel like its too easy set look ahead to 6 but keep in mind this will take longer as you increase. Or if it's too difficult set it to any value between 0-6 
+Currently the AI look 5 moves ahead if you feel like its too easy set lookForward = 6 but keep in mind this will take longer as you increase.
 
 # Features Added
 - Rematch option
-- FINALLY AI !!!!!!!!!!!!!!!!
+- Playing against AI
+
+# Bug Fixes
+- AI scared to lose? Once the AI figures out it's about to lose it didn't want to play a move so I had to "force" it to hold the L. 
 
 # Running Code using Makefile
 
