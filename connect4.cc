@@ -116,10 +116,10 @@ char connectFour::askSwap()
     return swap;
 }
 //************************************************************************
-// Function: checkPlayerOne(gameOver)
+// Function: ifPlayerOneWin(gameOver)
 // Purpose:  This is basically generating output for a arbritary playerOne
 //************************************************************************
-void connectFour::checkPlayerOne(bool gameOver)
+void connectFour::ifPlayerOneWin(bool gameOver)
 {
     if (gameOver == true)
     {
@@ -142,10 +142,10 @@ void connectFour::checkPlayerOne(bool gameOver)
     }
 }
 //************************************************************************
-// Function: checkPlayerTwo(gameOver)
+// Function: ifPlayerTwoWin(gameOver)
 // Purpose:  This is basically generating output for a arbritary playerTwo
 //************************************************************************
-void connectFour::checkPlayerTwo(bool gameOver)
+void connectFour::ifPlayerTwoWin(bool gameOver)
 {
     if (gameOver == true)
     {
@@ -168,10 +168,10 @@ void connectFour::checkPlayerTwo(bool gameOver)
     }
 }
 //************************************************************************
-// Function: checkPlayerAiRed(gameOver, ais Color , humans Color, the name of the human)
+// Function: ifPlayerAiRedWin(gameOver, ais Color , humans Color, the name of the human)
 // Purpose:  Generating output but also figuring out if the ai is playerTwo(Red Color)
 //************************************************************************
-void connectFour::checkPlayerAiRed(bool gameOver, char aiColor, char humanColor, string name)
+void connectFour::ifPlayerAiRedWin(bool gameOver, char aiColor, char humanColor, string name)
 {
     if (gameOver == true)
     {
@@ -195,10 +195,10 @@ void connectFour::checkPlayerAiRed(bool gameOver, char aiColor, char humanColor,
 }
 
 //************************************************************************
-// Function: checkPlayerAiYellow(gameOver, ais Color , humans Color, the name of the human)
+// Function: ifPlayerAiYellowWin(gameOver, ais Color , humans Color, the name of the human)
 // Purpose:  Generating output but also figuring our of the ai is playerOne(Yellow Color)
 //************************************************************************
-void connectFour::checkPlayerAiYellow(bool gameOver, char aiColor, char humanColor, string name)
+void connectFour::ifPlayerAiYellowWin(bool gameOver, char aiColor, char humanColor, string name)
 {
     if (gameOver == true)
     {
@@ -269,18 +269,18 @@ void connectFour::play(int players)
     while (gameOver == false)
     {
         displayBoard();
-        askplayerOne(moveNumber);
+        askplayerOneMove(moveNumber);
         moveNumber++;
-        gameOver = checkGame(theBoard);
-        checkPlayerOne(gameOver);
+        gameOver = isGameOver(theBoard);
+        ifPlayerOneWin(gameOver);
 
         if (gameOver != true)
         {
             displayBoard();
-            askplayerTwo(moveNumber);
+            askplayerTwoMove(moveNumber);
             moveNumber++;
-            gameOver = checkGame(theBoard);
-            checkPlayerTwo(gameOver);
+            gameOver = isGameOver(theBoard);
+            ifPlayerTwoWin(gameOver);
         }
         if (checkTie(theBoard))
         {
@@ -613,13 +613,13 @@ int connectFour::getScoreOf(char aBoard[6][7], char aiColor, int humanColor)
 //************************************************************************
 pair<char, int> connectFour::lookAhead(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover)
 {
-    if (depth == 0 || (checkGame(aBoard) == true) || checkTie(aBoard) == true)
+    if (depth == 0 || (isGameOver(aBoard) == true) || checkTie(aBoard) == true)
     {
         if (depth == 0)
         {
             return make_pair(' ', getScoreOf(aBoard, aiColor, humanColor));
         }
-        if (checkGame(aBoard))
+        if (isGameOver(aBoard))
         {
             if (whoWon(aBoard, aiColor))
             {
@@ -763,10 +763,10 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
         playeroneName = name + "'s Turn: ";
         playertwoName = "Ai's Turn: ";
         displayBoard();
-        askplayerOne(moveNumber);
+        askplayerOneMove(moveNumber);
         moveNumber++;
-        gameOver = checkGame(theBoard);
-        checkPlayerOne(gameOver);
+        gameOver = isGameOver(theBoard);
+        ifPlayerOneWin(gameOver);
 
         if (gameOver != true)
         {
@@ -777,8 +777,8 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
 
             dropPiece(theBoard, move, moveNumber);
             moveNumber++;
-            gameOver = checkGame(theBoard);
-            checkPlayerAiRed(gameOver, aiColor, humanColor, name);
+            gameOver = isGameOver(theBoard);
+            ifPlayerAiRedWin(gameOver, aiColor, humanColor, name);
         }
         if (checkTie(theBoard))
         {
@@ -801,16 +801,16 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
 
         dropPiece(theBoard, move, moveNumber);
         moveNumber++;
-        gameOver = checkGame(theBoard);
-        checkPlayerAiYellow(gameOver, aiColor, humanColor, name);
+        gameOver = isGameOver(theBoard);
+        ifPlayerAiYellowWin(gameOver, aiColor, humanColor, name);
 
         if (gameOver != true)
         {
             displayBoard();
-            askplayerTwo(moveNumber);
+            askplayerTwoMove(moveNumber);
             moveNumber++;
-            gameOver = checkGame(theBoard);
-            checkPlayerTwo(gameOver);
+            gameOver = isGameOver(theBoard);
+            ifPlayerTwoWin(gameOver);
         }
         if (checkTie(theBoard))
         {
@@ -854,10 +854,10 @@ void connectFour::displayBoard()
 }
 
 //************************************************************************
-// Function: playeroneChoice()
+// Function: getplayeroneChoice()
 // Purpose:  asks where a arbritary player one wants to go
 //************************************************************************
-char connectFour::playeroneChoice()
+char connectFour::getplayeroneChoice()
 {
     cout << YELLOW << playeroneName << WHITE;
     char choice;
@@ -867,10 +867,10 @@ char connectFour::playeroneChoice()
 }
 
 //************************************************************************
-// Function: playertwoChoice()
+// Function: getplayertwoChoice()
 // Purpose:  asks where a arbritrary player two wants to go
 //************************************************************************
-char connectFour::playertwoChoice()
+char connectFour::getplayertwoChoice()
 {
     cout << RED << playertwoName << WHITE;
     char choice;
@@ -880,42 +880,42 @@ char connectFour::playertwoChoice()
 }
 
 //************************************************************************
-// Function: askplayerOne(#of moves made)
+// Function: askplayerOneMove(#of moves made)
 // Purpose:  confirms if players ones move is valid
 //************************************************************************
-void connectFour::askplayerOne(int moveNumber)
+void connectFour::askplayerOneMove(int moveNumber)
 {
-    char choice = playeroneChoice();
-    if (!checkValid(choice, moveNumber))
+    char choice = getplayeroneChoice();
+    if (!checkValidMove(choice, moveNumber))
     {
         cout << endl;
         displayBoard();
         cout << YELLOW << "Invalid Move....Try again" << YELLOW << endl;
-        askplayerOne(moveNumber);
+        askplayerOneMove(moveNumber);
     }
 }
 
 //************************************************************************
-// Function: askplayerTwo(#of moves made)
+// Function: askplayerTwoMove(#of moves made)
 // Purpose:  confirms if player twos move is valid
 //************************************************************************
-void connectFour::askplayerTwo(int moveNumber)
+void connectFour::askplayerTwoMove(int moveNumber)
 {
-    char choice = playertwoChoice();
-    if (!checkValid(choice, moveNumber))
+    char choice = getplayertwoChoice();
+    if (!checkValidMove(choice, moveNumber))
     {
         cout << endl;
         displayBoard();
         cout << RED << "Invalid Move....Try again" << WHITE << endl;
-        askplayerTwo(moveNumber);
+        askplayerTwoMove(moveNumber);
     }
 }
 
 //************************************************************************
-// Function: checkValid(choice from either player 1/2, #of moves made)
+// Function: checkValidMove(choice from either player 1/2, #of moves made)
 // Purpose:  The algorithm to confirm if you are choosing a proper row
 //************************************************************************
-bool connectFour::checkValid(char choice, int MoveNumber)
+bool connectFour::checkValidMove(char choice, int MoveNumber)
 {
     if (toupper(choice) >= 'A' && 'G' >= toupper(choice))
     {
@@ -1023,10 +1023,10 @@ bool connectFour::checkDown(char aBoard[6][7], char choice)
 }
 
 //************************************************************************
-// Function: checkGame()
+// Function: isGameOver()
 // Purpose:  checking if either player has won the game, by evaluating each cell
 //************************************************************************
-bool connectFour::checkGame(char aBoard[6][7])
+bool connectFour::isGameOver(char aBoard[6][7])
 {
     for (int i = 0; i < column; ++i)
     {

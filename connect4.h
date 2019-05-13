@@ -1,7 +1,6 @@
 /*
 Name : Babacar Ndoye
-Class Name : connectFour
-Purpose : To make life simple instead of putting it all in the main
+Purpose : To enjoy programming...THIS IS NOT A SCHOOL PROJECT
 */
 #include <string.h>
 #include <iostream>
@@ -19,52 +18,64 @@ class connectFour
 public:
   connectFour();
 
-  //Game Finished Functions
+  //Game Dependencies (Game Loop for Player vs Player)
+  void askName();
+  void play(int players);
+  void displayBoard();
+
+  //Game Loop for AI
   void aiPlay(char aiColor, char humanColor, string name);
+
+  //Ai Winning States
+  void ifPlayerAiRedWin(bool gameOver, char aiColor, char humanColor, string name);
+  void ifPlayerAiYellowWin(bool gameOver, char aiColor, char humanColor, string name);
+
+  //Game Finished States
   bool askRematch();
   char askSwap();
   void swapRoles(char swap);
   void resetAll();
 
-  //UserSpecificFunctions
-  void checkPlayerOne(bool gameOver);
-  void checkPlayerTwo(bool gameOver);
-  void checkPlayerAiRed(bool gameOver, char aiColor, char humanColor, string name);
-  void checkPlayerAiYellow(bool gameOver, char aiColor, char humanColor, string name);
-  bool checkTie(char aBoard[6][7]);
+  //User Specific Functions
+  void ifPlayerOneWin(bool gameOver);
+  void ifPlayerTwoWin(bool gameOver);
+  void askplayerOneMove(int moveNumber);
+  void askplayerTwoMove(int moveNumber);
+  char getplayeroneChoice();
+  char getplayertwoChoice();
 
-  //Ai Helper Functions
+  //AI Heuristic Functions
+  int countMyPieces(string matcher, char anyPiece);
   int giveScoreHori(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreVert(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreLeftDiag(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanColor);
   int giveScoreCenter(char aBoard[6][7], char aiColor, char humanColo);
+  int scoreMetric(int aiPieces, int emptySpots, int humanPieces);
+
+  // AI Helper Functions
   bool isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow);
   bool isupRightDiag(char aboard[6][7], int aiColumn, int aiRow);
-  int scoreMetric(int aiPieces, int emptySpots, int humanPieces);
   bool whoWon(char aBoard[6][7], char playerPiece);
+  void dropAiPiece(char (&aBoard)[6][7], char choice, int mover);
+
+  // Important Minimax
   pair<char, int> lookAhead(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover);
   int getScoreOf(char aBoard[6][7], char aiColor, int humanColor);
-  void dropAiPiece(char (&aBoard)[6][7], char choice, int mover);
-  int countMyPieces(string matcher, char anyPiece);
 
-  //Game Dependencies
-  void askName();
-  void play(int players);
-  void displayBoard();
-  bool checkGame(char aBoard[6][7]);
+  //Winning Connect4 Patterns
+  bool isGameOver(char aBoard[6][7]);
   bool upConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool rightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool uprightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool upleftConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
-  bool checkValid(char choice, int moveNumber);
+  bool checkTie(char aBoard[6][7]);
+
+  //Move Association
+  int getRow(char choice);
+  bool checkValidMove(char choice, int moveNumber);
   bool checkDown(char aBoard[6][7], char choice);
   void dropPiece(char (&aBoard)[6][7], char choice, int moveNumber);
-  int getRow(char choice);
-  char playeroneChoice();
-  char playertwoChoice();
-  void askplayerOne(int moveNumber);
-  void askplayerTwo(int moveNumber);
 
 private:
   bool gameOver;
