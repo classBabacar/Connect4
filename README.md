@@ -1,14 +1,14 @@
 # Inspiration 
 
 This is one of my favorite games. Growing up I played this game so much with family and friends I took a lot of losses and that's why I kind of got obsessed with the game
-because I hate losing. So I practiced a lot of programming so one day I could make this game now I did but now I have another goal which is the AI...(Complete)
+because I hate losing. So I practiced a lot of programming so one day I could make this game now I did but now I have another goal which is the AI... **(Complete)**
 
 # Goals
-Right now, the game allows for 1v1 play but in the near future I plan to incorporate an AI with the concept of MiniMax(Complete).
+Right now, the game allows for 1v1 play but in the near future I plan to incorporate an AI with the concept of MiniMax **(Complete)**.
 
 # Game Updates
 I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the ai but it was difficult to maintain so I needed to change base version. 
-- May 12, 2019
+- **May 12, 2019** : 
 I had to refactor some more by adding functions that were solely for the AI.
 
 # AI Time
@@ -17,11 +17,12 @@ I finally incorporated the AI, if you want to test out possible heuristics and m
 Currently the AI look 5 moves ahead if you feel like its too easy set lookForward = 6 but keep in mind this will take longer as you increase.
 
 # Features Added
-- Rematch option
+- Rematch Option
 - Playing against AI
 
-# Bug Fixes
-- AI scared to lose? Once the AI figures out it's about to lose it didn't want to play a move so I had to "force" it to hold the L. 
+# Bugs
+Bug Fix: May 13, 2019
+- **AI scared to lose?** Once the AI figures out it's about to lose it doesn't want to play anymore so I had to **force** it to hold the L. 
 
 # Running Code using Makefile
 
