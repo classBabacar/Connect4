@@ -23,6 +23,8 @@ Currently the AI look 5 moves ahead depending on if you want to change difficult
 # Bugs
 Bug Fix: May 13, 2019
 - **AI scared to lose?** Once the AI figures out it's about to lose it doesn't want to play anymore so I had to **force** it to hold the L. 
+Bug Fix: May 15, 2019
+- When the game reaches its final state but someone wins right before it the program would think a tie has happened.
 
 # Running Code using Makefile
 
