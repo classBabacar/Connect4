@@ -282,7 +282,7 @@ void connectFour::play(int players)
             gameOver = isGameOver(theBoard);
             ifPlayerTwoWin(gameOver);
         }
-        if (checkTie(theBoard))
+        if (checkTie(theBoard) && gameOver != true)
         {
             char swap = askSwap();
             swapRoles(swap);
@@ -780,7 +780,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             gameOver = isGameOver(theBoard);
             ifPlayerAiRedWin(gameOver, aiColor, humanColor, name);
         }
-        if (checkTie(theBoard))
+        if (checkTie(theBoard) && gameOver != true)
         {
             playertwoName = playertwoName + "'s Turn: ";
             char swap = askSwap();
@@ -812,7 +812,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             gameOver = isGameOver(theBoard);
             ifPlayerTwoWin(gameOver);
         }
-        if (checkTie(theBoard))
+        if (checkTie(theBoard) && gameOver != true)
         {
             playeroneName = playeroneName + "'s Turn: ";
             char swap = askSwap();
