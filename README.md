@@ -27,6 +27,9 @@ Bug Fix: May 13, 2019
 Bug Fix: May 15, 2019
 - When there are no more piceces to play but someone has won right before it the program would think a tie happened.
 
+Bug Fix: May 20, 2019
+- If you entered a capital letter as of the available moves the program would seg fault.
+
 # Running Code using Makefile
 
 I recommend that you compile with ``make build``

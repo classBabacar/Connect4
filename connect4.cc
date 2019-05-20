@@ -444,7 +444,7 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
     }
     if (humanPieces == 3 && emptySpots == 1)
     {
-        score -= 95;
+        score -= 150;
     }
     return score;
 }
@@ -934,6 +934,7 @@ bool connectFour::checkValidMove(char choice, int MoveNumber)
 //************************************************************************
 int connectFour::getRow(char choice)
 {
+    choice = tolower(choice);
     return (choice - '0') - 49;
 }
 
