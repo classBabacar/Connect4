@@ -929,18 +929,11 @@ void connectFour::dropAiPiece(char (&aBoard)[6][7], char choice, int mover)
 bool connectFour::checkDown(char aBoard[6][7], char choice)
 {
     int tmpRow = getRow(choice);
-    int tmpCol = 5;
-
-    while (aBoard[tmpCol][tmpRow] == '1' || aBoard[tmpCol][tmpRow] == '2')
+    if (aBoard[0][tmpRow] == '0')
     {
-        tmpCol--;
-        if (tmpCol < 0)
-        {
-            return false;
-        }
+        return true;
     }
-
-    return true;
+    return false;
 }
 
 //************************************************************************
