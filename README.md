@@ -10,6 +10,9 @@ Right now, the game allows for 1v1 play but in the near future I plan to incorpo
 I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the ai but it was difficult to maintain so I needed to change base version. 
 - **May 12, 2019** : 
 I had to refactor some more by adding functions that were solely for the AI.
+- **May 30, 2019** : 
+There was a lot of unncessary lines of code that didn't need to be there so the result is reduced code.
+Also some changes to the evaluate(scoreMetric) function to make it stronger.
 
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
