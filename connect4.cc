@@ -245,7 +245,7 @@ bool connectFour::checkTie(char aBoard[6][7])
     }
     if (redCount + yellowCount == 42)
     {
-        cout << RED << "ITS A " << YELLOW << "TIE" << endl;
+        //cout << RED << "ITS A " << YELLOW << "TIE" << endl;
         return true;
     }
     else
@@ -378,6 +378,14 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
     {
         score -= 10;
     }
+    else if (humanPieces == 3 && emptySpots == 1)
+    {
+        score -= 120;
+    }
+    // else if (humanPieces == 4)
+    // {
+    //     score -= 999;
+    // }
     return score;
 }
 
@@ -536,15 +544,11 @@ int connectFour::getScoreOf(char aBoard[6][7], char aiColor, int humanColor)
 // know that it was about to lose and not make a move so you have to always make sure it makes a move so you have to
 // reduce or add a 0.
 //************************************************************************
-pair<char, int> connectFour::lookAhead(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover)
+pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover)
 {
     if (depth == 0 || (isGameOver(aBoard) == true) || checkTie(aBoard) == true)
     {
-        if (depth == 0)
-        {
-            return make_pair(' ', getScoreOf(aBoard, aiColor, humanColor));
-        }
-        else if (isGameOver(aBoard))
+        if (isGameOver(aBoard))
         {
             if (whoWon(aBoard, aiColor))
             {
@@ -559,56 +563,59 @@ pair<char, int> connectFour::lookAhead(char aBoard[6][7], int depth, char aiColo
                 return make_pair(' ', 0);
             }
         }
-    }
+        else
+        {
+            return make_pair(' ', getScoreOf(aBoard, aiColor, humanColor));
+        }
+    } //Till here is correct
+
     char fakeBoard[6][7];
     pair<char, int> answer;
 
     if (maximizingPlayer)
     {
-
-        int largestValue = -10000;
+        int largestValue = -100000000;
         char bestRow = ' ';
 
-        for (int i = availableMoves.size() - 1; i >= 0; --i)
+        for (int i = 0; i < availableMoves.size(); ++i)
         {
             memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
             if (checkDown(fakeBoard, tolower(availableMoves[i])))
             {
                 dropAiPiece(fakeBoard, availableMoves[i], mover);
-                answer = lookAhead(fakeBoard, depth - 1, aiColor, humanColor, !maximizingPlayer, mover + 1);
+                answer = lookAhead(fakeBoard, depth - 1, aiColor, humanColor, false, mover + 1);
 
-                if (answer.second > largestValue)
+                if (get<1>(answer) >= largestValue)
                 {
                     bestRow = availableMoves[i];
-                    largestValue = answer.second;
+                    largestValue = get<1>(answer);
                 }
             }
         }
         return make_pair(bestRow, largestValue);
     }
-    else if (!maximizingPlayer)
+    else
     {
-        int smallestValue = 10000;
+        int smallestValue = 100000000;
         char bestColumn = ' ';
 
-        for (int i = availableMoves.size() - 1; i >= 0; --i)
+        for (int i = 0; i < availableMoves.size(); ++i)
         {
             memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
             if (checkDown(fakeBoard, tolower(availableMoves[i])))
             {
                 dropAiPiece(fakeBoard, availableMoves[i], mover);
-                answer = lookAhead(fakeBoard, depth - 1, aiColor, humanColor, !maximizingPlayer, mover + 1);
+                answer = lookAhead(fakeBoard, depth - 1, aiColor, humanColor, true, mover + 1);
 
-                if (answer.second < smallestValue)
+                if (get<1>(answer) <= smallestValue)
                 {
                     bestColumn = availableMoves[i];
-                    smallestValue = answer.second;
+                    smallestValue = get<1>(answer);
                 }
             }
         }
         return make_pair(bestColumn, smallestValue);
     }
-    return make_pair(' ', 0); // I dont think this does anything but to make the compiler happy
 }
 
 //************************************************************************
@@ -676,8 +683,7 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
 //************************************************************************
 void connectFour::aiPlay(char aiColor, char humanColor, string name)
 {
-
-    int lookForward = 5;
+    int lookForward = 4; //one has to be even
     while (humanColor == '1' && gameOver == false)
     {
         playeroneName = name + "'s Turn: ";
@@ -693,7 +699,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             int mover = moveNumber;
             pair<char, int> answer;
             answer = lookAhead(theBoard, lookForward, aiColor, humanColor, true, mover);
-            char move = answer.first;
+            char move = get<0>(answer);
 
             dropPiece(theBoard, move, moveNumber);
             moveNumber++;
@@ -711,13 +717,16 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
     }
     while (humanColor == '2' && gameOver == false)
     {
+
+        lookForward = 5; //one has to be odd
+
         playeroneName = "Ai's Turn: ";
         playertwoName = name + "'s Turn: ";
 
         int mover = moveNumber;
         pair<char, int> answer;
         answer = lookAhead(theBoard, lookForward, aiColor, humanColor, true, mover);
-        char move = answer.first;
+        char move = get<0>(answer);
 
         dropPiece(theBoard, move, moveNumber);
         moveNumber++;
@@ -1099,7 +1108,6 @@ bool connectFour::rightConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
 //************************************************************************
 bool connectFour::upConnect4(char aBoard[6][7], int tmpCol, int tmpRow)
 {
-
     int yelCol = tmpCol;
     int yelRow = tmpRow;
 

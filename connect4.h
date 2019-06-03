@@ -60,7 +60,7 @@ public:
   void dropAiPiece(char (&aBoard)[6][7], char choice, int mover);
 
   // Important Minimax
-  pair<char, int> lookAhead(char aBoard[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover);
+  pair<char, int> lookAhead(char (&aBoard)[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover);
   int getScoreOf(char aBoard[6][7], char aiColor, int humanColor);
 
   //Winning Connect4 Patterns
