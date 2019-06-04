@@ -380,7 +380,7 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
     }
     else if (humanPieces == 3 && emptySpots == 1)
     {
-        score -= 120;
+        score -= 50;
     }
     // else if (humanPieces == 4)
     // {
@@ -717,8 +717,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
     }
     while (humanColor == '2' && gameOver == false)
     {
-
-        lookForward = 5; //one has to be odd
+        lookForward = 4; //one has to be odd
 
         playeroneName = "Ai's Turn: ";
         playertwoName = name + "'s Turn: ";
