@@ -13,8 +13,8 @@ I had to refactor some more by adding functions that were solely for the AI.
 - **May 30, 2019** : 
 There was a lot of unncessary lines of code that didn't need to be there so the result is reduced code.
 Also some changes to the evaluate(scoreMetric) function to make it stronger.
-- **May 30, 2019** : 
-The minimax function was completely wrong it wasnt checking depth enough and would give moves that promoted connect4 there are still some problems but the ai is stronger.
+- **June 4, 2019** : 
+The minimax function was completely wrong it wasnt checking depth enough and would give moves that promoted connect4 there are still some problems but the ai is stronger. Now I think I fixed the errors.
 
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
