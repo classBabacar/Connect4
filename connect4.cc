@@ -552,7 +552,7 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
         {
             if (whoWon(aBoard, aiColor))
             {
-                return make_pair(' ', 100000000);
+                return make_pair(' ', 10000000);
             }
             else if (whoWon(aBoard, humanColor))
             {
@@ -574,7 +574,7 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
 
     if (maximizingPlayer)
     {
-        int largestValue = -100000000;
+        int largestValue = -10000000;
         char bestRow = ' ';
 
         for (int i = 0; i < availableMoves.size(); ++i)
