@@ -54,9 +54,8 @@ public:
   int scoreMetric(int aiPieces, int emptySpots, int humanPieces);
 
   // AI Helper Functions
-  bool isupLeftDiag(char aboard[6][7], int aiColumn, int aiRow);
-  bool isupRightDiag(char aboard[6][7], int aiColumn, int aiRow);
-  bool whoWon(char aBoard[6][7], char playerPiece);
+  void copyMe(char (&fakeBoard)[6][7], char (&aBoard)[6][7]);
+  bool whoWon(char (&aBoard)[6][7], char playerPiece);
   void dropAiPiece(char (&aBoard)[6][7], char choice, int mover);
 
   // Important Minimax

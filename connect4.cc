@@ -453,7 +453,7 @@ int connectFour::giveScoreCenter(char aBoard[6][7], char aiColor, char humanColo
 // won...instead of changing the whole structure of the program and since im lazy I just made a thing where I just figure out
 // who won the game(human or ai )
 //************************************************************************
-bool connectFour::whoWon(char aBoard[6][7], char playerPiece)
+bool connectFour::whoWon(char (&aBoard)[6][7], char playerPiece)
 {
     //Horizontal Checker
     for (int i = 0; i < column; ++i)
@@ -579,7 +579,7 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
 
         for (int i = 0; i < availableMoves.size(); ++i)
         {
-            memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
+            copyMe(fakeBoard, aBoard);
             if (checkDown(fakeBoard, tolower(availableMoves[i])))
             {
                 dropAiPiece(fakeBoard, availableMoves[i], mover);
@@ -601,7 +601,7 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
 
         for (int i = 0; i < availableMoves.size(); ++i)
         {
-            memcpy(fakeBoard, aBoard, sizeof(fakeBoard));
+            copyMe(fakeBoard, aBoard);
             if (checkDown(fakeBoard, tolower(availableMoves[i])))
             {
                 dropAiPiece(fakeBoard, availableMoves[i], mover);
@@ -617,7 +617,16 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
         return make_pair(bestColumn, smallestValue);
     }
 }
-
+void connectFour::copyMe(char (&fakeBoard)[6][7], char (&aBoard)[6][7])
+{
+    for (int i = 0; i < column; ++i)
+    {
+        for (int j = 0; j < row; ++j)
+        {
+            fakeBoard[i][j] = aBoard[i][j];
+        }
+    }
+}
 //************************************************************************
 // Function: countMyPieces(anystring, a human color or ai color(red or yellow))
 // Purpose: scoring purpose
