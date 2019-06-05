@@ -229,7 +229,7 @@ void connectFour::ifPlayerAiYellowWin(bool gameOver, char aiColor, char humanCol
 // I rip the "'s Turn: " part off so if that player does win I add it back
 // and set it back to its default then proceed to swap
 //************************************************************************
-bool connectFour::checkTie(char aBoard[6][7])
+bool connectFour::checkTie(char aBoard[6][7], bool isMinimax)
 {
     int redCount = 0;
     int yellowCount = 0;
@@ -243,9 +243,14 @@ bool connectFour::checkTie(char aBoard[6][7])
                 yellowCount++;
         }
     }
-    if (redCount + yellowCount == 42)
+    if (redCount + yellowCount == 42 && isMinimax == true)
     {
         //cout << RED << "ITS A " << YELLOW << "TIE" << endl;
+        return true;
+    }
+    else if (redCount + yellowCount == 42 && isMinimax == false)
+    {
+        cout << RED << "  IT'S A " << YELLOW << "TIE" << endl;
         return true;
     }
     else
@@ -282,8 +287,9 @@ void connectFour::play(int players)
             gameOver = isGameOver(theBoard);
             ifPlayerTwoWin(gameOver);
         }
-        if (checkTie(theBoard) && gameOver != true)
+        if (checkTie(theBoard, false) && gameOver != true)
         {
+            displayBoard();
             char swap = askSwap();
             swapRoles(swap);
             resetAll();
@@ -546,7 +552,7 @@ int connectFour::getScoreOf(char aBoard[6][7], char aiColor, int humanColor)
 //************************************************************************
 pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover)
 {
-    if (depth == 0 || (isGameOver(aBoard) == true) || checkTie(aBoard) == true)
+    if (depth == 0 || (isGameOver(aBoard) == true) || checkTie(aBoard, true) == true)
     {
         if (isGameOver(aBoard))
         {
@@ -556,9 +562,9 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
             }
             else if (whoWon(aBoard, humanColor))
             {
-                return make_pair(' ', -100000000);
+                return make_pair(' ', -10000000);
             }
-            else if (checkTie(aBoard))
+            else if (checkTie(aBoard, true))
             {
                 return make_pair(' ', 0);
             }
@@ -596,7 +602,7 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
     }
     else
     {
-        int smallestValue = 100000000;
+        int smallestValue = 10000000;
         char bestColumn = ' ';
 
         for (int i = 0; i < availableMoves.size(); ++i)
@@ -715,8 +721,9 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             gameOver = isGameOver(theBoard);
             ifPlayerAiRedWin(gameOver, aiColor, humanColor, name);
         }
-        if (checkTie(theBoard) && gameOver != true)
+        if (checkTie(theBoard, false) && gameOver != true)
         {
+            displayBoard();
             playertwoName = playertwoName + "'s Turn: ";
             char swap = askSwap();
             swapRoles(swap);
@@ -749,8 +756,9 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             gameOver = isGameOver(theBoard);
             ifPlayerTwoWin(gameOver);
         }
-        if (checkTie(theBoard) && gameOver != true)
+        if (checkTie(theBoard, false) && gameOver != true)
         {
+            displayBoard();
             playeroneName = playeroneName + "'s Turn: ";
             char swap = askSwap();
             swapRoles(swap);

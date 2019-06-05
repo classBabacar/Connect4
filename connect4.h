@@ -68,7 +68,7 @@ public:
   bool rightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool uprightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool upleftConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
-  bool checkTie(char aBoard[6][7]);
+  bool checkTie(char aBoard[6][7], bool isMinimax);
 
   //Move Association
   int getRow(char choice);
