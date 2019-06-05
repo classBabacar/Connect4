@@ -19,7 +19,7 @@ The minimax function was completely wrong it wasnt checking depth enough and wou
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
 
-Currently the AI look 5 moves ahead depending on if you want to change difficulty increase or decrease..lookForward value.
+Currently the AI look 4 moves ahead with the given algorithm this is the best and most accurate system.
 
 # Features Added
 - Rematch Option

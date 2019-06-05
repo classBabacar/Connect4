@@ -245,12 +245,11 @@ bool connectFour::checkTie(char aBoard[6][7], bool isMinimax)
     }
     if (redCount + yellowCount == 42 && isMinimax == true)
     {
-        //cout << RED << "ITS A " << YELLOW << "TIE" << endl;
         return true;
     }
     else if (redCount + yellowCount == 42 && isMinimax == false)
     {
-        cout << RED << "  IT'S A " << YELLOW << "TIE" << endl;
+        cout << RED << " IT'S A " << YELLOW << "TIE" << endl;
         return true;
     }
     else
@@ -388,10 +387,6 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
     {
         score -= 50;
     }
-    // else if (humanPieces == 4)
-    // {
-    //     score -= 999;
-    // }
     return score;
 }
 
@@ -502,7 +497,7 @@ bool connectFour::whoWon(char (&aBoard)[6][7], char playerPiece)
     {
         for (int j = 0; j < row - 3; ++j)
         {
-            if (aBoard[i - 1][j + 1] == playerPiece && aBoard[i - 2][j + 2] == playerPiece && aBoard[i - 3][j + 3] == playerPiece && aBoard[i - 3][j + 3] == playerPiece)
+            if (aBoard[i][j] == playerPiece && aBoard[i - 1][j + 1] == playerPiece && aBoard[i - 2][j + 2] == playerPiece && aBoard[i - 3][j + 3] == playerPiece)
             {
                 return true;
             }
