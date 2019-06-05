@@ -24,6 +24,7 @@ Currently the AI look 5 moves ahead depending on if you want to change difficult
 # Features Added
 - Rematch Option
 - Playing against AI (~~I hope the AI wins~~)
+- I am confident the AI can win now.
 
 # Bugs
 Bug Fix: May 13, 2019
