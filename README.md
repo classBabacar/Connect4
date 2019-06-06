@@ -19,7 +19,8 @@ The minimax function was completely wrong it wasnt checking depth enough and wou
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function by setting different values, there is probably a sophisticated math behind it. Hopefully you enjoy and don't lose.
 
-Currently the AI look 4 moves ahead with the given algorithm this is the best and most accurate system.
+Currently the AI look 4 moves if you are feeling good and think you can beat it change the value of the lookForward value on line 696 at connect4.cc, to a higher value.
+Keep in mind the higher the value the longer you wait and plz dont put it on a value of 100+..bad things can happen lol.
 
 # Features Added
 - Rematch Option
@@ -36,11 +37,16 @@ Bug Fix: May 15, 2019
 Bug Fix: May 20, 2019
 - If you entered a capital letter as of the available moves the program would seg fault.
 
+Bug Fix: June 5,2019
+- For my whoWon function I was evaluating a location twice in example if(x[i] && x[i]...) when it should have been if(x[i] && x[i+1]..)
+that's why at times it would malfunction.
+
 # Running Code using Makefile
 
 I recommend that you compile with ``make build``
 
 Run the program with ``./game``
 
-To delete the ``./game`` do ``make clean``
+To delete the ``./game`` do:
+ ``make clean``
 

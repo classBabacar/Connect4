@@ -243,6 +243,7 @@ bool connectFour::checkTie(char aBoard[6][7], bool isMinimax)
                 yellowCount++;
         }
     }
+    //This part is so minimax does print the statement everytime
     if (redCount + yellowCount == 42 && isMinimax == true)
     {
         return true;
@@ -618,6 +619,10 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
         return make_pair(bestColumn, smallestValue);
     }
 }
+//************************************************************************
+// Function: copyMe(fakeBoard by reference, actualBoard)
+// Purpose: making a replica of the previous board
+//************************************************************************
 void connectFour::copyMe(char (&fakeBoard)[6][7], char (&aBoard)[6][7])
 {
     for (int i = 0; i < column; ++i)
@@ -652,7 +657,6 @@ int connectFour::countMyPieces(string matcher, char anyPiece)
     }
     return counter;
 }
-
 //************************************************************************
 // Function: giveScoreVert(aBoard, aiColor, char humanColor)
 // Purpose: scoring purpose
@@ -728,8 +732,6 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
     }
     while (humanColor == '2' && gameOver == false)
     {
-        lookForward = 4; //one has to be odd
-
         playeroneName = "Ai's Turn: ";
         playertwoName = name + "'s Turn: ";
 
