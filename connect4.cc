@@ -442,7 +442,7 @@ int connectFour::giveScoreCenter(char aBoard[6][7], char aiColor, char humanColo
             counter++;
         }
     }
-    score += (counter + 1) * 99;
+    score += (counter + 1) * 80;
     return score;
 }
 
@@ -697,7 +697,7 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
 //************************************************************************
 void connectFour::aiPlay(char aiColor, char humanColor, string name)
 {
-    int lookForward = 4; //one has to be even
+    int lookForward = 4;
     while (humanColor == '1' && gameOver == false)
     {
         playeroneName = name + "'s Turn: ";
