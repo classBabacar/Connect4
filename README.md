@@ -18,7 +18,7 @@ The minimax function was wrong because I was just passing by value instead of re
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function aswell as coming up with a method to distinguish who is winning and losing in a game of connect4, I can only imagine how much creative things you can come up with. Hopefully you enjoy and don't lose.
 
-Currently the AI look 4 moves ahead if you are feeling good and think you can beat it change the value of the **lookForward value on line 696 at connect4.cc**, to a higher value.
+Currently the AI look 4 moves ahead if you are feeling good and think you can beat it change the value of the **lookForward value on line 700 at connect4.cc**, to a higher value.
 Keep in mind the higher the value the longer you wait and plz dont put it on a value of 100+...bad things can happen lol.
 
 # Features Added
