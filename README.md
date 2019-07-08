@@ -27,20 +27,20 @@ Keep in mind the higher the value the longer you wait and plz dont put it on a v
 - I am confident the AI can win now.
 
 # Bugs
-Bug Fix: May 13, 2019
+Bug Fix: **May 13, 2019**
 - **AI scared to lose?** Once the AI figures out it's about to lose it doesn't want to play anymore so I had to **force** it to hold the L.
 
-Bug Fix: May 15, 2019
+Bug Fix: **May 15, 2019**
 - When there are no more piceces to play but someone has won right before it the program would think a tie happened.
 
-Bug Fix: May 20, 2019
+Bug Fix: **May 20, 2019**
 - If you entered a capital letter as of the available moves the program would seg fault.
 
-Bug Fix: June 5,2019
+Bug Fix: **June 5,2019**
 - For my whoWon function I was evaluating a location twice in example **if(x[i] && x[i]...)** when it should have been **if(x[i] && x[i+1]..)**
 that's why at times it would malfunction and give the opposite user a connect4 because it would think there is nothing wrong.
 
-Bug Fix: July 8, 2019
+Bug Fix: **July 8, 2019**
 - There was a lot of problems with the rematch functionality so I needed to organize the code/refactor because it was starting to get messy but now it makes sense and going forward I will be able to add more features such as a log of the moves.
 
 # Running Code using Makefile
