@@ -40,6 +40,9 @@ Bug Fix: June 5,2019
 - For my whoWon function I was evaluating a location twice in example **if(x[i] && x[i]...)** when it should have been **if(x[i] && x[i+1]..)**
 that's why at times it would malfunction and give the opposite user a connect4 because it would think there is nothing wrong.
 
+Bug Fix: July 8, 2019
+- There was a lot of problems with the rematch functionality so I needed to organize the code/refactor because it was starting to get messy but now it makes sense and going forward I will be able to add more features such as a log of the moves.
+
 # Running Code using Makefile
 
 I recommend that you compile with ``make build``
