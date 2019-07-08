@@ -112,112 +112,134 @@ char connectFour::askSwap()
     char swap;
     cin >> swap;
     swap = tolower(swap);
-
     return swap;
 }
 //************************************************************************
-// Function: ifPlayerOneWin(gameOver)
+// Function: playerOneWin(gameOver, areyouagainstAi)
 // Purpose:  This is basically generating output for a arbritary playerOne
 //************************************************************************
-void connectFour::ifPlayerOneWin(bool gameOver)
+void connectFour::playerOneWin(bool gameOver, bool againstAi)
 {
-    if (gameOver == true)
-    {
-        displayBoard();
-        playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
-        cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
 
-        if (askRematch())
+    displayBoard();
+    playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
+    cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
+
+    if (askRematch())
+    {
+        playeroneName = playeroneName + "'s Turn: ";
+        char swap = askSwap();
+        resetAll();
+        if (againstAi == false)
         {
-            playeroneName = playeroneName + "'s Turn: ";
-            char swap = askSwap();
             swapRoles(swap);
-            resetAll();
             play(3);
         }
-        else
+        else if (swap == 'y' && againstAi == true)
         {
-            cout << "Thanks for playing the game" << endl;
+            aiPlay('1', '2', playeroneName.substr(0, playeroneName.length() - 9));
         }
+        else if (swap != 'y' && againstAi == true)
+        {
+            aiPlay('2', '1', playeroneName.substr(0, playeroneName.length() - 9));
+        }
+    }
+    else
+    {
+        cout << "Thanks for playing the game" << endl;
     }
 }
 //************************************************************************
-// Function: ifPlayerTwoWin(gameOver)
+// Function: playerTwoWin(gameOver,, areyouagainstAi)
 // Purpose:  This is basically generating output for a arbritary playerTwo
 //************************************************************************
-void connectFour::ifPlayerTwoWin(bool gameOver)
+void connectFour::playerTwoWin(bool gameOver, bool againstAi)
 {
-    if (gameOver == true)
-    {
-        displayBoard();
-        playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
-        cout << RED << playertwoName << "...Wins" << WHITE << endl;
+    displayBoard();
+    playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
+    cout << RED << playertwoName << "...Wins" << WHITE << endl;
 
-        if (askRematch())
+    if (askRematch())
+    {
+        playertwoName = playertwoName + "'s Turn: ";
+        char swap = askSwap();
+        resetAll();
+        if (againstAi == false)
         {
-            playertwoName = playertwoName + "'s Turn: ";
-            char swap = askSwap();
             swapRoles(swap);
-            resetAll();
             play(3);
         }
-        else
+        else if (swap == 'y' && againstAi == true)
         {
-            cout << "Thanks for playing the game" << endl;
+            aiPlay('2', '1', playertwoName.substr(0, playertwoName.length() - 9));
         }
+        else if (swap != 'y' && againstAi == true)
+        {
+            aiPlay('1', '2', playertwoName.substr(0, playertwoName.length() - 9));
+        }
+    }
+    else
+    {
+        cout << "Thanks for playing the game" << endl;
     }
 }
 //************************************************************************
-// Function: ifPlayerAiRedWin(gameOver, ais Color , humans Color, the name of the human)
+// Function: playerAiRedWin(gameOver, ais Color , humans Color, the name of the human)
 // Purpose:  Generating output but also figuring out if the ai is playerTwo(Red Color)
 //************************************************************************
-void connectFour::ifPlayerAiRedWin(bool gameOver, char aiColor, char humanColor, string name)
+void connectFour::playerAiRedWin(bool gameOver, char aiColor, char humanColor, string name)
 {
-    if (gameOver == true)
-    {
-        displayBoard();
-        playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
-        cout << RED << playertwoName << "...Wins" << WHITE << endl;
+    displayBoard();
+    playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
+    cout << RED << playertwoName << "...Wins" << WHITE << endl;
 
-        if (askRematch())
+    if (askRematch())
+    {
+        playertwoName = playertwoName + "'s Turn: ";
+        char swap = askSwap();
+        resetAll();
+        if (swap == 'y')
         {
-            playertwoName = playertwoName + "'s Turn: ";
-            char swap = askSwap();
-            swapRoles(swap);
-            resetAll();
-            aiPlay(humanColor, aiColor, name);
+            aiPlay('1', '2', name);
         }
         else
         {
-            cout << "Thanks for playing the game" << endl;
+            aiPlay('2', '1', name);
         }
+    }
+    else
+    {
+        cout << "Thanks for playing the game" << endl;
     }
 }
 
 //************************************************************************
-// Function: ifPlayerAiYellowWin(gameOver, ais Color , humans Color, the name of the human)
+// Function: playerAiYellowWin(gameOver, ais Color , humans Color, the name of the human)
 // Purpose:  Generating output but also figuring our of the ai is playerOne(Yellow Color)
 //************************************************************************
-void connectFour::ifPlayerAiYellowWin(bool gameOver, char aiColor, char humanColor, string name)
+void connectFour::playerAiYellowWin(bool gameOver, char aiColor, char humanColor, string name)
 {
-    if (gameOver == true)
-    {
-        displayBoard();
-        playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
-        cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
+    displayBoard();
+    playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
+    cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
 
-        if (askRematch())
+    if (askRematch())
+    {
+        playeroneName = playeroneName + "'s Turn: ";
+        char swap = askSwap();
+        resetAll();
+        if (swap == 'y')
         {
-            playeroneName = playeroneName + "'s Turn: ";
-            char swap = askSwap();
-            swapRoles(swap);
-            resetAll();
-            aiPlay(humanColor, aiColor, name);
+            aiPlay('2', '1', name);
         }
         else
         {
-            cout << "Thanks for playing the game" << endl;
+            aiPlay('1', '2', name);
         }
+    }
+    else
+    {
+        cout << "Thanks for playing the game" << endl;
     }
 }
 //************************************************************************
@@ -276,17 +298,24 @@ void connectFour::play(int players)
         displayBoard();
         askplayerOneMove(moveNumber);
         moveNumber++;
-        gameOver = isGameOver(theBoard);
-        ifPlayerOneWin(gameOver);
 
-        if (gameOver != true)
+        if (isGameOver(theBoard))
+        {
+            playerOneWin(true, false);
+            gameOver = true;
+        }
+        else
         {
             displayBoard();
             askplayerTwoMove(moveNumber);
             moveNumber++;
-            gameOver = isGameOver(theBoard);
-            ifPlayerTwoWin(gameOver);
+            if (isGameOver(theBoard))
+            {
+                playerTwoWin(true, false);
+                gameOver = true;
+            }
         }
+
         if (checkTie(theBoard, false) && gameOver != true)
         {
             displayBoard();
@@ -702,32 +731,45 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
     {
         playeroneName = name + "'s Turn: ";
         playertwoName = "Ai's Turn: ";
+
         displayBoard();
         askplayerOneMove(moveNumber);
         moveNumber++;
-        gameOver = isGameOver(theBoard);
-        ifPlayerOneWin(gameOver);
 
-        if (gameOver != true)
+        if (isGameOver(theBoard))
         {
-            int mover = moveNumber;
-            pair<char, int> answer;
-            answer = lookAhead(theBoard, lookForward, aiColor, humanColor, true, mover);
-            char move = get<0>(answer);
+            playerOneWin(true, true);
+            gameOver = false;
+        }
+        else
+        {
+            pair<char, int> result;
+            result = lookAhead(theBoard, lookForward, aiColor, humanColor, true, moveNumber);
+            char aiMove = get<0>(result);
 
-            dropPiece(theBoard, move, moveNumber);
+            dropPiece(theBoard, aiMove, moveNumber);
             moveNumber++;
-            gameOver = isGameOver(theBoard);
-            ifPlayerAiRedWin(gameOver, aiColor, humanColor, name);
+
+            if (isGameOver(theBoard))
+            {
+                playerAiRedWin(true, aiColor, humanColor, name);
+                gameOver = true;
+            }
         }
         if (checkTie(theBoard, false) && gameOver != true)
         {
             displayBoard();
             playertwoName = playertwoName + "'s Turn: ";
             char swap = askSwap();
-            swapRoles(swap);
             resetAll();
-            aiPlay(aiColor, humanColor, name);
+            if (swap == 'y')
+            {
+                aiPlay('1', '2', playeroneName.substr(0, playeroneName.length() - 9));
+            }
+            else
+            {
+                aiPlay('2', '1', playeroneName.substr(0, playeroneName.length() - 9));
+            }
         }
     }
     while (humanColor == '2' && gameOver == false)
@@ -735,32 +777,45 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
         playeroneName = "Ai's Turn: ";
         playertwoName = name + "'s Turn: ";
 
-        int mover = moveNumber;
-        pair<char, int> answer;
-        answer = lookAhead(theBoard, lookForward, aiColor, humanColor, true, mover);
-        char move = get<0>(answer);
+        pair<char, int> result;
+        result = lookAhead(theBoard, lookForward, aiColor, humanColor, true, moveNumber);
+        char aiMove = get<0>(result);
 
-        dropPiece(theBoard, move, moveNumber);
+        dropPiece(theBoard, aiMove, moveNumber);
         moveNumber++;
-        gameOver = isGameOver(theBoard);
-        ifPlayerAiYellowWin(gameOver, aiColor, humanColor, name);
 
-        if (gameOver != true)
+        if (isGameOver(theBoard))
+        {
+            playerAiYellowWin(true, aiColor, humanColor, name);
+            gameOver = true;
+        }
+        else
         {
             displayBoard();
             askplayerTwoMove(moveNumber);
             moveNumber++;
-            gameOver = isGameOver(theBoard);
-            ifPlayerTwoWin(gameOver);
+
+            if (isGameOver(theBoard))
+            {
+                playerTwoWin(true, true);
+                gameOver = true;
+            }
         }
+
         if (checkTie(theBoard, false) && gameOver != true)
         {
             displayBoard();
             playeroneName = playeroneName + "'s Turn: ";
             char swap = askSwap();
-            swapRoles(swap);
             resetAll();
-            aiPlay(aiColor, humanColor, name);
+            if (swap == 'y')
+            {
+                aiPlay('2', '1', playertwoName.substr(0, playertwoName.length() - 9));
+            }
+            else
+            {
+                aiPlay('1', '2', playertwoName.substr(0, playertwoName.length() - 9));
+            }
         }
     }
 }

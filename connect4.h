@@ -27,8 +27,8 @@ public:
   void aiPlay(char aiColor, char humanColor, string name);
 
   //Ai Winning States
-  void ifPlayerAiRedWin(bool gameOver, char aiColor, char humanColor, string name);
-  void ifPlayerAiYellowWin(bool gameOver, char aiColor, char humanColor, string name);
+  void playerAiRedWin(bool gameOver, char aiColor, char humanColor, string name);
+  void playerAiYellowWin(bool gameOver, char aiColor, char humanColor, string name);
 
   //Game Finished States
   bool askRematch();
@@ -37,8 +37,8 @@ public:
   void resetAll();
 
   //User Specific Functions
-  void ifPlayerOneWin(bool gameOver);
-  void ifPlayerTwoWin(bool gameOver);
+  void playerOneWin(bool gameOver, bool againstAi);
+  void playerTwoWin(bool gameOver, bool againstAi);
   void askplayerOneMove(int moveNumber);
   void askplayerTwoMove(int moveNumber);
   char getplayeroneChoice();
