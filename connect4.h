@@ -63,7 +63,7 @@ public:
   int getScoreOf(char aBoard[6][7], char aiColor, int humanColor);
 
   //Winning Connect4 Patterns
-  bool isGameOver(char aBoard[6][7]);
+  bool isGameOver(char (&aBoard)[6][7]);
   bool upConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool rightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool uprightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
