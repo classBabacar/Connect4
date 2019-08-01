@@ -93,6 +93,6 @@ private:
   string playeroneName;
   string playertwoName;
   vector<char> availableMoves;
-  vector<pair<string, char>> moveLog;
+  vector<pair<string, char> > moveLog;
   char theBoard[6][7];
 };
