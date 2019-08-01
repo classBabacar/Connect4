@@ -14,6 +14,8 @@ There was a lot of unncessary lines of code that didn't need to be there so the 
 Also some changes to the evaluate(scoreMetric) function to make it stronger.
 - **June 4, 2019** : 
 The minimax function was wrong because I was just passing by value instead of reference so no matter how many depths I increased by it would evaluate only one board state.
+- **July 31, 2019** :
+Added a way to store game logs, someone suggested it to me and I thought it was a great idea and it's very practical because now I can start to analyze the AI's flaws and make it stronger ~~to take over the world~~ to make it always win or tie on while it's yellow.
 
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function aswell as coming up with a method to distinguish who is winning and losing in a game of connect4, I can only imagine how much creative things you can come up with. Hopefully you enjoy and don't lose.
