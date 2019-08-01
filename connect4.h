@@ -80,6 +80,7 @@ public:
   bool checkValidMove(char choice, int moveNumber);
   bool checkDown(char aBoard[6][7], char choice);
   void dropPiece(char (&aBoard)[6][7], char choice, int moveNumber);
+  void simulatePieceDrop(char aBoard[6][7], int aCol, int aRow, char aPlayer);
 
 private:
   static bool initialized;
@@ -93,6 +94,6 @@ private:
   string playeroneName;
   string playertwoName;
   vector<char> availableMoves;
-  vector<pair<string, char> > moveLog;
+  vector<pair<string, char>> moveLog;
   char theBoard[6][7];
 };
