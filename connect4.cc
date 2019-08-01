@@ -117,7 +117,6 @@ void connectFour::checkLog()
         {
             printResults();
         }
-        
         cout << WHITE << "Thank you for playing" << endl;
     }
 }
