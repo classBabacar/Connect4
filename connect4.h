@@ -2,6 +2,8 @@
 Name : Babacar Ndoye
 Purpose : To enjoy programming...THIS IS NOT A SCHOOL PROJECT
 */
+#include <iomanip> // std::setw
+#include <fstream>
 #include <string.h>
 #include <iostream>
 #include <stdlib.h>
@@ -32,9 +34,12 @@ public:
 
   //Game Finished States
   bool askRematch();
+  bool askgameLog();
+  void checkLog();
   char askSwap();
   void swapRoles(char swap);
   void resetAll();
+  void printResults();
 
   //User Specific Functions
   void playerOneWin(bool gameOver, bool againstAi);
@@ -77,6 +82,9 @@ public:
   void dropPiece(char (&aBoard)[6][7], char choice, int moveNumber);
 
 private:
+  static bool initialized;
+  ofstream myfile;
+
   bool gameOver;
   int row;
   int column;
@@ -85,5 +93,6 @@ private:
   string playeroneName;
   string playertwoName;
   vector<char> availableMoves;
+  vector<pair<string, char>> moveLog;
   char theBoard[6][7];
 };

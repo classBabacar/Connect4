@@ -1,6 +1,9 @@
 #include "colors.h"
 #include "connect4.h"
 
+// This is to stop the stack from repeating output
+bool connectFour::initialized = true;
+
 //************************************************************************
 // Function: connectFour()
 // Purpose:  Setting up all the values for the program
@@ -51,11 +54,11 @@ void connectFour::askName()
 
 //************************************************************************
 // Function: askRematch()
-// Purpose:  asks the winner would they like a rematch
+// Purpose:  asks a user would they like a rematch
 //************************************************************************
 bool connectFour::askRematch()
 {
-    cout << "Would you like a rematch? (Y/N) : ";
+    cout << "Would you like a rematch? (Y/N): ";
     char rematch;
     cin >> rematch;
     rematch = tolower(rematch);
@@ -72,7 +75,7 @@ bool connectFour::askRematch()
 
 //************************************************************************
 // Function: swapRoles(#char confirmining if they like to swap or not)
-// Purpose:  would white like to switch with red or stay the same
+// Purpose:  would yellow like to switch with red or vice versa
 //************************************************************************
 void connectFour::swapRoles(char swap)
 {
@@ -86,7 +89,7 @@ void connectFour::swapRoles(char swap)
 
 //************************************************************************
 // Function: resetAll()
-// Purpose:  changes everything back to its default
+// Purpose:  changes everything back to it's default
 //************************************************************************
 void connectFour::resetAll()
 {
@@ -103,20 +106,41 @@ void connectFour::resetAll()
 }
 
 //************************************************************************
+// Function: checkLog()
+// Purpose:  To eliminate code repitition
+//************************************************************************
+void connectFour::checkLog()
+{
+    if (initialized)
+    {
+        if (askgameLog())
+        {
+            printResults();
+            cout << WHITE << "Thank you for playing" << endl;
+        }
+        else
+        {
+            cout << WHITE << "Thank you for playing" << endl;
+        }
+    }
+}
+
+//************************************************************************
 // Function: askSwap()
-// Purpose:  making the question asking part a function to make it easier
+// Purpose:  packaging question to ask user to swap
 //************************************************************************
 char connectFour::askSwap()
 {
-    cout << "Would you like to swap on who goes first? (Y/N) : ";
+    cout << "Would you like to swap on who goes first? (Y/N): ";
     char swap;
     cin >> swap;
     swap = tolower(swap);
     return swap;
 }
+
 //************************************************************************
 // Function: playerOneWin(gameOver, areyouagainstAi)
-// Purpose:  This is basically generating output for a arbritary playerOne
+// Purpose:  In the case playerOne(Yellow) wins what to do
 //************************************************************************
 void connectFour::playerOneWin(bool gameOver, bool againstAi)
 {
@@ -124,6 +148,7 @@ void connectFour::playerOneWin(bool gameOver, bool againstAi)
     displayBoard();
     playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
     cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
+    moveLog.push_back(make_pair(playeroneName, 'y'));
 
     if (askRematch())
     {
@@ -146,18 +171,20 @@ void connectFour::playerOneWin(bool gameOver, bool againstAi)
     }
     else
     {
-        cout << "Thanks for playing the game" << endl;
+        checkLog();
     }
 }
+
 //************************************************************************
 // Function: playerTwoWin(gameOver,, areyouagainstAi)
-// Purpose:  This is basically generating output for a arbritary playerTwo
+// Purpose:  In the case playerTwo(Red) wins what to do
 //************************************************************************
 void connectFour::playerTwoWin(bool gameOver, bool againstAi)
 {
     displayBoard();
     playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
     cout << RED << playertwoName << "...Wins" << WHITE << endl;
+    moveLog.push_back(make_pair(playertwoName, 'r'));
 
     if (askRematch())
     {
@@ -180,18 +207,20 @@ void connectFour::playerTwoWin(bool gameOver, bool againstAi)
     }
     else
     {
-        cout << "Thanks for playing the game" << endl;
+        checkLog();
     }
 }
+
 //************************************************************************
 // Function: playerAiRedWin(gameOver, ais Color , humans Color, the name of the human)
-// Purpose:  Generating output but also figuring out if the ai is playerTwo(Red Color)
+// Purpose:  In the case playerTwo(Red) is an AI and won..what to do
 //************************************************************************
 void connectFour::playerAiRedWin(bool gameOver, char aiColor, char humanColor, string name)
 {
     displayBoard();
     playertwoName = playertwoName.substr(0, playertwoName.length() - 9);
     cout << RED << playertwoName << "...Wins" << WHITE << endl;
+    moveLog.push_back(make_pair(playertwoName, 'r'));
 
     if (askRematch())
     {
@@ -209,19 +238,20 @@ void connectFour::playerAiRedWin(bool gameOver, char aiColor, char humanColor, s
     }
     else
     {
-        cout << "Thanks for playing the game" << endl;
+        checkLog();
     }
 }
 
 //************************************************************************
 // Function: playerAiYellowWin(gameOver, ais Color , humans Color, the name of the human)
-// Purpose:  Generating output but also figuring our of the ai is playerOne(Yellow Color)
+// Purpose:  In the case playerOne(Yellow) is an AI and won..what to do
 //************************************************************************
 void connectFour::playerAiYellowWin(bool gameOver, char aiColor, char humanColor, string name)
 {
     displayBoard();
     playeroneName = playeroneName.substr(0, playeroneName.length() - 9);
     cout << YELLOW << playeroneName << "...Wins" << WHITE << endl;
+    moveLog.push_back(make_pair(playeroneName, 'y'));
 
     if (askRematch())
     {
@@ -239,17 +269,13 @@ void connectFour::playerAiYellowWin(bool gameOver, char aiColor, char humanColor
     }
     else
     {
-        cout << "Thanks for playing the game" << endl;
+        checkLog();
     }
 }
+
 //************************************************************************
 // Function: checkTie()
 // Purpose:  To determine if the game is in a tie state
-//
-// In the askRematch if statemnts its important to add
-// playeroneName = playeroneName + "'s Turn: ", because when a player wins
-// I rip the "'s Turn: " part off so if that player does win I add it back
-// and set it back to its default then proceed to swap
 //************************************************************************
 bool connectFour::checkTie(char aBoard[6][7], bool isMinimax)
 {
@@ -278,14 +304,10 @@ bool connectFour::checkTie(char aBoard[6][7], bool isMinimax)
     else
         return false;
 }
+
 //************************************************************************
 // Function: play(#number of players 1 or 2)
-// Purpose:  The whole game loop thats runs on the condtion while the game isnt completed
-//
-// In the askRematch if statemnts its important to add
-// playeroneName = playeroneName + "'s Turn: ", because when a player wins
-// I rip the "'s Turn: " part off so if that player does win I add it back
-// and set it back to its default then proceed to swap
+// Purpose:  Game loop specificially for player v. player
 //************************************************************************
 void connectFour::play(int players)
 {
@@ -318,13 +340,104 @@ void connectFour::play(int players)
 
         if (checkTie(theBoard, false) && gameOver != true)
         {
+            moveLog.push_back(make_pair("", 't'));
             displayBoard();
-            char swap = askSwap();
-            swapRoles(swap);
-            resetAll();
-            play(3);
+            if (askRematch())
+            {
+                char swap = askSwap();
+                if (swap != 'y')
+                {
+                    swapRoles(swap);
+                    resetAll();
+                }
+                play(3);
+            }
+            else
+            {
+                checkLog();
+                gameOver = true;
+            }
         }
     }
+}
+
+//************************************************************************
+// Function: askgameLog()
+// Purpose: packaging user input
+//************************************************************************
+bool connectFour::askgameLog()
+{
+    cout << "Would you like to recieve a game log? (Y/N): ";
+    char rsp;
+    cin >> rsp;
+    rsp = tolower(rsp);
+
+    if (rsp == 'y')
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+//************************************************************************
+// Function: printResults()
+// Purpose:  Algorithm to display game log
+//************************************************************************
+void connectFour::printResults()
+{
+    myfile.open("result.txt");
+    int internalCounter = 0;
+    int indent = 3;
+    int matchCounter = 1;
+
+    myfile << "Yellow" << setw(5) << "Red" << endl;
+    for (int i = 0; i < moveLog.size(); ++i)
+    {
+        if (moveLog[i].second == 'r' || moveLog[i].second == 'y' || moveLog[i].second == 't')
+        {
+            if (moveLog[i].second == 'r')
+            {
+                myfile << "Match #" << matchCounter << " - (" << moveLog[i].first << ") Red Won this game" << endl;
+                myfile << endl;
+            }
+            else if (moveLog[i].second == 'y')
+            {
+                myfile << endl;
+                myfile << "Match #" << matchCounter << " - (" << moveLog[i].first << ") Yellow Won this game" << endl;
+                myfile << endl;
+            }
+            else if (moveLog[i].second == 't')
+            {
+                myfile << "Match #" << matchCounter << " - This game was a tie" << endl;
+                myfile << endl;
+            }
+            if (i + 1 < moveLog.size())
+            {
+                myfile << "Yellow" << setw(5) << "Red" << endl;
+            }
+            internalCounter = 0;
+            indent = 3;
+            matchCounter++;
+        }
+        else
+        {
+            myfile << setw(indent) << moveLog[i].second;
+            indent += 4;
+            internalCounter++;
+            if (internalCounter % 2 == 0)
+            {
+                myfile << endl;
+                indent = 3;
+                internalCounter = 0;
+            }
+        }
+    }
+
+    myfile << endl;
+    initialized = false;
 }
 
 //************************************************************************
@@ -598,7 +711,7 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
         {
             return make_pair(' ', getScoreOf(aBoard, aiColor, humanColor));
         }
-    } //Till here is correct
+    }
 
     char fakeBoard[6][7];
     pair<char, int> answer;
@@ -648,6 +761,7 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
         return make_pair(bestColumn, smallestValue);
     }
 }
+
 //************************************************************************
 // Function: copyMe(fakeBoard by reference, actualBoard)
 // Purpose: making a replica of the previous board
@@ -662,6 +776,7 @@ void connectFour::copyMe(char (&fakeBoard)[6][7], char (&aBoard)[6][7])
         }
     }
 }
+
 //************************************************************************
 // Function: countMyPieces(anystring, a human color or ai color(red or yellow))
 // Purpose: scoring purpose
@@ -686,6 +801,7 @@ int connectFour::countMyPieces(string matcher, char anyPiece)
     }
     return counter;
 }
+
 //************************************************************************
 // Function: giveScoreVert(aBoard, aiColor, char humanColor)
 // Purpose: scoring purpose
@@ -720,9 +836,7 @@ int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
 
 //************************************************************************
 // Function: aiPlay(char aiColor, char humanColor, string name)
-// Purpose: scoring purpose
-//
-// This function is the whole game loop.
+// Purpose: (Player(Yellow) v AI(Red)) or (AI(Yellow) v. Player(Red))
 //************************************************************************
 void connectFour::aiPlay(char aiColor, char humanColor, string name)
 {
@@ -739,7 +853,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
         if (isGameOver(theBoard))
         {
             playerOneWin(true, true);
-            gameOver = false;
+            gameOver = true;
         }
         else
         {
@@ -747,6 +861,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             result = lookAhead(theBoard, lookForward, aiColor, humanColor, true, moveNumber);
             char aiMove = get<0>(result);
 
+            moveLog.push_back(make_pair("", aiMove));
             dropPiece(theBoard, aiMove, moveNumber);
             moveNumber++;
 
@@ -758,6 +873,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
         }
         if (checkTie(theBoard, false) && gameOver != true)
         {
+            moveLog.push_back(make_pair("", 't'));
             displayBoard();
             playertwoName = playertwoName + "'s Turn: ";
             char swap = askSwap();
@@ -781,6 +897,7 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
         result = lookAhead(theBoard, lookForward, aiColor, humanColor, true, moveNumber);
         char aiMove = get<0>(result);
 
+        moveLog.push_back(make_pair("", aiMove));
         dropPiece(theBoard, aiMove, moveNumber);
         moveNumber++;
 
@@ -804,8 +921,10 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
 
         if (checkTie(theBoard, false) && gameOver != true)
         {
+            moveLog.push_back(make_pair("", 't'));
             displayBoard();
             playeroneName = playeroneName + "'s Turn: ";
+
             char swap = askSwap();
             resetAll();
             if (swap == 'y')
@@ -918,6 +1037,7 @@ bool connectFour::checkValidMove(char choice, int MoveNumber)
     {
         if (checkDown(theBoard, tolower(choice)))
         {
+            moveLog.push_back(make_pair("", choice));
             dropPiece(theBoard, choice, moveNumber);
             return true;
         }
