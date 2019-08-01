@@ -23,6 +23,7 @@ Keep in mind the higher the value the longer you wait and plz dont put it on a v
 
 # Features Added
 - Rematch Option
+- Game Log Option
 - Playing against AI (~~I hope the AI wins~~)
 - I am confident the AI can win now.
 
@@ -42,6 +43,9 @@ that's why at times it would malfunction and give the opposite user a connect4 b
 
 Bug Fix: **July 8, 2019**
 - There was a lot of problems with the rematch functionality so I needed to organize the code/refactor because it was starting to get messy but now it makes sense and going forward I will be able to add more features such as a log of the moves.
+
+Bug Fix: **July 31, 2019**
+- In the event the AI wins against you and you deny a swap and play it again and no matter what the result(win/lose/tie) and deny a rematch there would be a instance of the board generated after because I wasn't properly ending the game.
 
 # Running Code using Makefile
 
