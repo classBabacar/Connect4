@@ -116,12 +116,9 @@ void connectFour::checkLog()
         if (askgameLog())
         {
             printResults();
-            cout << WHITE << "Thank you for playing" << endl;
         }
-        else
-        {
-            cout << WHITE << "Thank you for playing" << endl;
-        }
+        
+        cout << WHITE << "Thank you for playing" << endl;
     }
 }
 
