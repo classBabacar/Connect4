@@ -1042,6 +1042,24 @@ bool connectFour::checkValidMove(char choice, int MoveNumber)
 }
 
 //************************************************************************
+// Function: simulatePieceDrop(a arbitrary board, a column, a row, whoevers turn)
+// Purpose:  The piece drop function where it looks like it might in real life
+//************************************************************************
+void connectFour::simulatePieceDrop(char aBoard[6][7], int aCol, int aRow, char aPlayer)
+{
+    int i = 0;
+    while (i != aCol)
+    {
+        aBoard[i][aRow] = aPlayer;
+        displayBoard();
+        aBoard[i][aRow] = '0';
+        i++;
+        usleep(250000);
+    }
+    cout << string(50, '\n');
+}
+
+//************************************************************************
 // Function: getRow(eithers players choice)
 // Purpose:  used to convert their choice into a number to play into board
 //************************************************************************
@@ -1062,30 +1080,12 @@ void connectFour::dropPiece(char (&aBoard)[6][7], char choice, int moveNumber)
     }
     if (moveNumber % 2 == 0)
     {
-        int i = 0;
-        while (i != tmpCol)
-        {
-            aBoard[i][tmpRow] = '1';
-            displayBoard();
-            aBoard[i][tmpRow] = '0';
-            i++;
-            usleep(250000);
-        }
-        cout << string(50, '\n');
+        simulatePieceDrop(aBoard, tmpCol, tmpRow, '1');
         aBoard[tmpCol][tmpRow] = '1';
     }
     else
     {
-        int i = 0;
-        while (i != tmpCol)
-        {
-            aBoard[i][tmpRow] = '2';
-            displayBoard();
-            aBoard[i][tmpRow] = '0';
-            i++;
-            usleep(250000);
-        }
-        cout << string(50, '\n');
+        simulatePieceDrop(aBoard, tmpCol, tmpRow, '2');
         aBoard[tmpCol][tmpRow] = '2';
     }
 }
