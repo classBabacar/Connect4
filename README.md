@@ -40,7 +40,7 @@ Bug Fix: **May 20, 2019**
 - If you entered a capital letter as of the available moves the program would seg fault.
 
 Bug Fix: **June 5,2019**
-- For my whoWon function I was evaluating a location twice in example **if(x[i] && x[i]...)** when it should have been **if(x[i] && x[i+1]..)**
+- For my whoWon function I was evaluating a location twice in example ```if(x[i] && x[i]...)``` when it should have been ```if(x[i] && x[i+1]..)```
 that's why at times it would malfunction and give the opposite user a connect4 because it would think there is nothing wrong.
 
 Bug Fix: **July 8, 2019**
