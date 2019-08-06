@@ -1,6 +1,6 @@
 /*
 Name : Babacar Ndoye
-Purpose : To enjoy programming...THIS IS NOT A SCHOOL PROJECT
+Personal Project
 */
 #include <iomanip> // std::setw
 #include <fstream>
