@@ -67,12 +67,8 @@ public:
   pair<char, int> lookAhead(char (&aBoard)[6][7], int depth, char aiColor, char humanColor, bool maximizingPlayer, int mover);
   int getScoreOf(char aBoard[6][7], char aiColor, int humanColor);
 
-  //Winning Connect4 Patterns
+  //Game State Patterns
   bool isGameOver(char (&aBoard)[6][7]);
-  bool upConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
-  bool rightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
-  bool uprightConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
-  bool upleftConnect4(char aBoard[6][7], int tmpCol, int tmpRow);
   bool checkTie(char aBoard[6][7], bool isMinimax);
 
   //Move Association
