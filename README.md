@@ -1,12 +1,12 @@
 # Inspiration 
 
-This is one of my favorite games. Growing up I played this game so much with family and friends I lost a lot to them and that's I kind of got obsessed with the game because I hated losing. So I practiced a lot of programming so one day I could make this game and get a rematch!
+This is one of my favorite games. Growing up I played this game so much with family and friends I lost a lot to them and that's why I'm kind of obsessed with the game because I hated losing. So I practiced a lot of programming so one day I could make this game and get a rematch!
 
 # Goals
 Right now, the game allows for 1v1 play but in the near future I plan to incorporate an AI with the concept of MiniMax **(Complete)**.
 
 # Game Updates
-I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the ai but it was difficult to maintain so I needed to change base version. 
+I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the AI but it was difficult to maintain so I needed to change base version. 
 - **May 12, 2019** : 
 I had to refactor some more by adding functions that were solely for the AI.
 - **May 30, 2019** : 
@@ -20,14 +20,14 @@ Added a way to store game logs, someone suggested it to me and I thought it was 
 # AI Time
 I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function aswell as coming up with a method to distinguish who is winning and losing in a game of connect4, I can only imagine how much creative things you can come up with.
 
-Currently the AI look 4 moves ahead if you are feeling good and think you can beat it change the value of the **lookForward value on line 839 at connect4.cc**, to a higher value.
+Currently the AI looks 4 moves ahead if you are feeling good and think you can beat it change the value of the **lookForward value on line 839 at connect4.cc**, to a higher value.
 Keep in mind the higher the value the longer you wait and please dont put it on a value of 100+...bad things can happen lol.
 
 # Features Added
 - Rematch Option
 - Game Log Option
-- Playing against AI (~~I hope the AI wins~~)
-- I am confident the AI can win now.
+- Playing against AI 
+- I am confident the AI can win now. (~~I hope the AI wins~~)
 
 # Bugs
 Bug Fix: **May 13, 2019**
