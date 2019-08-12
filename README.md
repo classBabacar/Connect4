@@ -1,6 +1,6 @@
 # Inspiration 
 
-This is one of my favorite games. Growing up I played this game so much with family and friends I took a lot of losses and that's why I kind of got obsessed with the game because I hate losing. So I practiced a lot of programming so one day I could make this game now I did but now I have another goal which is the AI... **(Complete)**
+This is one of my favorite games. Growing up I played this game so much with family and friends I lost a lot to them and that's I kind of got obsessed with the game because I hated losing. So I practiced a lot of programming so one day I could make this game and get a rematch!
 
 # Goals
 Right now, the game allows for 1v1 play but in the near future I plan to incorporate an AI with the concept of MiniMax **(Complete)**.
@@ -15,13 +15,13 @@ Also some changes to the evaluate(scoreMetric) function to make it stronger.
 - **June 4, 2019** : 
 The minimax function was wrong because I was just passing by value instead of reference so no matter how many depths I increased by it would evaluate only one board state.
 - **July 31, 2019** :
-Added a way to store game logs, someone suggested it to me and I thought it was a great idea and it's very practical because now I can start to analyze the AI's flaws and make it stronger ~~to take over the world~~ to make it always win or tie on while it's yellow.
+Added a way to store game logs, someone suggested it to me and I thought it was a great idea and it's very practical because now I can start to analyze the AI's flaws and make it stronger ~~to take over the world~~ to make it always win or tie in the event it goes first.
 
 # AI Time
-I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function aswell as coming up with a method to distinguish who is winning and losing in a game of connect4, I can only imagine how much creative things you can come up with. Hopefully you enjoy and don't lose.
+I finally incorporated the AI, if you want to test out possible heuristics and make the AI truly dominant you can optimize the scoreMetric function aswell as coming up with a method to distinguish who is winning and losing in a game of connect4, I can only imagine how much creative things you can come up with.
 
-Currently the AI look 4 moves ahead if you are feeling good and think you can beat it change the value of the **lookForward value on line 700 at connect4.cc**, to a higher value.
-Keep in mind the higher the value the longer you wait and plz dont put it on a value of 100+...bad things can happen lol.
+Currently the AI look 4 moves ahead if you are feeling good and think you can beat it change the value of the **lookForward value on line 839 at connect4.cc**, to a higher value.
+Keep in mind the higher the value the longer you wait and please dont put it on a value of 100+...bad things can happen lol.
 
 # Features Added
 - Rematch Option
@@ -31,17 +31,16 @@ Keep in mind the higher the value the longer you wait and plz dont put it on a v
 
 # Bugs
 Bug Fix: **May 13, 2019**
-- **AI scared to lose?** Once the AI figures out it's about to lose it doesn't want to play anymore so I had to **force** it to hold the L.
+- **AI scared to lose?** Once the AI figures out it's about to lose it doesn't want to play anymore so I had to **force** it to lose like I did.
 
 Bug Fix: **May 15, 2019**
-- When there are no more piceces to play but someone has won right before it the program would think a tie happened.
+- In the event a user won right before the game state reaches a tie there would be conflicting screen results.
 
 Bug Fix: **May 20, 2019**
 - If you entered a capital letter as of the available moves the program would seg fault.
 
 Bug Fix: **June 5,2019**
-- For my whoWon function I was evaluating a location twice in example ```if(x[i] && x[i]...)``` when it should have been ```if(x[i] && x[i+1]..)```
-that's why at times it would malfunction and give the opposite user a connect4 because it would think there is nothing wrong.
+- For my whoWon function I was evaluating a location twice in example ```if(x[i] && x[i]...)``` when it should have been ```if(x[i] && x[i+1]..)``` not only did this disrupt the strength of the AI but also disrupted the flow of a simple player V. player game.
 
 Bug Fix: **July 8, 2019**
 - There was a lot of problems with the rematch functionality so I needed to organize the code/refactor because it was starting to get messy but now it makes sense and going forward I will be able to add more features such as a log of the moves.
