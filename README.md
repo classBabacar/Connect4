@@ -5,6 +5,8 @@ This is one of my favorite games. Growing up I played this game so much with fam
 # Goals
 Right now, the game allows for 1v1 play but in the near future I plan to incorporate an AI with the concept of MiniMax **(Complete)**.
 
+One day I plan to add a machine learning aspect to this game.
+
 # Game Updates
 I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the AI but it was difficult to maintain so I needed to change base version. Oh there is also a arguable concept in the game where if you get into a tie with the AI there is no prompt to leave the game. In my mind, if you tie with someone you just have to play again, thus no reason to prompt the user to leave.
 - **May 12, 2019** : 
