@@ -64,13 +64,10 @@ bool connectFour::askRematch()
     rematch = tolower(rematch);
 
     if (rematch == 'y')
-    {
         return true;
-    }
+
     else
-    {
         return false;
-    }
 }
 
 //************************************************************************
@@ -114,9 +111,8 @@ void connectFour::checkLog()
     if (initialized)
     {
         if (askgameLog())
-        {
             printResults();
-        }
+
         cout << WHITE << "Thank you for playing" << endl;
     }
 }
@@ -157,18 +153,13 @@ void connectFour::playerOneWin(bool gameOver, bool againstAi)
             play(3);
         }
         else if (swap == 'y' && againstAi == true)
-        {
             aiPlay('1', '2', playeroneName.substr(0, playeroneName.length() - 9));
-        }
+
         else if (swap != 'y' && againstAi == true)
-        {
             aiPlay('2', '1', playeroneName.substr(0, playeroneName.length() - 9));
-        }
     }
     else
-    {
         checkLog();
-    }
 }
 
 //************************************************************************
@@ -193,18 +184,13 @@ void connectFour::playerTwoWin(bool gameOver, bool againstAi)
             play(3);
         }
         else if (swap == 'y' && againstAi == true)
-        {
             aiPlay('2', '1', playertwoName.substr(0, playertwoName.length() - 9));
-        }
+
         else if (swap != 'y' && againstAi == true)
-        {
             aiPlay('1', '2', playertwoName.substr(0, playertwoName.length() - 9));
-        }
     }
     else
-    {
         checkLog();
-    }
 }
 
 //************************************************************************
@@ -223,19 +209,14 @@ void connectFour::playerAiRedWin(bool gameOver, char aiColor, char humanColor, s
         playertwoName = playertwoName + "'s Turn: ";
         char swap = askSwap();
         resetAll();
+
         if (swap == 'y')
-        {
             aiPlay('1', '2', name);
-        }
         else
-        {
             aiPlay('2', '1', name);
-        }
     }
     else
-    {
         checkLog();
-    }
 }
 
 //************************************************************************
@@ -254,19 +235,14 @@ void connectFour::playerAiYellowWin(bool gameOver, char aiColor, char humanColor
         playeroneName = playeroneName + "'s Turn: ";
         char swap = askSwap();
         resetAll();
+
         if (swap == 'y')
-        {
             aiPlay('2', '1', name);
-        }
         else
-        {
             aiPlay('1', '2', name);
-        }
     }
     else
-    {
         checkLog();
-    }
 }
 
 //************************************************************************
@@ -289,9 +265,8 @@ bool connectFour::checkTie(char aBoard[6][7], bool isMinimax)
     }
     //This part is so minimax does print the statement everytime
     if (redCount + yellowCount == 42 && isMinimax == true)
-    {
         return true;
-    }
+
     else if (redCount + yellowCount == 42 && isMinimax == false)
     {
         cout << RED << " IT'S A " << YELLOW << "TIE" << endl;
@@ -308,9 +283,7 @@ bool connectFour::checkTie(char aBoard[6][7], bool isMinimax)
 void connectFour::play(int players)
 {
     if (players == 2)
-    {
         askName();
-    }
     while (gameOver == false)
     {
         displayBoard();
@@ -369,13 +342,9 @@ bool connectFour::askgameLog()
     rsp = tolower(rsp);
 
     if (rsp == 'y')
-    {
         return true;
-    }
     else
-    {
         return false;
-    }
 }
 
 //************************************************************************
@@ -515,17 +484,14 @@ int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
     int score = 0;
 
     if (aiPieces == 2 && emptySpots == 2)
-    {
-        score += 2;
-    }
+        score += 30;
+
     if (humanPieces == 2 && emptySpots == 2)
-    {
-        score -= 10;
-    }
+        score -= 30;
+
     else if (humanPieces == 3 && emptySpots == 1)
-    {
-        score -= 50;
-    }
+        score -= 10;
+
     return score;
 }
 
@@ -580,7 +546,7 @@ int connectFour::giveScoreCenter(char aBoard[6][7], char aiColor, char humanColo
             counter++;
         }
     }
-    score += (counter + 1) * 80;
+    score += (counter + 1) * 35;
     return score;
 }
 
@@ -601,9 +567,7 @@ bool connectFour::whoWon(char (&aBoard)[6][7], char playerPiece)
         for (int j = 0; j < row - 3; ++j)
         {
             if (aBoard[i][j] == playerPiece && aBoard[i][j + 1] == playerPiece && aBoard[i][j + 2] == playerPiece && aBoard[i][j + 3] == playerPiece)
-            {
                 return true;
-            }
         }
     }
 
@@ -613,9 +577,7 @@ bool connectFour::whoWon(char (&aBoard)[6][7], char playerPiece)
         for (int j = 0; j < row; ++j)
         {
             if (aBoard[i][j] == playerPiece && aBoard[i + 1][j] == playerPiece && aBoard[i + 2][j] == playerPiece && aBoard[i + 3][j] == playerPiece)
-            {
                 return true;
-            }
         }
     }
 
@@ -625,9 +587,7 @@ bool connectFour::whoWon(char (&aBoard)[6][7], char playerPiece)
         for (int j = 3; j < row; ++j)
         {
             if (aBoard[i][j] == playerPiece && aBoard[i - 1][j - 1] == playerPiece && aBoard[i - 2][j - 2] == playerPiece && aBoard[i - 3][j - 3] == playerPiece)
-            {
                 return true;
-            }
         }
     }
 
@@ -637,9 +597,7 @@ bool connectFour::whoWon(char (&aBoard)[6][7], char playerPiece)
         for (int j = 0; j < row - 3; ++j)
         {
             if (aBoard[i][j] == playerPiece && aBoard[i - 1][j + 1] == playerPiece && aBoard[i - 2][j + 2] == playerPiece && aBoard[i - 3][j + 3] == playerPiece)
-            {
                 return true;
-            }
         }
     }
     return false;
@@ -691,22 +649,16 @@ pair<char, int> connectFour::lookAhead(char (&aBoard)[6][7], int depth, char aiC
         if (isGameOver(aBoard))
         {
             if (whoWon(aBoard, aiColor))
-            {
                 return make_pair(' ', 10000000);
-            }
+
             else if (whoWon(aBoard, humanColor))
-            {
                 return make_pair(' ', -10000000);
-            }
+
             else if (checkTie(aBoard, true))
-            {
                 return make_pair(' ', 0);
-            }
         }
         else
-        {
             return make_pair(' ', getScoreOf(aBoard, aiColor, humanColor));
-        }
     }
 
     char fakeBoard[6][7];
@@ -791,9 +743,7 @@ int connectFour::countMyPieces(string matcher, char anyPiece)
     for (int b = 0; b < matcher.length(); ++b)
     {
         if (matcher[b] == anyPiece)
-        {
             counter++;
-        }
     }
     return counter;
 }
@@ -875,13 +825,10 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             char swap = askSwap();
             resetAll();
             if (swap == 'y')
-            {
                 aiPlay('1', '2', playeroneName.substr(0, playeroneName.length() - 9));
-            }
+
             else
-            {
                 aiPlay('2', '1', playeroneName.substr(0, playeroneName.length() - 9));
-            }
         }
     }
     while (humanColor == '2' && gameOver == false)
@@ -924,13 +871,10 @@ void connectFour::aiPlay(char aiColor, char humanColor, string name)
             char swap = askSwap();
             resetAll();
             if (swap == 'y')
-            {
                 aiPlay('2', '1', playertwoName.substr(0, playertwoName.length() - 9));
-            }
+
             else
-            {
                 aiPlay('1', '2', playertwoName.substr(0, playertwoName.length() - 9));
-            }
         }
     }
 }
@@ -948,17 +892,13 @@ void connectFour::displayBoard()
         for (int j = 0; j < row; j++)
         {
             if (theBoard[i][j] == '1')
-            {
                 cout << YELLOW << " O  " << WHITE;
-            }
+
             else if (theBoard[i][j] == '2')
-            {
                 cout << RED << " O  " << WHITE;
-            }
+
             else
-            {
                 cout << BLUE << " |  " << WHITE;
-            }
         }
         cout << endl;
     }
@@ -1107,13 +1047,10 @@ void connectFour::dropAiPiece(char (&aBoard)[6][7], char choice, int mover)
         tmpCol--;
     }
     if (mover % 2 == 0)
-    {
         aBoard[tmpCol][tmpRow] = '1';
-    }
+
     else
-    {
         aBoard[tmpCol][tmpRow] = '2';
-    }
 }
 //************************************************************************
 // Function: checkDown(player 1/2 choice, #of moves made)
@@ -1123,9 +1060,8 @@ bool connectFour::checkDown(char aBoard[6][7], char choice)
 {
     int tmpRow = getRow(choice);
     if (aBoard[0][tmpRow] == '0')
-    {
         return true;
-    }
+
     return false;
 }
 
@@ -1136,8 +1072,7 @@ bool connectFour::checkDown(char aBoard[6][7], char choice)
 bool connectFour::isGameOver(char (&aBoard)[6][7])
 {
     if (whoWon(aBoard, '1') || whoWon(aBoard, '2'))
-    {
         return true;
-    }
+
     return false;
 }
