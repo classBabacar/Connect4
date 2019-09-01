@@ -10,13 +10,13 @@ bool connectFour::initialized = true;
 //************************************************************************
 connectFour::connectFour()
 {
-
     row = 7;
     column = 6;
     moveNumber = 0;
     gameOver = false;
     playeroneName = "";
     playertwoName = "";
+    char theMoves[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
 
     for (int i = 0; i < column; ++i)
     {
@@ -25,7 +25,7 @@ connectFour::connectFour()
             theBoard[i][j] = '0';
         }
     }
-    char theMoves[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+
     for (int i = 0; i < 7; ++i)
     {
         availableMoves.push_back(theMoves[i]);
@@ -376,7 +376,7 @@ void connectFour::printResults()
             }
             else if (moveLog[i].second == 't')
             {
-                myfile << "Match #" << matchCounter << " - This game was a tie" << endl;
+                myfile << "Match #" << matchCounter << " - This game was a Tie" << endl;
                 myfile << endl;
             }
             if (i + 1 < moveLog.size())
@@ -470,32 +470,6 @@ int connectFour::giveScoreRightDiag(char aBoard[6][7], char aiColor, char humanC
 }
 
 //************************************************************************
-// Function: scoreMetric
-// Purpose: The AI needs to know whats a "good" or "bad" move, so you must give
-// weights to the most threatening possiblities such as the following:
-//
-//
-//  if you can potential have connect3 (7) : Highest Value (less important but still priority)
-//  if you can potential have connect2 (2) : Highest Value (less important but still priority)
-//  if your opponent has connect3 (-95) : Keep on making moves until you find it(the negative is very important)
-//************************************************************************
-int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
-{
-    int score = 0;
-
-    if (aiPieces == 2 && emptySpots == 2)
-        score += 30;
-
-    if (humanPieces == 2 && emptySpots == 2)
-        score -= 30;
-
-    else if (humanPieces == 3 && emptySpots == 1)
-        score -= 10;
-
-    return score;
-}
-
-//************************************************************************
 // Function: giveScoreHori(aBoard, aiColor, char humanColor)
 // Purpose: scoring purpose
 //
@@ -528,6 +502,38 @@ int connectFour::giveScoreHori(char aBoard[6][7], char aiColor, char humanColor)
 }
 
 //************************************************************************
+// Function: giveScoreVert(aBoard, aiColor, char humanColor)
+// Purpose: scoring purpose
+//
+// This functions works by figuring our every possible Vertical there is
+// in the current game by collecting every 4 pieces and depening on the number of aiPieces or
+// human pieces the AI notices and returns a score
+//************************************************************************
+int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
+{
+    int score = 0;
+    string seperateByFour;
+    for (int i = 0; i < column - 3; ++i)
+    {
+        for (int j = 0; j < row; ++j)
+        {
+            seperateByFour = "";
+
+            seperateByFour += aBoard[i][j];
+            seperateByFour += aBoard[i + 1][j];
+            seperateByFour += aBoard[i + 2][j];
+            seperateByFour += aBoard[i + 3][j];
+
+            int aiPieces = countMyPieces(seperateByFour, aiColor);
+            int emptySpots = countMyPieces(seperateByFour, '0');
+            int humanPieces = countMyPieces(seperateByFour, humanColor);
+            score += scoreMetric(aiPieces, emptySpots, humanPieces);
+        }
+    }
+    return score;
+}
+
+//************************************************************************
 // Function: giveScoreCenter(aBoard, aiColor, char humanColor)
 // Purpose: scoring purpose
 //
@@ -547,6 +553,49 @@ int connectFour::giveScoreCenter(char aBoard[6][7], char aiColor, char humanColo
         }
     }
     score += (counter + 1) * 35;
+    return score;
+}
+
+//************************************************************************
+// Function: scoreMetric
+// Purpose: The AI needs to know whats a "good" or "bad" move, so you must give
+// weights to the most threatening possiblities such as the following:
+//
+//
+//  if you can potential have connect3 (7) : Highest Value (less important but still priority)
+//  if you can potential have connect2 (2) : Highest Value (less important but still priority)
+//  if your opponent has connect3 (-95) : Keep on making moves until you find it(the negative is very important)
+//************************************************************************
+int connectFour::scoreMetric(int aiPieces, int emptySpots, int humanPieces)
+{
+    int score = 0;
+
+    if (aiPieces == 2 && emptySpots == 2)
+        score += 30;
+
+    if (humanPieces == 2 && emptySpots == 2)
+        score -= 30;
+
+    else if (humanPieces == 3 && emptySpots == 1)
+        score -= 10;
+
+    return score;
+}
+
+//************************************************************************
+// Function: getScoreOf(aBoard, aiColor, char humanColor)
+// Purpose: instead of repeating code everywhere I just made it generalized here
+// Also the base case for the minimax function
+//************************************************************************
+int connectFour::getScoreOf(char aBoard[6][7], char aiColor, int humanColor)
+{
+    int score = 0;
+    score += giveScoreCenter(aBoard, aiColor, humanColor);
+    score += giveScoreHori(aBoard, aiColor, humanColor);
+    score += giveScoreVert(aBoard, aiColor, humanColor);
+    score += giveScoreLeftDiag(aBoard, aiColor, humanColor);
+    score += giveScoreRightDiag(aBoard, aiColor, humanColor);
+
     return score;
 }
 
@@ -601,23 +650,6 @@ bool connectFour::whoWon(char (&aBoard)[6][7], char playerPiece)
         }
     }
     return false;
-}
-
-//************************************************************************
-// Function: getScoreOf(aBoard, aiColor, char humanColor)
-// Purpose: instead of repeating code everywhere I just made it generalized here
-// Also the base case for the minimax function
-//************************************************************************
-int connectFour::getScoreOf(char aBoard[6][7], char aiColor, int humanColor)
-{
-    int score = 0;
-    score += giveScoreCenter(aBoard, aiColor, humanColor);
-    score += giveScoreHori(aBoard, aiColor, humanColor);
-    score += giveScoreVert(aBoard, aiColor, humanColor);
-    score += giveScoreLeftDiag(aBoard, aiColor, humanColor);
-    score += giveScoreRightDiag(aBoard, aiColor, humanColor);
-
-    return score;
 }
 
 //************************************************************************
@@ -746,38 +778,6 @@ int connectFour::countMyPieces(string matcher, char anyPiece)
             counter++;
     }
     return counter;
-}
-
-//************************************************************************
-// Function: giveScoreVert(aBoard, aiColor, char humanColor)
-// Purpose: scoring purpose
-//
-// This functions works by figuring our every possible Vertical there is
-// in the current game by collecting every 4 pieces and depening on the number of aiPieces or
-// human pieces the AI notices and returns a score
-//************************************************************************
-int connectFour::giveScoreVert(char aBoard[6][7], char aiColor, char humanColor)
-{
-    int score = 0;
-    string seperateByFour;
-    for (int i = 0; i < column - 3; ++i)
-    {
-        for (int j = 0; j < row; ++j)
-        {
-            seperateByFour = "";
-
-            seperateByFour += aBoard[i][j];
-            seperateByFour += aBoard[i + 1][j];
-            seperateByFour += aBoard[i + 2][j];
-            seperateByFour += aBoard[i + 3][j];
-
-            int aiPieces = countMyPieces(seperateByFour, aiColor);
-            int emptySpots = countMyPieces(seperateByFour, '0');
-            int humanPieces = countMyPieces(seperateByFour, humanColor);
-            score += scoreMetric(aiPieces, emptySpots, humanPieces);
-        }
-    }
-    return score;
 }
 
 //************************************************************************
