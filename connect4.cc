@@ -336,7 +336,7 @@ void connectFour::play(int players)
 //************************************************************************
 bool connectFour::askgameLog()
 {
-    cout << "Would you like to recieve a game log? (Y/N): ";
+    cout << "Would you like to receive a game log? (Y/N): ";
     char rsp;
     cin >> rsp;
     rsp = tolower(rsp);
