@@ -1,12 +1,12 @@
 # Inspiration 
 
-This is one of my favorite games. Growing up I played this game so much with family and friends I lost a lot to them and that's why I'm kind of obsessed with the game because I hated losing. So I practiced a lot of programming so one day I could make this game and get a rematch!
+This is one of my favorite games. Growing up I played this game so much with family and friends, I lost a lot to them and that's why I'm kind of obsessed with the game because I hate losing. So I practiced a lot of programming so one day I could make this game and get a rematch!
 
 # Goals
 I'm going to add a machine learning aspect to this game, in the near future. ( 8/28/2019 )
 
 # Game Updates
-I had to refactor the whole code because if I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the AI but it was difficult to maintain so I needed to change base version. Oh there is also a arguable concept in the game where if you get into a tie with the AI there is no prompt to leave the game. In my mind, if you tie with someone you just have to play again, thus no reason to prompt the user to leave.
+I had to refactor the whole code because when I wanted to incorporate an AI my previous method would not be a suitable starting place but now I believe I am in good condition to implement an AI..see ya soon. I had to refactor some more because I generated the AI but it was difficult to maintain so I needed to change base version. Oh there is also a arguable concept in the game where if you get into a tie with the AI there is no prompt to leave the game. In my mind, if you tie with someone you just have to play again, thus no reason to prompt the user to leave.
 - **May 12, 2019** : 
 I had to refactor some more by adding functions that were solely for the AI.
 - **May 30, 2019** : 
