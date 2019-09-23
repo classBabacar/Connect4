@@ -354,11 +354,18 @@ bool connectFour::askgameLog()
 void connectFour::printResults()
 {
     myfile.open("result.txt");
+    // For every 2 moves I want to start a new line
     int internalCounter = 0;
+
+    // Spacing moves of each individual move
     int indent = 3;
+    int wordSep = 5;
+
+    // Keeping total of matches played
     int matchCounter = 1;
 
-    myfile << "Yellow" << setw(5) << "Red" << endl;
+
+    myfile << "Yellow" << setw(wordSep) << "Red" << endl;
     for (int i = 0; i < moveLog.size(); ++i)
     {
         if (moveLog[i].second == 'r' || moveLog[i].second == 'y' || moveLog[i].second == 't')
@@ -381,7 +388,7 @@ void connectFour::printResults()
             }
             if (i + 1 < moveLog.size())
             {
-                myfile << "Yellow" << setw(5) << "Red" << endl;
+                myfile << "Yellow" << setw(wordSep) << "Red" << endl;
             }
             internalCounter = 0;
             indent = 3;
