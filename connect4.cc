@@ -352,9 +352,8 @@ bool connectFour::askgameLog()
 // Purpose:  Algorithm to display game log
 //************************************************************************
 void connectFour::printResults()
-{
-    myfile.open("result.txt");
-    // For every 2 moves I want to start a new line
+{    
+    // For every 2 moves start a new line
     int internalCounter = 0;
 
     // Spacing moves of each individual move
@@ -363,9 +362,10 @@ void connectFour::printResults()
 
     // Keeping total of matches played
     int matchCounter = 1;
-
-
+    
+    myfile.open("result.txt");
     myfile << "Yellow" << setw(wordSep) << "Red" << endl;
+    
     for (int i = 0; i < moveLog.size(); ++i)
     {
         if (moveLog[i].second == 'r' || moveLog[i].second == 'y' || moveLog[i].second == 't')
